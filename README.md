@@ -1,2 +1,2 @@
-# themepark
-  Anthony Cui PR, Jack Goza PR
+  Anthony Cui PR, Jack Goza PR, Dat Huynh
+
