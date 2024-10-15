@@ -1,0 +1,26 @@
+:root {
+  --backgroundColor: #f5f5f5;
+  --primaryText: #333333;
+  --secondaryText: #666666;
+  --accent: #007bff;
+  --hoverColor: #0056b3;
+  --borderColor: #e0e0e0;
+  --buttonBg: #e0f7fa;
+  --warningColor: #ffc107;
+}
+body {
+  background-color: var(--backgroundColor);
+  margin: 0;
+}
+
+h1 {
+  color: var(--primaryText);
+}
+a,
+p {
+  color: var(--secondaryText);
+  font-size: 18px;
+}
+a {
+  text-decoration: none;
+}

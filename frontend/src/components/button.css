@@ -1,0 +1,14 @@
+button {
+  border-style: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 10px 15px;
+}
+.loginButton {
+  background-color: var(--accent);
+  color: var(--secondaryText);
+}
+.ticketButton {
+  background-color: var(--warningColor);
+  color: var(--secondaryText);
+}
