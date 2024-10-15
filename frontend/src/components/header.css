@@ -4,6 +4,7 @@
   align-items: center;
   border-bottom: 2px solid var(--borderColor);
   padding: 10px 10%;
+  background-color: #f2f2f2;
 }
 .links {
   display: flex;
@@ -13,4 +14,7 @@
 .header-button-container {
   display: flex;
   gap: 25px;
+}
+.form-container h1 {
+  border-bottom: 2px solid var(--borderColor);
 }
