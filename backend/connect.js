@@ -13,11 +13,20 @@ var config = {
 
 const conn = new mysql.createConnection(config);
 
+let sql = `select * from employee;`;
+function queryDatabase() {
+  conn.query(sql, function (err, results, fields) {
+    if (err) throw err;
+    console.log(results);
+  });
+}
 conn.connect(function (err) {
   if (err) {
     console.log("!!! Cannot connect !!! Error:");
     throw err;
   } else {
     console.log("Connection established.");
+    queryDatabase();
+    conn.end();
   }
 });
