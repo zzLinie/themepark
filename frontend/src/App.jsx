@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
-import AdminLogin from "../pages/AdminLogin";
-import AdminHome from "../pages/AdminHome";
-import ProtectedRoutes from "../utils/ProtectedRoutes";
+import Home from "./pages/Home.jsx";
+import AdminLogin from "./pages/AdminLogin.jsx";
+import AdminHome from "./pages/AdminHome.jsx";
+import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 
 export default function App() {
   return (
