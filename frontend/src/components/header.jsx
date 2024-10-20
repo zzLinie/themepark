@@ -10,7 +10,8 @@ export default function Header() {
       </Link>
       <div className="links">
         <Link to="/">Home</Link>
-        <Link to="/attraction">Attractions</Link>
+        <Link to="/rides">Rides</Link>
+        <Link to="/dining">Dining</Link>
         <Link to="/events">Events</Link>
       </div>
       <div className="header-button-container">
