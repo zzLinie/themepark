@@ -6,6 +6,7 @@ import "./index.css";
 import AdminLogin from "./pages/AdminLogin";
 import Rides from "./pages/Rides";
 import Dining from "./pages/Dining";
+import Events from "./pages/Events";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/dining",
     element: <Dining />,
+  },
+  {
+    path: "/events",
+    element: <Events />,
   },
 ]);
 
