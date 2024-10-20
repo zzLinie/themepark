@@ -1,4 +1,5 @@
 import "./rideCard.css";
+import PropTypes from "prop-types";
 
 export default function RideCard({
   rideImage,
@@ -17,3 +18,10 @@ export default function RideCard({
     </div>
   );
 }
+
+RideCard.propTypes = {
+  rideImage: PropTypes.string,
+  rideName: PropTypes.string,
+  rideHeight: PropTypes.number,
+  rideDescription: PropTypes.string,
+};
