@@ -6,7 +6,7 @@ export default function Rides() {
   return (
     <>
       <Header />
-      <h1>Water Park Rides</h1>
+      <h1>Park Rides</h1>
       <p>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate
         enim itaque perspiciatis voluptatibus numquam commodi corrupti
