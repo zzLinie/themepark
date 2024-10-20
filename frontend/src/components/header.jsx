@@ -1,24 +1,25 @@
 import Button from "./button";
+import { Link } from "react-router-dom";
 import "./header.css";
 
 export default function Header() {
   return (
     <div className="header-container">
-      <a href="">
+      <Link to="/">
         <h1>Theme park</h1>
-      </a>
+      </Link>
       <div className="links">
-        <a href="">Home</a>
-        <a href="">Rides & More</a>
-        <a href="">Events</a>
+        <Link to="/">Home</Link>
+        <Link to="/attraction">Attractions</Link>
+        <Link to="/events">Events</Link>
       </div>
       <div className="header-button-container">
-        <a href="">
+        <Link to="/ticket">
           <Button buttonClass="ticketButton" buttonText="Buy a Ticket" />
-        </a>
-        <a href="">
+        </Link>
+        <Link to="/admin">
           <Button buttonClass="loginButton" buttonText="Admin Login" />
-        </a>
+        </Link>
       </div>
     </div>
   );
