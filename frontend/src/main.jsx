@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import "./index.css";
 import AdminLogin from "./pages/AdminLogin";
 import Rides from "./pages/Rides";
+import Dining from "./pages/Dining";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/rides",
     element: <Rides />,
+  },
+  {
+    path: "/dining",
+    element: <Dining />,
   },
 ]);
 
