@@ -1,2 +1,2 @@
 # start the web server
-npm strat
+npm start
