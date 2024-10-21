@@ -2,6 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminHome from "./pages/AdminHome.jsx";
+import Dining from "./pages/Dining.jsx";
+import Events from "./pages/Events.jsx";
+import Rides from "./pages/Rides.jsx";
+
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 
 export default function App() {
@@ -10,6 +14,9 @@ export default function App() {
       <Routes>
         {/*users can go to these pages without bening authenticated */}
         <Route element={<Home />} path="/" />
+        <Route element={<Dining />} path="/dining" />
+        <Route element={<Rides />} path="/rides" />
+        <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />
         <Route element={<ProtectedRoutes />}>
           {/*pages unavalible until user is authenticated*/}
