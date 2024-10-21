@@ -1,39 +1,9 @@
+import "./index.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
-import "./index.css";
-import AdminLogin from "./pages/AdminLogin";
-import Rides from "./pages/Rides";
-import Dining from "./pages/Dining";
-import Events from "./pages/Events";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <div>404 Page Not Found</div>,
-  },
-  {
-    path: "/admin",
-    element: <AdminLogin />,
-  },
-  {
-    path: "/rides",
-    element: <Rides />,
-  },
-  {
-    path: "/dining",
-    element: <Dining />,
-  },
-  {
-    path: "/events",
-    element: <Events />,
-  },
-]);
-
+import App from "./App.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </StrictMode>
 );
