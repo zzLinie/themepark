@@ -2,13 +2,22 @@ import { useState } from "react";
 import Header from "../components/header";
 import "./adminLogin.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     userName: "",
     password: "",
   });
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3000/admin", values).then((res) => {
+      res.data.Status == "Success"
+        ? navigate("/adminHome")
+        : alert(res.data.Error);
+    });
+  };
   return (
     <div className="admin-page-container">
       <Header />
