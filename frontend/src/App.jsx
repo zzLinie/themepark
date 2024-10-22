@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
-import AdminHome from "./pages/AdminHome.jsx";
+import AdminReports from "./pages/AdminReports.jsx";
 import Dining from "./pages/Dining.jsx";
 import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
@@ -20,7 +20,7 @@ export default function App() {
         <Route element={<AdminLogin />} path="admin" />
         <Route element={<ProtectedRoutes />}>
           {/*pages unavalible until user is authenticated*/}
-          <Route element={<AdminHome />} path="/adminHome" />
+          <Route element={<AdminReports />} path="/admin/reports" />
         </Route>
       </Routes>
     </BrowserRouter>
