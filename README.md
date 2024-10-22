@@ -1,2 +1,2 @@
-  Anthony Cui PR, Jack Goza PR, Dat Huynh, Hasitha Vasireddy
+In each directory (frontend, backend) run the follwoing command: `npm install`
 
