@@ -8,6 +8,7 @@ import Rides from "./pages/Rides.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import Employees from "./pages/Employees.jsx";
+import Ticket from "./pages/Ticket.jsx";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route element={<Rides />} path="/rides" />
         <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />
+        <Route element={<Ticket />} path="ticket" />
         <Route element={<ProtectedRoutes />}>
           {/*pages unavalible until user is authenticated*/}
           <Route element={<AdminReports />} path="/admin/reports" />
