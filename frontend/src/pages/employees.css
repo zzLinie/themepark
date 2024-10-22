@@ -1,4 +1,4 @@
-form {
+.employee-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
@@ -9,9 +9,9 @@ form {
 .employee-card {
   padding: 20px 10%;
 }
-form input {
+.employee-form input {
   background-color: var(--backgroundColor);
 }
-form button {
+.employee-form button {
   grid-column: span 2;
 }

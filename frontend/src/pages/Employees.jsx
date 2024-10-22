@@ -7,7 +7,11 @@ export default function Employees() {
       <AdminHeader />
       <div className="employee-card">
         <h1>Add Employee</h1>
-        <form action="">
+        <form
+          action=""
+          className="employee-form
+"
+        >
           <div>
             <label htmlFor="empSSN">SSN</label>
             <input type="number" name="empSSN" id="empSSN" required />
