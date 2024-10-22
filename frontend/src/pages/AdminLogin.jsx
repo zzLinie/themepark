@@ -14,7 +14,7 @@ export default function AdminLogin() {
     e.preventDefault();
     axios.post("http://localhost:3000/admin", values).then((res) => {
       res.data.Status == "Success"
-        ? navigate("/adminHome")
+        ? navigate("/admin/reports")
         : alert(res.data.Error);
     });
   };
