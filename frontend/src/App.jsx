@@ -7,7 +7,7 @@ import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
-import Employees from "./pages/Employees.jsx";
+import AdminEmployee from "./pages/AdminEmployee.jsx";
 import Ticket from "./pages/Ticket.jsx";
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
         <Route element={<ProtectedRoutes />}>
           {/*pages unavalible until user is authenticated*/}
           <Route element={<AdminReports />} path="/admin/reports" />
-          <Route element={<Employees />} path="/admin/employees" />
+          <Route element={<AdminEmployee />} path="/admin/employees" />
         </Route>
       </Routes>
     </BrowserRouter>

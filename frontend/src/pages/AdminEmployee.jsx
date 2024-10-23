@@ -1,7 +1,7 @@
 import AdminHeader from "../components/adminHeader";
-import "./employees.css";
+import "./adminEmployees.css";
 
-export default function Employees() {
+export default function AdminEmployee() {
   return (
     <>
       <AdminHeader />
