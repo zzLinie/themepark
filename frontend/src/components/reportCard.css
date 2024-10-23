@@ -1,0 +1,12 @@
+.card {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+}
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+}
+.card h1 {
+  text-align: center;
+}
