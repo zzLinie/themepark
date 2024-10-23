@@ -1,13 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
-import AdminHome from "./pages/AdminHome.jsx";
+import AdminReports from "./pages/AdminReports.jsx";
 import Dining from "./pages/Dining.jsx";
 import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
 import Test from "./pages/Test.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
+import Employees from "./pages/Employees.jsx";
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
         <Route element={<AdminLogin />} path="admin" />
         <Route element={<Test />} path="/test" />
         <Route element={<ProtectedRoutes />}>
-          {/*pages unavailible until user is authenticated*/}
+          {/*pages unavalible until user is authenticated*/}
           <Route element={<AdminHome />} path="/adminHome" />
         </Route>
       </Routes>
