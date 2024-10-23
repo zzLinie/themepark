@@ -1,4 +1,4 @@
-let mysql = require("mysql2");
+let mysql = require("mysql");
 const fs = require("fs");
 require("dotenv").config();
 

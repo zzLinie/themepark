@@ -28,6 +28,7 @@ app.post("/createAdmin", (req, res) => {
     });
   });
 });
+
 //admin login post request
 app.post("/admin", (req, res) => {
   const sql = "SELECT userName, password FROM admin where userName=?;";
@@ -56,4 +57,31 @@ app.post("/admin", (req, res) => {
 
 app.listen(3000, () => {
   console.log("server running");
+});
+
+//route handler for root path
+app.get("/", (req, res)=> {
+  res.send("hello")
+})
+
+app.get("/testquery", (req,res)=> {
+  const q = "SELECT * FROM customers"
+  db.query(q,(err,data)=>{
+    if(err) return res.json("error here");
+    return res.json(data);
+  })
+})
+
+app.post("/testpost", (req,res)=> {
+  const q = "INSERT INTO departments (`departmentID`, `departmentName`, `EmployeeCount`, `ManagerID`) VALUES (?)";
+  const values = [
+    req.body.departmentID,
+    req.body.departmentName,
+    req.body.EmployeeCount,
+    req.body.ManagerID,
+  ];
+  db.query(q, [values], (err, data)=> {
+    if(err) return res.json(err);
+    return res.json("successful insert");
+  });
 });

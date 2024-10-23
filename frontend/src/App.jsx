@@ -5,6 +5,7 @@ import AdminHome from "./pages/AdminHome.jsx";
 import Dining from "./pages/Dining.jsx";
 import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
+import Test from "./pages/Test.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 
@@ -18,8 +19,9 @@ export default function App() {
         <Route element={<Rides />} path="/rides" />
         <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />
+        <Route element={<Test />} path="/test" />
         <Route element={<ProtectedRoutes />}>
-          {/*pages unavalible until user is authenticated*/}
+          {/*pages unavailible until user is authenticated*/}
           <Route element={<AdminHome />} path="/adminHome" />
         </Route>
       </Routes>
