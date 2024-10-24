@@ -1,4 +1,5 @@
 import AdminHeader from "../components/adminHeader";
+import { Input } from "../components/dasboard";
 import "./adminEmployees.css";
 
 export default function AdminEmployee() {
@@ -7,80 +8,82 @@ export default function AdminEmployee() {
       <AdminHeader />
       <div className="employee-card">
         <h1>Add Employee</h1>
-        <form
-          action=""
-          className="employee-form
-"
-        >
-          <div>
-            <label htmlFor="empSSN">SSN</label>
-            <input type="number" name="empSSN" id="empSSN" required />
-          </div>
+        <form action="" className="employee-form">
+          <Input
+            inputNaming={"empSSN"}
+            inputText={"SSN"}
+            inputType={"text"}
+            req
+          />
+          <Input
+            inputNaming={"empFname"}
+            inputText={"First Name"}
+            inputType={"text"}
+            req
+          />
+          <Input
+            inputNaming={"empMinitial"}
+            inputText={"Middle Initial"}
+            inputType={"text"}
+            maxLength={1}
+          />
+          <Input
+            inputNaming={"empLname"}
+            inputText={"Last Name"}
+            inputType={"text"}
+            maxLength={30}
+          />
+          <Input
+            inputNaming={"empAge"}
+            inputType={"number"}
+            inputText={"Age"}
+          />
 
-          <div>
-            <label htmlFor="empFname">First Name</label>
-            <input type="text" name="empFname" id="empFname" maxLength={30} />
-          </div>
+          <Input
+            inputNaming={"empDOB"}
+            inputText={"Date of Birth"}
+            req
+            inputType={"date"}
+          />
 
-          <div>
-            <label htmlFor="empMinitial">Middle Initial</label>
-            <input
-              type="text"
-              name="empMinitial"
-              id="empMinitial"
-              maxLength={1}
-            />
-          </div>
+          <Input
+            inputText={"Phone Number"}
+            inputNaming={"phoneNumber"}
+            inputType={"text"}
+            maxLength={20}
+          />
+          <Input
+            inputNaming={"address"}
+            inputText={"Address"}
+            inputType={"text"}
+            maxLength={50}
+          />
+          <Input
+            inputNaming={"city"}
+            inputText={"City"}
+            inputType={"text"}
+            maxLength={30}
+          />
 
-          <div>
-            <label htmlFor="empLname">Last Name</label>
-            <input type="text" name="empLname" id="empLname" maxLength={30} />
-          </div>
+          <Input
+            inputNaming={"state"}
+            inputText={"State"}
+            inputType={"text"}
+            maxLength={2}
+          />
 
-          <div>
-            <label htmlFor="empAge">Age</label>
-            <input type="number" name="empAge" id="empAge" required />
-          </div>
+          <Input
+            inputNaming={"zipCode"}
+            inputText={"Zip Code"}
+            inputType={"number"}
+          />
 
-          <div>
-            <label htmlFor="empDOB">Date of Birth</label>
-            <input type="date" name="empDOB" id="empDOB" required />
-          </div>
+          <Input
+            inputNaming={"hourly"}
+            inputText={"Hourly Pay"}
+            inputType={"number"}
+          />
 
-          <div>
-            <label htmlFor="phoneNumber">Phone Number</label>
-            <input
-              type="text"
-              name="phoneNumber"
-              id="phoneNumber"
-              maxLength={20}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="address">Address</label>
-            <input type="text" name="address" id="address" maxLength={50} />
-          </div>
-
-          <div>
-            <label htmlFor="city">City</label>
-            <input type="text" name="city" id="city" maxLength={30} />
-          </div>
-
-          <div>
-            <label htmlFor="state">State</label>
-            <input type="text" name="state" id="state" maxLength={2} />
-          </div>
-
-          <div>
-            <label htmlFor="zipCode">Zip Code</label>
-            <input type="number" name="zipCode" id="zipCode" />
-          </div>
-
-          <div>
-            <label htmlFor="hourly">Hourly Pay</label>
-            <input type="number" name="hourly" id="hourly" />
-          </div>
           <button type="submit">Submit</button>
         </form>
       </div>
