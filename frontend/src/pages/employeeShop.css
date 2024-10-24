@@ -1,0 +1,38 @@
+.s-employee-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+.s-employee-card {
+  padding: 20px 10%;
+}
+.s-employee-form input {
+  background-color: var(--backgroundColor);
+}
+.s-employee-form fieldset {
+  grid-column: span 2;
+}
+.products-container input {
+  display: inline-block;
+  width: 40px;
+}
+.products-container {
+  display: flex;
+  justify-content: space-between;
+  grid-column: span 2;
+}
+.products-container div {
+  display: flex;
+  flex-direction: column;
+}
+
+.products-container p {
+  margin-right: 10px;
+}
+
+.s-employee-form button {
+  grid-column: span 2;
+}
