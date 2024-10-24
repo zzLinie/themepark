@@ -9,6 +9,7 @@ import Rides from "./pages/Rides.jsx";
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import AdminEmployee from "./pages/AdminEmployee.jsx";
 import Employees from "./pages/Employees.jsx";
+import EmployeeRestaurant from "./pages/EmployeeRestaurant.jsx";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route element={<AdminReports />} path="/admin/reports" />
           <Route element={<AdminEmployee />} path="/admin/employees" />
           <Route element={<Employees />} path="employees" />
+          <Route element={<EmployeeRestaurant />} path="employees/restaurant" />
         </Route>
       </Routes>
     </BrowserRouter>
