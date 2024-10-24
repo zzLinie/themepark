@@ -11,6 +11,7 @@ import AdminEmployee from "./pages/AdminEmployee.jsx";
 import Employees from "./pages/Employees.jsx";
 import EmployeeRestaurant from "./pages/EmployeeRestaurant.jsx";
 import EmployeeShop from "./pages/EmployeeShops.jsx";
+import EmployeeRides from "./pages/EmployeeRides.jsx";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           <Route element={<Employees />} path="employees" />
           <Route element={<EmployeeRestaurant />} path="employees/restaurant" />
           <Route element={<EmployeeShop />} path="employees/shops" />
+          <Route element={<EmployeeRides />} path="employees/rides" />
         </Route>
       </Routes>
     </BrowserRouter>
