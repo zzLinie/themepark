@@ -35,6 +35,7 @@ app.post("/", (req, res) => {
   db.query(sql, [req.body.userName], (err, data) => {
     if (err) return res.json({ Error: `Login error in server` });
     //username is found
+    // @ts-ignore
     if (data.length > 0) {
       bcrypt.compare(
         req.body.password.toString(),
