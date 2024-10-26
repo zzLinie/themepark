@@ -2,6 +2,7 @@ import { useState } from "react";
 import AdminHeader from "../components/adminHeader";
 import { Input } from "../components/dasboard";
 import "./adminEmployees.css";
+import axios from "axios";
 
 export default function AdminEmployee() {
   const [values, setValues] = useState({});
@@ -9,27 +10,29 @@ export default function AdminEmployee() {
   const handleChildData = (dataObj) => {
     setValues({ ...values, ...dataObj });
   };
+
+  const postData = async (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3000/employee/create", values);
+  };
+
   return (
     <>
       <AdminHeader />
 
       <div className="employee-card">
         <h1>Add Employee</h1>
-        <form action="" className="employee-form">
+        <form action="" className="employee-form" onSubmit={postData}>
           <Input
             inputNaming={"empSSN"}
             inputText={"SSN"}
             inputType={"number"}
-            req
             handleInputChange={handleChildData}
-            min={111111111}
-            max={999999999}
           />
           <Input
             inputNaming={"empFname"}
             inputText={"First Name"}
             inputType={"text"}
-            req
             handleInputChange={handleChildData}
           />
           <Input
@@ -56,7 +59,6 @@ export default function AdminEmployee() {
           <Input
             inputNaming={"empDOB"}
             inputText={"Date of Birth"}
-            req
             inputType={"date"}
             handleInputChange={handleChildData}
           />
