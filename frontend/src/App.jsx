@@ -9,7 +9,13 @@ import Rides from "./pages/Rides.jsx";
 import Test from "./pages/Test.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
+import AdminEmployee from "./pages/AdminEmployee.jsx";
 import Employees from "./pages/Employees.jsx";
+import EmployeeRestaurant from "./pages/EmployeeRestaurant.jsx";
+import EmployeeShop from "./pages/EmployeeShops.jsx";
+import EmployeeRides from "./pages/EmployeeRides.jsx";
+import EmployeeEvents from "./pages/EmployeeEvents.jsx";
+import Ticket from "./pages/Ticket.jsx";
 
 export default function App() {
   return (
@@ -24,8 +30,15 @@ export default function App() {
         <Route element={<AdminReports />} path="/reports" />
         <Route element={<Test />} path="/test" />
         <Route element={<ProtectedRoutes />}>
+          <Route element={<Ticket />} path="ticket" />
           {/*pages unavalible until user is authenticated*/}
-          <Route element={<AdminHome />} path="/adminHome" />
+          <Route element={<AdminReports />} path="/admin/reports" />
+          <Route element={<AdminEmployee />} path="/admin/employees" />
+          <Route element={<Employees />} path="employees" />
+          <Route element={<EmployeeRestaurant />} path="employees/restaurant" />
+          <Route element={<EmployeeShop />} path="employees/shops" />
+          <Route element={<EmployeeRides />} path="employees/rides" />
+          <Route element={<EmployeeEvents />} path="employees/events" />
         </Route>
       </Routes>
     </BrowserRouter>
