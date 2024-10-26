@@ -38,8 +38,8 @@ employeeRoute.post("/create", (req, res) => {
       city,
       state,
       zipCode,
-      hourly,
       null,
+      hourly,
       null,
       null,
       null,
@@ -52,6 +52,15 @@ employeeRoute.post("/create", (req, res) => {
       }
     }
   );
+});
+employeeRoute.get("/read", (req, res) => {
+  const sql = "SELECT * from adminemployeesview";
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.json({ result });
+  });
 });
 
 module.exports = employeeRoute;

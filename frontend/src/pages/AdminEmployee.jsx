@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminHeader from "../components/adminHeader";
 import { Input } from "../components/dasboard";
 import "./adminEmployees.css";
@@ -6,11 +6,13 @@ import axios from "axios";
 
 export default function AdminEmployee() {
   const [values, setValues] = useState({});
+  const [employeeList, setEmployeeList] = useState([]);
 
   const handleChildData = (dataObj) => {
     setValues({ ...values, ...dataObj });
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const postData = async (e) => {
     e.preventDefault();
     axios
@@ -20,10 +22,67 @@ export default function AdminEmployee() {
       .catch((err) => console.error(err));
   };
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/employee/read")
+      .then((res) => setEmployeeList(res.data.result))
+      .catch((err) => console.error(err));
+  }, [postData]);
+
   return (
     <>
       <AdminHeader />
+      <table>
+        <thead>
+          <tr>
+            <th>SSN</th>
+            <th>First Name</th>
+            <th>M Initial</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>DOB</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th>Dept ID</th>
+            <th>Hourly</th>
+            <th>Position</th>
+            <th>Benefits</th>
+            <th>Supervisor ID</th>
+            <th>Email</th>
+          </tr>
+        </thead>
 
+        {employeeList.map((val, key) => {
+          return (
+            <>
+              <tbody key={key}>
+                <tr>
+                  <td>{val.Ssn}</td>
+                  <td>{val.Fname}</td>
+                  <td>{val.Minitial}</td>
+                  <td>{val.Lname}</td>
+                  <td>{val.Age}</td>
+                  <td>{val.DOB}</td>
+                  <td>{val.Phonenumber}</td>
+                  <td>{val.Address}</td>
+                  <td>{val.City}</td>
+                  <td>{val.State}</td>
+                  <td>{val.Zipcode}</td>
+                  <td>{val.Departmentid}</td>
+                  <td>{val.Hourlypay}</td>
+                  <td>{val.Position}</td>
+                  <td>{val.Benefits}</td>
+                  <td>{val.Supervisorssn}</td>
+                  <td>{val.EmployeeEmail}</td>
+                </tr>
+              </tbody>
+            </>
+          );
+        })}
+      </table>
       <div className="employee-card">
         <h1>Add Employee</h1>
         <form action="" className="employee-form" onSubmit={postData}>
