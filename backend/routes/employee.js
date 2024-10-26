@@ -62,5 +62,13 @@ employeeRoute.get("/read", (req, res) => {
     res.json({ result });
   });
 });
+employeeRoute.delete("/delete/:ssn", (req, res) => {
+  const { ssn } = req.params;
+  const sql = "Delete from employee where Ssn = ?";
+  db.query(sql, [ssn], (err, result) => {
+    if (err) console.log(err);
+    res.send("row deleted");
+  });
+});
 
 module.exports = employeeRoute;

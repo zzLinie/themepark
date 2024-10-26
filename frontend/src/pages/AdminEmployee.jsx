@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import AdminHeader from "../components/adminHeader";
 import { Input } from "../components/dasboard";
 import "./adminEmployees.css";
@@ -7,27 +7,52 @@ import axios from "axios";
 export default function AdminEmployee() {
   const [values, setValues] = useState({});
   const [employeeList, setEmployeeList] = useState([]);
+  const [deleteState, setDeleteState] = useState(false);
 
   const handleChildData = (dataObj) => {
     setValues({ ...values, ...dataObj });
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const postData = async (e) => {
     e.preventDefault();
+    try {
+      const request = await axios.post(
+        "http://localhost:3000/employee/create",
+        values
+      );
+      alert(request.data);
+      await getEmployees();
+    } catch (err) {
+      if (err) alert(err);
+    }
+  };
+
+  const deleteRow = (idVal) => {
     axios
-      .post("http://localhost:3000/employee/create", values)
-      .then((res) => res.data)
-      .then((res) => alert(res))
+      .delete(`http://localhost:3000/employee/delete/${idVal}`)
+      .then((res) => {
+        alert(res.data);
+        setEmployeeList(
+          employeeList.filter((value) => {
+            return value.idVal !== idVal;
+          })
+        );
+        //change delete state variable everytime delete button is clicked
+        deleteState == false ? setDeleteState(true) : setDeleteState(false);
+      })
       .catch((err) => console.error(err));
   };
 
-  useEffect(() => {
+  const getEmployees = () => {
     axios
       .get("http://localhost:3000/employee/read")
       .then((res) => setEmployeeList(res.data.result))
       .catch((err) => console.error(err));
-  }, [postData]);
+  };
+
+  useEffect(() => {
+    getEmployees();
+  }, [deleteState]);
 
   return (
     <>
@@ -52,6 +77,7 @@ export default function AdminEmployee() {
             <th>Benefits</th>
             <th>Supervisor ID</th>
             <th>Email</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -77,6 +103,10 @@ export default function AdminEmployee() {
                   <td>{val.Benefits}</td>
                   <td>{val.Supervisorssn}</td>
                   <td>{val.EmployeeEmail}</td>
+                  <div className="table-btn-container">
+                    <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
+                    <button>Update</button>
+                  </div>
                 </tr>
               </tbody>
             </>
