@@ -13,7 +13,11 @@ export default function AdminEmployee() {
 
   const postData = async (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/employee/create", values);
+    axios
+      .post("http://localhost:3000/employee/create", values)
+      .then((res) => res.data)
+      .then((res) => alert(res))
+      .catch((err) => console.error(err));
   };
 
   return (
