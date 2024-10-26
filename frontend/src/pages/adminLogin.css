@@ -39,3 +39,6 @@ input[type="submit"] {
   border: none;
   background-color: var(--warningColor);
 }
+.table-btn-container {
+  display: flex;
+}
