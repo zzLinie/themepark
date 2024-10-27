@@ -38,4 +38,14 @@ parkStatusRoute.get("/read", (req, res) => {
   });
 });
 
+parkStatusRoute.get("/readhistory", (req, res) => {
+    const sql = "SELECT * from parkstatus WHERE date <= CURRENT_DATE";
+    db.query(sql, (err, result) => {
+        if(err) {
+            console.log(err);
+        }
+        res.json({ result });
+    });
+});
+
 module.exports = parkStatusRoute;

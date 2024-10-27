@@ -16,7 +16,6 @@ import GiftShopForm from "./pages/GiftShopForm.jsx";
 import TicketForm from "./pages/TicketForm.jsx";
 import RideForm from "./pages/RidesForm.jsx";
 import SpecialEventForm from "./pages/SpecialEventForm.jsx";
-import RestaurantForm from "./pages/DiningCardForm.jsx";
 
 export default function App() {
   return (
@@ -37,7 +36,6 @@ export default function App() {
           <Route element={<Employees />} path="employees" />
           <Route element={<GiftShopForm />} path="employees/shop" />
           <Route element={<SpecialEventForm />} path="employees/events" />
-          <Route element={<RestaurantForm />} path="employees/restaurant" />
           <Route element={<RideForm />} path="employees/ride" />
         </Route>
       </Routes>
