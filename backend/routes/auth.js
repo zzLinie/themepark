@@ -56,9 +56,4 @@ app.post("/", (req, res) => {
   });
 });
 
-app.post("/parkstatus", (req, res) => {
-  const sql = "INSERT INTO parkstatus ('date', 'weatherType') VALUES (?)";
-  
-})
-
 module.exports = app;
