@@ -6,10 +6,11 @@ import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference *
 import Dining from "./pages/Dining.jsx";
 import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
-import Test from "./pages/Test.jsx";
+
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import AdminEmployee from "./pages/AdminEmployee.jsx";
+import AdminParkstatus from "./pages/AdminParkstatus.jsx";
 import Employees from "./pages/Employees.jsx";
 import EmployeeRestaurant from "./pages/EmployeeRestaurant.jsx";
 import EmployeeShop from "./pages/EmployeeShops.jsx";
@@ -28,12 +29,13 @@ export default function App() {
         <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />
         <Route element={<AdminReports />} path="/reports" />
-        <Route element={<Test />} path="/test" />
+
         <Route element={<ProtectedRoutes />}>
           <Route element={<Ticket />} path="ticket" />
           {/*pages unavalible until user is authenticated*/}
           <Route element={<AdminReports />} path="/admin/reports" />
           <Route element={<AdminEmployee />} path="/admin/employees" />
+          <Route element={<AdminParkstatus />} path="/admin/parkstatus" />
           <Route element={<Employees />} path="employees" />
           <Route element={<EmployeeRestaurant />} path="employees/restaurant" />
           <Route element={<EmployeeShop />} path="employees/shops" />
