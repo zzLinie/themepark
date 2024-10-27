@@ -4,13 +4,13 @@ import { Input } from "../components/dasboard";
 import axios from 'axios'
 import './DataEntryForm.css';
 
-const ParkStatusForm = () => {
+/*const ParkStatusForm = () => {
   const [ParkStatusData, setParkStatusData] = useState({
     parkStatusDate: '',
     weatherType: '',
-  });
+  });*/
 
-const Parkstatus(){
+const Parkstatus = () => {
     return(
       <div className='Parkstatus'>
         <AdminHeader></AdminHeader>
@@ -39,4 +39,4 @@ const Parkstatus(){
     );
 };
 
-export default ParkStatusForm;
+export default Parkstatus;
