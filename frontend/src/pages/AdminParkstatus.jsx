@@ -1,19 +1,16 @@
 import AdminHeader from "../components/adminHeader"
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Input } from "../components/dasboard";
 import axios from 'axios'
+import './DataEntryForm.css';
 
-const Click = async e =>{
-  e.preventDefault()
-  try{
-    await axios.post("http://localhost:3000",)
-  }
-  catch(err){
+const ParkStatusForm = () => {
+  const [ParkStatusData, setParkStatusData] = useState({
+    parkStatusDate: '',
+    weatherType: '',
+  });
 
-  }
-}
-
-export default function Parkstatus(){
+const Parkstatus(){
     return(
       <div className='Parkstatus'>
         <AdminHeader></AdminHeader>
@@ -40,4 +37,6 @@ export default function Parkstatus(){
         </form>
     </div>
     );
-}
+};
+
+export default ParkStatusForm;
