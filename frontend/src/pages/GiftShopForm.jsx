@@ -1,120 +1,118 @@
-// src/components/GiftShopForm.js
-import { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
+import axios from 'axios';
 import "./DataEntryForm.css";
-import EmployeeHeader from "../components/employeeHeader";
 
-const GiftShopForm = () => {
-  const [shopData, setShopData] = useState({
-    shopName: "",
-    location: "",
-    products: [{ name: "", price: "" }],
-    specialEvents: "",
+const ShopForm = () => {
+  // Initialize the form state
+  const [formData, setFormData] = useState({
+    type: 'giftshop',        // Default to shop, can be 'restaurant' or 'shop'
+    shopName: '',        // Name of the shop
+    location: '',        // Location of the shop
+    products: [],        // Array for products with name and price
   });
 
+  // Handle changes in input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setShopData({ ...shopData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleProductChange = (index, event) => {
-    const newProducts = shopData.products.map((product, i) => {
-      if (i === index) {
-        return { ...product, [event.target.name]: event.target.value };
-      }
-      return product;
-    });
-    setShopData({ ...shopData, products: newProducts });
-  };
-
-  const addProductField = () => {
-    setShopData({
-      ...shopData,
-      products: [...shopData.products, { name: "", price: "" }],
+  // Function to handle adding a new product
+  const handleAddProduct = () => {
+    setFormData({
+      ...formData,
+      products: [...formData.products, { name: '', price: '' }] // Add a new product with empty name and price
     });
   };
 
-  const handleSubmit = async (e) => {
+  // Handle changes to product fields
+  const handleProductChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedProducts = [...formData.products];
+    updatedProducts[index][name] = value; // Update the respective product's name or price
+    setFormData({ ...formData, products: updatedProducts });
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = {
-      ...shopData,
-      specialEvents: shopData.specialEvents
-        ? shopData.specialEvents.split(",").map(Number)
-        : [],
-    };
 
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/giftshops",
-        payload
-      );
-      alert(response.data.message);
-    } catch (err) {
-      alert("Error: " + err.message);
-    }
+    // Log the submitted form data
+    console.log("Form data submitted:", formData);
   };
 
   return (
-    <>
-      <EmployeeHeader />
-      <div className="dataentryformcontainer">
-        <h1>Add New Gift Shop</h1>
-        <form onSubmit={handleSubmit}>
-          <label>Shop Name:</label>
-          <input
-            type="text"
-            name="shopName"
-            value={shopData.shopName}
-            onChange={handleChange}
-            required
-          />
+    <div className="dataentryformcontainer">
+      <h1>Add New Shop Entry</h1>
+      <form onSubmit={handleSubmit}>
+        
+        {/* Type Selection Dropdown */}
+        <label>Type:</label>
+        <Select
+          name="type"
+          options={[
+            { value: 'giftshop', label: 'Gift Shop' },
+            { value: 'restaurant', label: 'Restaurant' }
+          ]}
+          value={{ value: formData.type, label: formData.type.charAt(0).toUpperCase() + formData.type.slice(1) }} // Capitalize label
+          onChange={(option) => setFormData({ ...formData, type: option.value })}
+          placeholder="Select Type"
+        />
 
-          <label>Location:</label>
-          <input
-            type="text"
-            name="location"
-            value={shopData.location}
-            onChange={handleChange}
-          />
+        {/* Shop Name */}
+        <label>Shop Name:</label>
+        <input
+          type="text"
+          name="shopName"
+          value={formData.shopName}
+          onChange={handleChange}
+          required
+        />
 
-          <h3>Products</h3>
-          {shopData.products.map((product, index) => (
-            <div className="product-container" key={index}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Product Name"
-                value={product.name}
-                onChange={(e) => handleProductChange(index, e)}
-                required
-              />
-              <input
-                type="number"
-                name="price"
-                placeholder="Price"
-                value={product.price}
-                onChange={(e) => handleProductChange(index, e)}
-                required
-              />
-            </div>
-          ))}
-          <button type="button" onClick={addProductField}>
-            Add More Products
-          </button>
+        {/* Location */}
+        <label>Location:</label>
+        <input
+          type="text"
+          name="location"
+          value={formData.location}
+          onChange={handleChange}
+          required
+        />
 
-          <label>Special Events (comma-separated):</label>
-          <input
-            type="text"
-            name="specialEvents"
-            value={shopData.specialEvents}
-            onChange={handleChange}
-          />
+        {/* Products Section */}
+        <label>Products:</label>
+        {formData.products.map((product, index) => (
+          <div key={index} className="product-entry">
+            <input
+              type="text"
+              name="name"
+              value={product.name}
+              onChange={(e) => handleProductChange(index, e)}
+              placeholder="Product Name"
+              required
+            />
+            <input
+              type="number"
+              name="price"
+              value={product.price}
+              onChange={(e) => handleProductChange(index, e)}
+              placeholder="Product Price"
+              required
+            />
+          </div>
+        ))}
+        
+        {/* Add More Product Button */}
+        <button type="button" onClick={handleAddProduct}>
+          Add More Product
+        </button>
 
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </>
+        {/* Submit Button */}
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 };
 
-export default GiftShopForm;
+export default ShopForm;

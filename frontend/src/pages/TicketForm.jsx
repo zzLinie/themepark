@@ -1,119 +1,90 @@
-// src/components/TicketForm.js
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Select from "react-select";
-import "./DataEntryForm.css";
-import Header from "../components/header";
+// TicketForm.js
+import React, { useState } from 'react';
+import Select from 'react-select';
 
 const TicketForm = () => {
+  // Get today's date in YYYY-MM-DD 
+  const today = new Date().toISOString().split('T')[0];
+
+  // Calculate default expiry date (one week from today)
+  const expiryDateDefault = new Date();
+  expiryDateDefault.setDate(expiryDateDefault.getDate() + 7);
+  const defaultExpiryDate = expiryDateDefault.toISOString().split('T')[0];
+
+  // default start and expiry dates
   const [ticketData, setTicketData] = useState({
-    customerID: "",
-    ticketType: "",
-    priceID: "",
-    startDate: "",
-    expiryDate: "",
-    ticketAvailability: 0,
+    ticketType: '', // Store selected ticket type
+    ticketPrice: '', // Store selected ticket price
+    startDate: today, // Default start date to today
+    expiryDate: defaultExpiryDate // Default expiry date to one week from today
   });
-  const [priceOptions, setPriceOptions] = useState([]);
 
-  // Fetch ticket prices for dropdown
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/ticket-prices");
-        const formattedOptions = response.data.map((price) => ({
-          value: price.priceID,
-          label: `${
-            price.ticketType === 0
-              ? "Children"
-              : price.ticketType === 1
-              ? "Adult"
-              : "Senior"
-          } - $${price.ticketPrice}`,
-        }));
-        setPriceOptions(formattedOptions);
-      } catch (err) {
-        console.error("Error fetching ticket prices:", err);
-      }
-    };
-    fetchPrices();
-  }, []);
+  //  options for ticket types with prices
+  const ticketTypeOptions = [
+    { value: 0, label: 'Children - $10', price: 10 },
+    { value: 1, label: 'Adult - $15', price: 15 },
+    { value: 2, label: 'Senior - $12', price: 12 }
+  ];
 
+  // Handle ticket type selection change
+  const handleSelectChange = (selectedOption) => {
+    setTicketData({
+      ...ticketData,
+      ticketType: selectedOption.value,
+      ticketPrice: selectedOption.price
+    });
+  };
+
+  // Handle input changes for other fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTicketData({ ...ticketData, [name]: value });
   };
 
-  const handleSelectChange = (selectedOption) => {
-    setTicketData({ ...ticketData, priceID: selectedOption.value });
-  };
-
-  const handleSubmit = async (e) => {
+  // Form submission handler
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/tickets",
-        ticketData
-      );
-      alert(response.data.message);
-    } catch (err) {
-      alert("Error: " + err.message);
-    }
+    console.log("Ticket data submitted:", ticketData);
+    alert(`Submitted Ticket Type: ${ticketData.ticketType}, Price: $${ticketData.ticketPrice}`);
   };
 
   return (
-    <>
-      <Header />
-      <div className="dataentryformcontainer">
-        <h1>Add New Ticket</h1>
-        <form onSubmit={handleSubmit}>
-          <label>Customer ID:</label>
-          <input
-            type="number"
-            name="customerID"
-            value={ticketData.customerID}
-            onChange={handleChange}
-            required
-          />
+    <div className="dataentryformcontainer">
+      <h1>Add New Ticket</h1>
+      <form onSubmit={handleSubmit}>
+        {/* Ticket type dropdown */}
+        <label>Ticket Type:</label>
+        <Select
+          options={ticketTypeOptions}
+          onChange={handleSelectChange}
+          placeholder="Select Ticket Type"
+          required
+        />
 
-          <label>Ticket Type & Price:</label>
-          <Select
-            options={priceOptions}
-            onChange={handleSelectChange}
-            required
-          />
+        {/* Start date input, defaulting to today's date */}
+        <label>Start Date:</label>
+        <input
+          type="date"
+          name="startDate"
+          value={ticketData.startDate}
+          onChange={handleChange}
+          required
+        />
 
-          <label>Start Date:</label>
-          <input
-            type="date"
-            name="startDate"
-            value={ticketData.startDate}
-            onChange={handleChange}
-            required
-          />
+        {/* Expiry date input, defaulting to one week from today */}
+        <label>Expiry Date:</label>
+        <input
+          type="date"
+          name="expiryDate"
+          value={ticketData.expiryDate}
+          onChange={handleChange}
+          required
+        />
 
-          <label>Expiry Date:</label>
-          <input
-            type="date"
-            name="expiryDate"
-            value={ticketData.expiryDate}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Ticket Availability:</label>
-          <input
-            type="number"
-            name="ticketAvailability"
-            value={ticketData.ticketAvailability}
-            onChange={handleChange}
-            required
-          />
-
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </>
+        {/* Submit button */}
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 };
 
