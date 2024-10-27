@@ -17,6 +17,7 @@ import EmployeeShop from "./pages/EmployeeShops.jsx";
 import EmployeeRides from "./pages/EmployeeRides.jsx";
 import EmployeeEvents from "./pages/EmployeeEvents.jsx";
 import Ticket from "./pages/Ticket.jsx";
+import DiningCardForm from "./pages/DiningCardForm.jsx";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />
         <Route element={<AdminReports />} path="/reports" />
+        <Route element={<DiningCardForm />} path="/diningcardform" />
 
         <Route element={<ProtectedRoutes />}>
           <Route element={<Ticket />} path="ticket" />
