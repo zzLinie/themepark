@@ -7,10 +7,25 @@
     background-color: #fdfdfd;
   }
   
+.tablecontainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+table {
+    border-collapse: collapse;
+    width: 35%;
+  }
+
   h1 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
+  }
+  h2 {
+    text-align: center;
+    color:#333
   }
   
   form label {
@@ -80,4 +95,6 @@
   button[type="submit"]:hover {
     background-color: #0056b3;
   }
+
+  
   
