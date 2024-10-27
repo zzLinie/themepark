@@ -12,12 +12,11 @@ import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import AdminEmployee from "./pages/AdminEmployee.jsx";
 import AdminParkstatus from "./pages/AdminParkstatus.jsx";
 import Employees from "./pages/Employees.jsx";
-import EmployeeRestaurant from "./pages/EmployeeRestaurant.jsx";
-import EmployeeShop from "./pages/EmployeeShops.jsx";
-import EmployeeRides from "./pages/EmployeeRides.jsx";
-import EmployeeEvents from "./pages/EmployeeEvents.jsx";
-import Ticket from "./pages/Ticket.jsx";
-import DiningCardForm from "./pages/DiningCardForm.jsx";
+import GiftShopForm from "./pages/GiftShopForm.jsx";
+import TicketForm from "./pages/TicketForm.jsx";
+import RideForm from "./pages/RidesForm.jsx";
+import SpecialEventForm from "./pages/SpecialEventForm.jsx";
+import RestaurantForm from "./pages/DiningCardForm.jsx";
 
 export default function App() {
   return (
@@ -29,20 +28,17 @@ export default function App() {
         <Route element={<Rides />} path="/rides" />
         <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />
-        <Route element={<AdminReports />} path="/reports" />
-        <Route element={<DiningCardForm />} path="/diningcardform" />
-
+        <Route element={<TicketForm />} path="/ticket" />
         <Route element={<ProtectedRoutes />}>
-          <Route element={<Ticket />} path="ticket" />
           {/*pages unavalible until user is authenticated*/}
           <Route element={<AdminReports />} path="/admin/reports" />
           <Route element={<AdminEmployee />} path="/admin/employees" />
           <Route element={<AdminParkstatus />} path="/admin/parkstatus" />
           <Route element={<Employees />} path="employees" />
-          <Route element={<EmployeeRestaurant />} path="employees/restaurant" />
-          <Route element={<EmployeeShop />} path="employees/shops" />
-          <Route element={<EmployeeRides />} path="employees/rides" />
-          <Route element={<EmployeeEvents />} path="employees/events" />
+          <Route element={<GiftShopForm />} path="employees/shop" />
+          <Route element={<SpecialEventForm />} path="employees/events" />
+          <Route element={<RestaurantForm />} path="employees/restaurant" />
+          <Route element={<RideForm />} path="employees/ride" />
         </Route>
       </Routes>
     </BrowserRouter>

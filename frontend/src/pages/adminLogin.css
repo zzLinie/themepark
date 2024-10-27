@@ -38,6 +38,7 @@ input[type="submit"] {
   margin-top: 20px;
   border: none;
   background-color: var(--warningColor);
+  cursor: pointer;
 }
 .table-btn-container {
   display: flex;
