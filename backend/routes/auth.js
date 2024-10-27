@@ -28,6 +28,7 @@ app.post("/create", (req, res) => {
     });
   });
 });
+
 //admin login post request
 app.post("/", (req, res) => {
   const sql = "SELECT userName, password FROM admin where userName=?;";
@@ -41,7 +42,7 @@ app.post("/", (req, res) => {
         req.body.password.toString(),
         data[0].password,
         (err, response) => {
-          if (err) return res.json({ Erorr: "password compare error" });
+          if (err) return res.json({ Error: "password compare error" });
           if (response) {
             return res.json({ Status: "Success" });
           } else {
