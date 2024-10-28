@@ -9,6 +9,8 @@ function Input({
   handleInputChange,
   min,
   max,
+  value,
+  readOnly,
 }) {
   const handleChange = (e) => {
     const dataObj = {
@@ -28,6 +30,8 @@ function Input({
         onChange={handleChange}
         min={min}
         max={max}
+        value={value}
+        readOnly={readOnly}
       />
     </div>
   );
@@ -42,6 +46,8 @@ Input.propTypes = {
   handleInputChange: PropTypes.func,
   min: PropTypes.number,
   max: PropTypes.number,
+  value: PropTypes.any,
+  readOnly: PropTypes.any,
 };
 
 export { Input };

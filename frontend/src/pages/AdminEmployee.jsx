@@ -1,13 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AdminHeader from "../components/adminHeader";
 import { Input } from "../components/dasboard";
 import "./adminEmployees.css";
 import axios from "axios";
+import Modal from "../components/modal";
 
 export default function AdminEmployee() {
   const [values, setValues] = useState({});
   const [employeeList, setEmployeeList] = useState([]);
   const [deleteState, setDeleteState] = useState(false);
+  const [employeeData, setEmployeeData] = useState([
+    {
+      Ssn: NaN,
+      Fname: "",
+      Minitial: "",
+      Lname: "",
+      Age: NaN,
+      Dateofbirth: "",
+      Phonenumber: "",
+      Address: "",
+      City: "",
+      State: "",
+      Zipcode: NaN,
+      Hourlypay: "",
+    },
+  ]);
+  const modalRef = useRef(null);
 
   const handleChildData = (dataObj) => {
     setValues({ ...values, ...dataObj });
@@ -50,13 +68,39 @@ export default function AdminEmployee() {
       .catch((err) => console.error(err));
   };
 
+  //renders employee list after delete button click
   useEffect(() => {
     getEmployees();
   }, [deleteState]);
 
+  const getEmployeeData = (ssn) => {
+    axios
+      .get(`http://localhost:3000/employee/read/${ssn}`)
+      .then((res) => {
+        setEmployeeData({ ...employeeData, ...res.data.result });
+        const modal = modalRef.current;
+        modal.showModal();
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
       <AdminHeader />
+      <Modal
+        ref={modalRef}
+        ssn={employeeData[0].Ssn}
+        fName={employeeData[0].Fname}
+        lName={employeeData[0].Lname}
+        age={employeeData[0].Age}
+        dob={employeeData[0].Dateofbirth}
+        pNumber={employeeData[0].Phonenumber}
+        address={employeeData[0].Address}
+        city={employeeData[0].City}
+        state={employeeData[0].State}
+        zip={employeeData[0].Zipcode}
+        hourly={employeeData[0].Hourlypay}
+      />
       <table>
         <thead>
           <tr>
@@ -105,7 +149,9 @@ export default function AdminEmployee() {
                   <td>{val.EmployeeEmail}</td>
                   <div className="table-btn-container">
                     <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
-                    <button>Update</button>
+                    <button onClick={() => getEmployeeData(val.Ssn)}>
+                      Edit
+                    </button>
                   </div>
                 </tr>
               </tbody>
@@ -121,6 +167,7 @@ export default function AdminEmployee() {
             inputText={"SSN"}
             inputType={"number"}
             handleInputChange={handleChildData}
+            value={employeeData[0].Ssn}
           />
           <Input
             inputNaming={"empFname"}
