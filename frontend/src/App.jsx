@@ -4,6 +4,7 @@ import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminReports from "./pages/AdminReports.jsx";
 import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference */
 import Dining from "./pages/Dining.jsx";
+import Shops from "./pages/GiftShops.jsx";
 import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
 
@@ -24,6 +25,7 @@ export default function App() {
         {/*users can go to these pages without bening authenticated */}
         <Route element={<Home />} path="/" />
         <Route element={<Dining />} path="/dining" />
+        <Route element={<Shops />} path="/giftshops" />
         <Route element={<Rides />} path="/rides" />
         <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />

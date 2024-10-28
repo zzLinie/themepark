@@ -1,8 +1,23 @@
 import Header from "../components/header";
 import DiningCard from "../components/diningCard";
 import diningImage from "../assets/images/placeholder-image.webp";
+import "./events.css";
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import './DataEntryForm.css';
 
 export default function Dining() {
+  const [restaurantList, setRestaurantList] = useState([]);
+  const getRestaurants = () => {
+    axios
+      .get("http://localhost:3000/shops/readRestaurants")
+      .then((res) => setRestaurantList(res.data.result))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
   return (
     <div>
       <Header />
@@ -23,27 +38,16 @@ export default function Dining() {
           <option value="family">Desserts</option>
         </select>
       </div>
+      {restaurantList.map((restaurant, index) => (
       <DiningCard
+        key={index}
         diningImage={diningImage}
-        diningLocation={"123 santana drive"}
-        diningName={"Resturant Name 1"}
+        diningLocation={restaurant.location}
+        diningName={restaurant.shopName}
         diningProducts={"products here"}
         diningOverview={"burger and fries"}
       />
-      <DiningCard
-        diningImage={diningImage}
-        diningLocation={"123 university lane"}
-        diningName={"Resturant Name 2"}
-        diningProducts={"products here"}
-        diningOverview={"ice cream"}
-      />
-      <DiningCard
-        diningImage={diningImage}
-        diningLocation={"123 hospital avenue"}
-        diningName={"Resturant Name 3"}
-        diningProducts={"products here"}
-        diningOverview={"hot dogs"}
-      />
+      ))}
     </div>
   );
 }
