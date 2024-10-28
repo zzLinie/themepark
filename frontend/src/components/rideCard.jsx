@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export default function RideCard({
   rideImage,
   rideName,
-  rideHeight,
+  rideCapacity,
   rideDescription,
 }) {
   return (
@@ -12,7 +12,7 @@ export default function RideCard({
       <img className="card-image" src={rideImage} alt="Ride Image" />
       <div className="content-container">
         <h1>{rideName}</h1>
-        <p>{`Minimum Height: "${rideHeight}`}</p>
+        <p>{`Ride capacity: ${rideCapacity} people`}</p>
         <p>{rideDescription}</p>
       </div>
     </div>

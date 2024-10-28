@@ -1,8 +1,23 @@
 import Header from "../components/header";
 import RideCard from "../components/rideCard";
 import rideImg from "../assets/images/placeholder-image.webp";
+import "./events.css";
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import './DataEntryForm.css';
 
 export default function Rides() {
+  const [ridesList, setRidesList] = useState([]);
+  const getRides = () => {
+    axios
+      .get("http://localhost:3000/rides/read")
+      .then((res) => setRidesList(res.data.result))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    getRides();
+  }, []);
   return (
     <>
       <Header />
@@ -21,24 +36,15 @@ export default function Rides() {
           <option value="kids">Kids Rides</option>
         </select>
       </div>
+      {ridesList.map((ride, index) => (
       <RideCard
+        key = {index}
         rideImage={rideImg}
-        rideName={"Ride Name 1"}
-        rideHeight={40}
+        rideName={ride.rideName}
+        rideCapacity={ride.capacity}
         rideDescription={"this is the rides decription"}
       />
-      <RideCard
-        rideImage={rideImg}
-        rideName={"Ride Name 2"}
-        rideHeight={52}
-        rideDescription={"this is the rides decription"}
-      />
-      <RideCard
-        rideImage={rideImg}
-        rideName={"Ride Name 3"}
-        rideHeight={34}
-        rideDescription={"this is the rides decription"}
-      />
+      ))}
     </>
   );
 }
