@@ -38,10 +38,10 @@ employeeRoute.post("/create", (req, res) => {
       city,
       state,
       zipCode,
-      null,
+      1,
       hourly,
       null,
-      null,
+      1,
       null,
       null,
     ],
@@ -79,5 +79,42 @@ employeeRoute.get("/read/:ssn", (req, res) => {
     res.json({ result });
   });
 });
+employeeRoute.put("/update", (req, res) => {
+  const {
+    Ssn,
+    Fname,
+    Minitial,
+    Lname,
+    Age,
+    Dateofbirth,
+    Phonenumber,
+    Address,
+    City,
+    State,
+    Zipcode,
+    Hourlypay,
+  } = req.body;
 
+  const sql = `UPDATE employee SET Fname=?, Minitial=?, Lname=?, Age=?, Phonenumber=?, Address=?, City=?, State=?, Zipcode=?, Hourlypay=? WHERE Ssn = ?;`;
+  db.query(
+    sql,
+    [
+      Fname,
+      Minitial,
+      Lname,
+      Age,
+      Phonenumber,
+      Address,
+      City,
+      State,
+      Zipcode,
+      Hourlypay,
+      Ssn,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      res.send("row updated");
+    }
+  );
+});
 module.exports = employeeRoute;
