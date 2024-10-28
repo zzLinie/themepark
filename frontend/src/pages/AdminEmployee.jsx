@@ -88,6 +88,7 @@ export default function AdminEmployee() {
       .put("http://localhost:3000/employee/update", values)
       .then((res) => alert(res.data))
       .catch((err) => console.log(err));
+    setDeleteState(deleteState == true ? false : true);
   };
 
   return (
