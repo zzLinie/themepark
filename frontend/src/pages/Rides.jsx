@@ -2,6 +2,10 @@ import Header from "../components/header";
 import RideCard from "../components/rideCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import "./events.css";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./DataEntryForm.css";
 
 export default function Rides() {
   const [rides, setRides] = useState([]);
