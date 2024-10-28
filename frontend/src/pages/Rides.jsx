@@ -1,8 +1,41 @@
 import Header from "../components/header";
 import RideCard from "../components/rideCard";
-import rideImg from "../assets/images/placeholder-image.webp";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Rides() {
+  const [rides, setRides] = useState([]);
+  const [rideFilter, setRideFilter] = useState("all");
+
+  const ridesList = () => {
+    axios
+      .get("http://localhost:3000/ride/read")
+      .then((res) => {
+        setRides(
+          res.data.result.filter((ride) => {
+            if (rideFilter == "all") {
+              return ride;
+            } else {
+              return ride.rideType == rideFilter;
+            }
+          })
+        );
+      })
+      .catch((err) => console.error(err));
+    setRides(
+      rides.filter((ride) => {
+        if (rideFilter == "all") {
+          return ride;
+        }
+        return ride.rideType == rideFilter;
+      })
+    );
+  };
+  useEffect(() => {
+    ridesList();
+    console.log("hi");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rideFilter]);
   return (
     <>
       <Header />
@@ -15,30 +48,23 @@ export default function Rides() {
       </p>
       <div>
         <h2>Filter By</h2>
-        <select name="rides" id="rides">
+        <select
+          name="rides"
+          id="rides"
+          onChange={(e) => setRideFilter(e.target.value)}
+        >
           <option value="all">All Rides</option>
           <option value="family">Family Rides</option>
-          <option value="kids">Kids Rides</option>
+          <option value="kid">Kids Rides</option>
         </select>
       </div>
-      <RideCard
-        rideImage={rideImg}
-        rideName={"Ride Name 1"}
-        rideHeight={40}
-        rideDescription={"this is the rides decription"}
-      />
-      <RideCard
-        rideImage={rideImg}
-        rideName={"Ride Name 2"}
-        rideHeight={52}
-        rideDescription={"this is the rides decription"}
-      />
-      <RideCard
-        rideImage={rideImg}
-        rideName={"Ride Name 3"}
-        rideHeight={34}
-        rideDescription={"this is the rides decription"}
-      />
+      {rides.map((ride, index) => {
+        return (
+          <div key={index}>
+            <RideCard rideName={ride.rideName} />;
+          </div>
+        );
+      })}
     </>
   );
 }
