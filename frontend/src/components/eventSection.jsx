@@ -14,7 +14,8 @@ export default function EventSection({
         style={{ backgroundImage: `url(${eventImage})` }}
       >
         <h1>{eventName}</h1>
-        <p>{`${eventName} starts ${eventStart} & ends ${eventEnd}`}</p>
+        <p>{`Start Date: ${eventStart}`}</p>
+        <p>{`End Date: ${eventEnd}`}</p>
         <p>{eventDescription}</p>
       </div>
     </section>
