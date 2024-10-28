@@ -15,6 +15,7 @@ export default function Header() {
         <Link to="/events">Events</Link>
         <Link to={"/employees"}>Employee Dashboard</Link>
         <Link to={"/admin/reports"}>Admin Dashboard</Link>
+        <Link to={"/employees/login"}> Employee Login </Link>
       </div>
       <div className="header-button-container">
         <Link to="/ticket">

@@ -16,6 +16,7 @@ import GiftShopForm from "./pages/GiftShopForm.jsx";
 import TicketForm from "./pages/TicketForm.jsx";
 import RideForm from "./pages/RidesForm.jsx";
 import SpecialEventForm from "./pages/SpecialEventForm.jsx";
+import EmployeeLogin from "./pages/EmployeeLogin.jsx";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Route element={<Events />} path="/events" />
         <Route element={<AdminLogin />} path="admin" />
         <Route element={<TicketForm />} path="/ticket" />
+        <Route element={<EmployeeLogin />} path="employees/login" />
         <Route element={<ProtectedRoutes />}>
           {/*pages unavalible until user is authenticated*/}
           <Route element={<AdminReports />} path="/admin/reports" />

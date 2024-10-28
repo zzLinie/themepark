@@ -8,6 +8,7 @@ const parkstatus = require("./routes/parkstatus");
 const events = require("./routes/events");
 const rides = require("./routes/rides");
 const shops = require("./routes/shops");
+const employeeAuth = require("./routes/employeeAuth");
 
 app.use(cors());
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use("/parkstatus", parkstatus);
 app.use("/events", events);
 app.use("/rides", rides);
 app.use("/shops", shops);
+app.use("/employees", employeeAuth);
 
 app.listen(3000, () => {
   console.log("server running");
