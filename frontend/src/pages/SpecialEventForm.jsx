@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import "./DataEntryForm.css";
+import EmployeeHeader from '../components/employeeHeader';
 
 const SpecialEventForm = () => {
   // Initialize today's date in YYYY-MM-DD 
@@ -51,7 +52,10 @@ const SpecialEventForm = () => {
   };
 
   return (
+    <div>
+    <EmployeeHeader></EmployeeHeader>
     <div className="dataentryformcontainer">
+
       <h1>Add New Special Event</h1>
       <form onSubmit={handleSubmit}>
 
@@ -98,6 +102,7 @@ const SpecialEventForm = () => {
         {/* Submit Button */}
         <button type="submit">Submit</button>
       </form>
+    </div>
     </div>
   );
 };

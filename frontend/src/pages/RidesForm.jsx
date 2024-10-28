@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import EmployeeHeader from '../components/employeeHeader';
 
 const RideForm = () => {
   // Form state to hold ride data
@@ -39,6 +40,8 @@ const RideForm = () => {
   };
 
   return (
+    <div>
+      <EmployeeHeader></EmployeeHeader>
     <div className="dataentryformcontainer">
       <h1>Add New Ride</h1>
       <form onSubmit={handleSubmit}>
@@ -86,6 +89,7 @@ const RideForm = () => {
         {/* Submit Button */}
         <button type="submit">Submit</button>
       </form>
+    </div>
     </div>
   );
 };

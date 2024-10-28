@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
+import EmployeeHeader from '../components/employeeHeader';
 
 const ShopForm = () => {
   const [formData, setFormData] = useState({
@@ -62,6 +63,8 @@ const ShopForm = () => {
 
   return (
     <>
+    <div>
+      <EmployeeHeader></EmployeeHeader>
     <div className="dataentryformcontainer">
       <h1>Add New Shop or Restaurant Entry</h1>
       <form onSubmit={handleSubmit}>
@@ -134,6 +137,7 @@ const ShopForm = () => {
         {/* Submit Button */}
         <button type="submit">Submit</button>
       </form>
+    </div>
     </div>
     </>
   );
