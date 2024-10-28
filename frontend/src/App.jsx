@@ -7,7 +7,6 @@ import Dining from "./pages/Dining.jsx";
 import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
 
-
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import AdminEmployee from "./pages/AdminEmployee.jsx";
 import AdminParkstatus from "./pages/AdminParkstatus.jsx";
