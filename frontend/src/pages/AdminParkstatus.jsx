@@ -32,10 +32,21 @@ const ParkStatusForm = () => {
         alert(response.data.message);
       }
       await getParkStatus();
-    } catch (err) {
+    } 
+    catch (err) {
       alert("Error: " + err.message);
     }
   };
+  /* try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/parkstatus/create`,
+      ParkStatusData
+    );
+    if(response.data.message) {
+      alert(response.data.message);
+    }
+    await getParkStatus();
+  } */
 
   const getParkStatus = () => {
     axios
@@ -43,6 +54,13 @@ const ParkStatusForm = () => {
       .then((res) => setParkStatusList(res.data.result))
       .catch((err) => console.error(err));
   };
+
+  /*const getParkStatus = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/parkstatus/read`)
+      .then((res) => setParkStatusList(res.data.result))
+      .catch((err) => console.error(err));
+  };*/
 
   useEffect(() => {
     getParkStatus();
