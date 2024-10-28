@@ -1,35 +1,41 @@
-// RideForm.js
 import React, { useState } from 'react';
-import "./DataEntryForm.css";
+import axios from 'axios';
 
 const RideForm = () => {
-  // Initialize the form state with an empty capacity field
-  const [rideData, setRideData] = useState({
-    rideName: '',       // Name of the ride
-    capacity: '',       // Capacity, initialized as an empty string to be blank
-    operatingStart: '', // Start time for operating hours
-    operatingEnd: ''    // End time for operating hours
+  // Form state to hold ride data
+  const [formData, setFormData] = useState({
+    rideName: '',
+    capacity: '',
+    start: '',
+    end: '',
   });
 
-  // Handle changes in input fields
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setRideData({ ...rideData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  // Submit form data with axios
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate that end time is after start time
-    if (rideData.operatingEnd <= rideData.operatingStart) {
-      alert("Operating end time must be after start time.");
-      return;
-    }
+    try {
+      // Send POST request to the server API
+      const response = await axios.post('http://localhost:3000/rides/create', formData);
+      alert(`Ride created with ID: ${response.data.rideID}`);
 
-    // Log and alert the submitted ride data
-    console.log("Ride data submitted:", rideData);
-    alert(`Ride ${rideData.rideName} has been submitted successfully.`);
+      // Reset form fields
+      setFormData({
+        rideName: '',
+        capacity: '',
+        start: '',
+        end: '',
+      });
+    } catch (error) {
+      console.error("Error creating ride:", error);
+      alert("Failed to create ride. Please try again.");
+    }
   };
 
   return (
@@ -37,43 +43,42 @@ const RideForm = () => {
       <h1>Add New Ride</h1>
       <form onSubmit={handleSubmit}>
         
-        {/* Ride Name */}
+        {/* Ride Name Input */}
         <label>Ride Name:</label>
         <input
           type="text"
           name="rideName"
-          value={rideData.rideName}
+          value={formData.rideName}
           onChange={handleChange}
           required
         />
 
-        {/* Capacity, positive integer */}
+        {/* Capacity Input */}
         <label>Capacity:</label>
         <input
           type="number"
           name="capacity"
-          min="1"
-          value={rideData.capacity}
+          value={formData.capacity}
           onChange={handleChange}
           required
         />
 
-        {/* Operating Hours - Start Time */}
-        <label>Operating Start Time:</label>
+        {/* Start Time Input */}
+        <label>Start Time:</label>
         <input
           type="time"
-          name="operatingStart"
-          value={rideData.operatingStart}
+          name="start"
+          value={formData.start}
           onChange={handleChange}
           required
         />
 
-        {/* Operating Hours - End Time, must be after start time */}
-        <label>Operating End Time:</label>
+        {/* End Time Input */}
+        <label>End Time:</label>
         <input
           type="time"
-          name="operatingEnd"
-          value={rideData.operatingEnd}
+          name="end"
+          value={formData.end}
           onChange={handleChange}
           required
         />

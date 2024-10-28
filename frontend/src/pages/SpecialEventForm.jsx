@@ -12,62 +12,12 @@ const SpecialEventForm = () => {
   const [eventData, setEventData] = useState({
     eventName: '',        // Event name
     eventType: '',        // Event type
-    date: today,          // Default date is today
-    startTime: '',        // Start time for the event
-    rideID: null,         // Foreign key: Ride ID
-    parkStatusID: null,   // Foreign key: Park Status ID
-    shopID: null,         // Foreign key: Shop ID
-    restaurantID: null    // Foreign key: Restaurant ID
+    startDate: today,       
+    endDate : today      
   });
 
-  // State variables for dropdown options from the database
-  const [rideOptions, setRideOptions] = useState([]);
-  const [parkStatusOptions, setParkStatusOptions] = useState([]);
-  const [shopOptions, setShopOptions] = useState([]);
-  const [restaurantOptions, setRestaurantOptions] = useState([]);
 
-  // Fetch data for each foreign key dropdown on component mount
-  useEffect(() => {
-    // Function to fetch options for each dropdown from API endpoints
-    const fetchDropdownData = async () => {
-      try {
-        // Ride options
-        const rideResponse = await axios.get('/api/rides');
-        setRideOptions(rideResponse.data.map(ride => ({
-          value: ride.rideID,
-          label: ride.rideName
-        })));
-
-        //  Park Status options
-        const parkStatusResponse = await axios.get('/api/parkStatus');
-        setParkStatusOptions(parkStatusResponse.data.map(status => ({
-          value: status.parkStatusID,
-          label: status.statusName
-        })));
-
-        // Shop options
-        const shopResponse = await axios.get('/api/shops');
-        setShopOptions(shopResponse.data.map(shop => ({
-          value: shop.shopID,
-          label: shop.shopName
-        })));
-
-        //  Restaurant options
-        const restaurantResponse = await axios.get('/api/restaurants');
-        setRestaurantOptions(restaurantResponse.data.map(restaurant => ({
-          value: restaurant.restaurantID,
-          label: restaurant.restaurantName
-        })));
-
-      } catch (error) {
-        console.error("Error fetching dropdown options:", error);
-      }
-    };
-
-    fetchDropdownData();
-  }, []);
-
-  // Handle changes in input fields
+    // Handle changes in input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
@@ -79,12 +29,25 @@ const SpecialEventForm = () => {
   };
 
   // Form submission handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Log or send data to backend
-    console.log("Event data submitted:", eventData);
-    alert(`Event ${eventData.eventName} has been submitted successfully.`);
+    try {
+      // Send POST request to the server API
+      const response = await axios.post('http://localhost:3000/events/create', eventData);
+      alert(`Special event created with ID: ${response.data.eventID}`);
+
+      // Reset form fields
+      setEventData({
+        eventName: '',        // Event name
+        eventType: '',        // Event type
+        startDate: today,       
+        endDate : today, 
+      });
+    } catch (error) {
+      console.error("Error creating special event:", error);
+      alert("Failed to create special event. Please try again.");
+    }
   };
 
   return (
@@ -105,7 +68,7 @@ const SpecialEventForm = () => {
         {/* Event Type */}
         <label>Event Type:</label>
         <input
-          type="number"
+          type="text"
           name="eventType"
           value={eventData.eventType}
           onChange={handleChange}
@@ -113,59 +76,23 @@ const SpecialEventForm = () => {
         />
 
         {/* Event Date, defaulting to today */}
-        <label>Date:</label>
+        <label>Start Date:</label>
         <input
           type="date"
-          name="date"
-          value={eventData.date}
+          name="startDate"
+          value={eventData.startDate}
           onChange={handleChange}
           required
         />
 
         {/* Event Start Time */}
-        <label>Start Time:</label>
+        <label>End Date:</label>
         <input
-          type="time"
-          name="startTime"
-          value={eventData.startTime}
+          type="date"
+          name="endDate"
+          value={eventData.endDate}
           onChange={handleChange}
           required
-        />
-
-        {/* Ride ID Dropdown */}
-        <label>Ride:</label>
-        <Select
-          options={rideOptions}
-          onChange={(option) => handleSelectChange(option, { name: 'rideID' })}
-          placeholder="Select Ride"
-          isClearable
-        />
-
-        {/* Park Status ID Dropdown */}
-        <label>Park Status:</label>
-        <Select
-          options={parkStatusOptions}
-          onChange={(option) => handleSelectChange(option, { name: 'parkStatusID' })}
-          placeholder="Select Park Status"
-          isClearable
-        />
-
-        {/* Shop ID Dropdown */}
-        <label>Shop:</label>
-        <Select
-          options={shopOptions}
-          onChange={(option) => handleSelectChange(option, { name: 'shopID' })}
-          placeholder="Select Shop"
-          isClearable
-        />
-
-        {/* Restaurant ID Dropdown */}
-        <label>Restaurant:</label>
-        <Select
-          options={restaurantOptions}
-          onChange={(option) => handleSelectChange(option, { name: 'restaurantID' })}
-          placeholder="Select Restaurant"
-          isClearable
         />
 
         {/* Submit Button */}

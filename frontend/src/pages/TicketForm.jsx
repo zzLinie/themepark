@@ -1,6 +1,7 @@
 // TicketForm.js
 import React, { useState } from 'react';
 import Select from 'react-select';
+import axios from 'axios';
 
 const TicketForm = () => {
   // Get today's date in YYYY-MM-DD 
@@ -42,10 +43,18 @@ const TicketForm = () => {
   };
 
   // Form submission handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Ticket data submitted:", ticketData);
-    alert(`Submitted Ticket Type: ${ticketData.ticketType}, Price: $${ticketData.ticketPrice}`);
+
+    try {
+      // Send POST request to the server API
+      const response = await axios.post('http://localhost:3000/tickets/create', ticketData);
+      alert(`Ticket created with ID: ${response.data.ticketID}`);
+
+     } catch (error) {
+      console.error("Error creating ticket:", error);
+      alert("Failed to create ticket. Please try again.");
+    }
   };
 
   return (
