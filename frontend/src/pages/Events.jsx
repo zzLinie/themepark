@@ -46,16 +46,17 @@ export default function Events() {
       <div className="hero">
         <h1>Special Events</h1>
       </div>
-      {eventList.map((event, index) => (
-        <EventSection
-          key={index}
-          eventName={event.eventName}
-          eventStart={formatDate(event.startDate)}
-          eventEnd={formatDate(event.endDate)}
-          eventDescription={event.eventType}
-          eventImage={getEventImage(event.eventID)}
-        />
-      ))}
+      {eventList &&
+        eventList.map((event, index) => (
+          <EventSection
+            key={index}
+            eventName={event.eventName}
+            eventStart={formatDate(event.startDate)}
+            eventEnd={formatDate(event.endDate)}
+            eventDescription={event.eventType}
+            eventImage={getEventImage(event.eventID)}
+          />
+        ))}
     </>
   );
 }

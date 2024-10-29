@@ -109,26 +109,27 @@ const ShopForm = () => {
 
           {/* Products Section */}
           <label>Products:</label>
-          {formData.products.map((product, index) => (
-            <div key={index} className="product-entry">
-              <input
-                type="text"
-                name="name"
-                value={product.name}
-                onChange={(e) => handleProductChange(index, e)}
-                placeholder="Product Name"
-                required
-              />
-              <input
-                type="number"
-                name="price"
-                value={product.price}
-                onChange={(e) => handleProductChange(index, e)}
-                placeholder="Product Price"
-                required
-              />
-            </div>
-          ))}
+          {formData &&
+            formData.products.map((product, index) => (
+              <div key={index} className="product-entry">
+                <input
+                  type="text"
+                  name="name"
+                  value={product.name}
+                  onChange={(e) => handleProductChange(index, e)}
+                  placeholder="Product Name"
+                  required
+                />
+                <input
+                  type="number"
+                  name="price"
+                  value={product.price}
+                  onChange={(e) => handleProductChange(index, e)}
+                  placeholder="Product Price"
+                  required
+                />
+              </div>
+            ))}
 
           {/* Add More Product Button */}
           <button type="button" onClick={handleAddProduct}>

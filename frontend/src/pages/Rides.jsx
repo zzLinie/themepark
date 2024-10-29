@@ -51,19 +51,20 @@ export default function Rides() {
           <option value="kid">Kids Rides</option>
         </select>
       </div>
-      {rides.map((ride, index) => {
-        return (
-          <div key={index}>
-            <RideCard
-              rideName={ride.rideName}
-              rideCapacity={ride.capacity}
-              rideImage={rideImg}
-              rideDescription={"this is the rides decription"}
-            />
-            ;
-          </div>
-        );
-      })}
+      {rides &&
+        rides.map((ride, index) => {
+          return (
+            <div key={index}>
+              <RideCard
+                rideName={ride.rideName}
+                rideCapacity={ride.capacity}
+                rideImage={rideImg}
+                rideDescription={"this is the rides decription"}
+              />
+              ;
+            </div>
+          );
+        })}
     </>
   );
 }

@@ -38,16 +38,17 @@ export default function Dining() {
           <option value="family">Desserts</option>
         </select>
       </div>
-      {restaurantList.map((restaurant, index) => (
-        <DiningCard
-          key={index}
-          diningImage={diningImage}
-          diningLocation={restaurant.location}
-          diningName={restaurant.shopName}
-          diningProducts={"products here"}
-          diningOverview={"burger and fries"}
-        />
-      ))}
+      {restaurantList &&
+        restaurantList.map((restaurant, index) => (
+          <DiningCard
+            key={index}
+            diningImage={diningImage}
+            diningLocation={restaurant.location}
+            diningName={restaurant.shopName}
+            diningProducts={"products here"}
+            diningOverview={"burger and fries"}
+          />
+        ))}
     </div>
   );
 }

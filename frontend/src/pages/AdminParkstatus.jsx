@@ -125,23 +125,24 @@ const ParkStatusForm = () => {
             </tr>
           </thead>
 
-          {parkStatusList.map((val, key) => {
-            return (
-              <>
-                <tbody key={key}>
-                  <tr>
-                    <td>{formatDate(val.date)}</td>
-                    <td style={getWeatherStyle(val.weatherType)}>
-                      {getWeatherDescription(val.weatherType)}
-                    </td>
-                    <td>{val.capacity}</td>
-                    <td>{val.openingTime}</td>
-                    <td>{val.closingTime}</td>
-                  </tr>
-                </tbody>
-              </>
-            );
-          })}
+          {parkStatusList &&
+            parkStatusList.map((val, key) => {
+              return (
+                <>
+                  <tbody key={key}>
+                    <tr>
+                      <td>{formatDate(val.date)}</td>
+                      <td style={getWeatherStyle(val.weatherType)}>
+                        {getWeatherDescription(val.weatherType)}
+                      </td>
+                      <td>{val.capacity}</td>
+                      <td>{val.openingTime}</td>
+                      <td>{val.closingTime}</td>
+                    </tr>
+                  </tbody>
+                </>
+              );
+            })}
         </table>
       </div>
     </>

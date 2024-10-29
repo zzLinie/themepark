@@ -28,16 +28,17 @@ export default function GiftShops() {
         obcaecati assumenda asperiores, eveniet dolore consectetur beatae! Illo,
         fuga nesciunt?
       </p>
-      {shopList.map((shop, index) => (
-        <DiningCard
-          key={index}
-          diningImage={diningImage}
-          diningLocation={shop.location}
-          diningName={shop.shopName}
-          diningProducts={"products here"}
-          diningOverview={"gifts and souvenirs"}
-        />
-      ))}
+      {shopList &&
+        shopList.map((shop, index) => (
+          <DiningCard
+            key={index}
+            diningImage={diningImage}
+            diningLocation={shop.location}
+            diningName={shop.shopName}
+            diningProducts={"products here"}
+            diningOverview={"gifts and souvenirs"}
+          />
+        ))}
     </div>
   );
 }
