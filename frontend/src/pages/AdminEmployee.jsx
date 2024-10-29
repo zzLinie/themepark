@@ -58,8 +58,8 @@ export default function AdminEmployee() {
       .catch((err) => console.error(err));
   };
 
-  const getEmployees = () => {
-    axios
+  const getEmployees = async () => {
+    await axios
       .get(`https://themepark-server.vercel.app/employee/read`)
       .then((res) => setEmployeeList(res.data.result))
       .catch((err) => console.error(err));
