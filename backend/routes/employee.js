@@ -23,7 +23,7 @@ employeeRoute.post("/create", (req, res) => {
     hourly,
   } = req.body;
   const sql =
-    "INSERT INTO employee (Ssn,Fname,Minitial,Lname, Age,Dateofbirth, Phonenumber, Address, City, State, Zipcode, Departmentid, Hourlypay, Position, Benefits, Supervisorssn, EmployeeEmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    "INSERT INTO employee (Ssn,Fname,Minitial,Lname, Age,Dateofbirth, Phonenumber, Address, City, State, Zipcode, Departmentid, Hourlypay, Benefits, Supervisorssn, Position) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
   db.query(
     sql,
     [
@@ -40,10 +40,9 @@ employeeRoute.post("/create", (req, res) => {
       zipCode,
       1,
       hourly,
-      null,
       1,
       null,
-      null,
+      102,
     ],
     (err, result) => {
       if (err) console.log(err);
