@@ -25,19 +25,9 @@ const ParkStatusForm = () => {
         return;
       }
     }
-    /*try {
-      const response = await axios.post(
-        "https://themepark-server.vercel.app/parkstatus/create",
-        ParkStatusData
-      );
-      if(response.data.message) {
-        alert(response.data.message);
-      }
-      await getParkStatus();
-    }*/
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/parkstatus/create`,
+        "https://themepark-server.vercel.app/parkstatus/create",
         ParkStatusData
       );
       if (response.data.message) {

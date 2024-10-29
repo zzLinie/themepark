@@ -226,39 +226,40 @@ export default function AdminEmployee() {
           </tr>
         </thead>
 
-        {employeeList.map((val, key) => {
-          return (
-            <>
-              <tbody key={key}>
-                <tr>
-                  <td>{val.Ssn}</td>
-                  <td>{val.Fname}</td>
-                  <td>{val.Minitial}</td>
-                  <td>{val.Lname}</td>
-                  <td>{val.Age}</td>
-                  <td>{val.DOB}</td>
-                  <td>{val.Phonenumber}</td>
-                  <td>{val.Address}</td>
-                  <td>{val.City}</td>
-                  <td>{val.State}</td>
-                  <td>{val.Zipcode}</td>
-                  <td>{val.Departmentid}</td>
-                  <td>{val.Hourlypay}</td>
-                  <td>{val.Position}</td>
-                  <td>{val.Benefits}</td>
-                  <td>{val.Supervisorssn}</td>
-                  <td>{val.EmployeeEmail}</td>
-                  <div className="table-btn-container">
-                    <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
-                    <button onClick={() => getEmployeeData(val.Ssn)}>
-                      Edit
-                    </button>
-                  </div>
-                </tr>
-              </tbody>
-            </>
-          );
-        })}
+        {employeeList &&
+          employeeList.map((val, key) => {
+            return (
+              <>
+                <tbody key={key}>
+                  <tr>
+                    <td>{val.Ssn}</td>
+                    <td>{val.Fname}</td>
+                    <td>{val.Minitial}</td>
+                    <td>{val.Lname}</td>
+                    <td>{val.Age}</td>
+                    <td>{val.DOB}</td>
+                    <td>{val.Phonenumber}</td>
+                    <td>{val.Address}</td>
+                    <td>{val.City}</td>
+                    <td>{val.State}</td>
+                    <td>{val.Zipcode}</td>
+                    <td>{val.Departmentid}</td>
+                    <td>{val.Hourlypay}</td>
+                    <td>{val.Position}</td>
+                    <td>{val.Benefits}</td>
+                    <td>{val.Supervisorssn}</td>
+                    <td>{val.EmployeeEmail}</td>
+                    <div className="table-btn-container">
+                      <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
+                      <button onClick={() => getEmployeeData(val.Ssn)}>
+                        Edit
+                      </button>
+                    </div>
+                  </tr>
+                </tbody>
+              </>
+            );
+          })}
       </table>
       <div className="employee-card">
         <h1>Add Employee</h1>
