@@ -26,7 +26,7 @@ const corsOptions = {origin:`https://calm-sea-0fc88f210.5.azurestaticapps.net`,
 };
 app.use(cors(corsOptions))
 app.get(`/`, (req, res) => {
-  res.send(`Cors-enabled for specified domain`);
+  res.send(`Cors enabled for this domain`);
 });
 
 app.listen(3000, () => {
