@@ -1,24 +1,23 @@
 // SpecialEventForm.js
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import axios from "axios";
 import "./DataEntryForm.css";
-import EmployeeHeader from '../components/employeeHeader';
+import EmployeeHeader from "../components/employeeHeader";
 
 const SpecialEventForm = () => {
-  // Initialize today's date in YYYY-MM-DD 
-  const today = new Date().toISOString().split('T')[0];
+  // Initialize today's date in YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
 
-  // Set initial form 
+  // Set initial form
   const [eventData, setEventData] = useState({
-    eventName: '',        // Event name
-    eventType: '',        // Event type
-    startDate: today,       
-    endDate : today      
+    eventName: "", // Event name
+    eventType: "", // Event type
+    startDate: today,
+    endDate: today,
   });
 
-
-    // Handle changes in input fields
+  // Handle changes in input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
@@ -26,7 +25,10 @@ const SpecialEventForm = () => {
 
   // Handle dropdown selection changes
   const handleSelectChange = (selectedOption, { name }) => {
-    setEventData({ ...eventData, [name]: selectedOption ? selectedOption.value : null });
+    setEventData({
+      ...eventData,
+      [name]: selectedOption ? selectedOption.value : null,
+    });
   };
 
   // Form submission handler
@@ -35,15 +37,18 @@ const SpecialEventForm = () => {
 
     try {
       // Send POST request to the server API
-      const response = await axios.post('http://localhost:3000/events/create', eventData);
+      const response = await axios.post(
+        "http://localhost:3000/events/create",
+        eventData
+      );
       alert(`Special event created with ID: ${response.data.eventID}`);
 
       // Reset form fields
       setEventData({
-        eventName: '',        // Event name
-        eventType: '',        // Event type
-        startDate: today,       
-        endDate : today, 
+        eventName: "", // Event name
+        eventType: "", // Event type
+        startDate: today,
+        endDate: today,
       });
     } catch (error) {
       console.error("Error creating special event:", error);
@@ -52,58 +57,55 @@ const SpecialEventForm = () => {
   };
 
   return (
-    <div>
-    <EmployeeHeader></EmployeeHeader>
-    <div className="dataentryformcontainer">
+    <>
+      <EmployeeHeader />
+      <div className="dataentryformcontainer">
+        <h1>Add New Special Event</h1>
+        <form onSubmit={handleSubmit}>
+          {/* Event Name */}
+          <label>Event Name:</label>
+          <input
+            type="text"
+            name="eventName"
+            value={eventData.eventName}
+            onChange={handleChange}
+            required
+          />
 
-      <h1>Add New Special Event</h1>
-      <form onSubmit={handleSubmit}>
+          {/* Event Type */}
+          <label>Event Type:</label>
+          <input
+            type="text"
+            name="eventType"
+            value={eventData.eventType}
+            onChange={handleChange}
+            required
+          />
 
-        {/* Event Name */}
-        <label>Event Name:</label>
-        <input
-          type="text"
-          name="eventName"
-          value={eventData.eventName}
-          onChange={handleChange}
-          required
-        />
+          {/* Event Date, defaulting to today */}
+          <label>Start Date:</label>
+          <input
+            type="date"
+            name="startDate"
+            value={eventData.startDate}
+            onChange={handleChange}
+            required
+          />
 
-        {/* Event Type */}
-        <label>Event Type:</label>
-        <input
-          type="text"
-          name="eventType"
-          value={eventData.eventType}
-          onChange={handleChange}
-          required
-        />
-
-        {/* Event Date, defaulting to today */}
-        <label>Start Date:</label>
-        <input
-          type="date"
-          name="startDate"
-          value={eventData.startDate}
-          onChange={handleChange}
-          required
-        />
-
-        {/* Event Start Time */}
-        <label>End Date:</label>
-        <input
-          type="date"
-          name="endDate"
-          value={eventData.endDate}
-          onChange={handleChange}
-          required
-        />
-
-        {/* Submit Button */}
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-    </div>
+          {/* Event Start Time */}
+          <label>End Date:</label>
+          <input
+            type="date"
+            name="endDate"
+            value={eventData.endDate}
+            onChange={handleChange}
+            required
+          />
+          {/* Submit Button */}
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </>
   );
 };
 
