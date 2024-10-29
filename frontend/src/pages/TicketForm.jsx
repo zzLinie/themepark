@@ -1,5 +1,5 @@
 // TicketForm.js
-import React, { useState } from "react";
+import { useState } from "react";
 import Select from "react-select";
 import axios from "axios";
 import EmployeeHeader from "../components/employeeHeader";

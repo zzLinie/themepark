@@ -5,7 +5,7 @@ import anniversaryImage from "../assets/images/anniversary.jpg";
 import halloweenImage from "../assets/images/halloween.jpg";
 import thanksgivingImage from "../assets/images/thanksgiving.jpg";
 import "./events.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./DataEntryForm.css";
 
