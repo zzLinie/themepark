@@ -46,7 +46,7 @@ const ShopForm = () => {
     try {
       // Replace with your backend API endpoint for shop/restaurant creation
       const response = await axios.post(
-        "http://localhost:3000/shops/create",
+        "https://themepark-server.vercel.app/shops/create",
         formData
       );
       alert(`Ticket created successfully:`);

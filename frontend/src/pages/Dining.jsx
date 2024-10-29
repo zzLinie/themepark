@@ -2,15 +2,15 @@ import Header from "../components/header";
 import DiningCard from "../components/diningCard";
 import diningImage from "../assets/images/placeholder-image.webp";
 import "./events.css";
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import './DataEntryForm.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./DataEntryForm.css";
 
 export default function Dining() {
   const [restaurantList, setRestaurantList] = useState([]);
   const getRestaurants = () => {
     axios
-      .get("http://localhost:3000/shops/readRestaurants")
+      .get("https://themepark-server.vercel.app/shops/readRestaurants")
       .then((res) => setRestaurantList(res.data.result))
       .catch((err) => console.error(err));
   };
@@ -39,14 +39,14 @@ export default function Dining() {
         </select>
       </div>
       {restaurantList.map((restaurant, index) => (
-      <DiningCard
-        key={index}
-        diningImage={diningImage}
-        diningLocation={restaurant.location}
-        diningName={restaurant.shopName}
-        diningProducts={"products here"}
-        diningOverview={"burger and fries"}
-      />
+        <DiningCard
+          key={index}
+          diningImage={diningImage}
+          diningLocation={restaurant.location}
+          diningName={restaurant.shopName}
+          diningProducts={"products here"}
+          diningOverview={"burger and fries"}
+        />
       ))}
     </div>
   );

@@ -32,7 +32,7 @@ export default function AdminEmployee() {
     e.preventDefault();
     try {
       const request = await axios.post(
-        "http://localhost:3000/employee/create",
+        `https://themepark-server.vercel.app/employee/create`,
         values
       );
       alert(request.data);
@@ -44,7 +44,7 @@ export default function AdminEmployee() {
 
   const deleteRow = (idVal) => {
     axios
-      .delete(`http://localhost:3000/employee/delete/${idVal}`)
+      .delete(`https://themepark-server.vercel.app/employee/delete/${idVal}`)
       .then((res) => {
         alert(res.data);
         setEmployeeList(
@@ -72,7 +72,7 @@ export default function AdminEmployee() {
 
   const getEmployeeData = (ssn) => {
     axios
-      .get(`http://localhost:3000/employee/read/${ssn}`)
+      .get(`https://themepark-server.vercel.app/employee/read/${ssn}`)
       .then((res) => {
         setEmployeeData({ ...employeeData, ...res.data.result });
         setValues({ ...values, ...res.data.result[0] });
@@ -85,7 +85,7 @@ export default function AdminEmployee() {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .put("http://localhost:3000/employee/update", values)
+      .put(`https://themepark-server.vercel.app/employee/update`, values)
       .then((res) => alert(res.data))
       .catch((err) => console.log(err));
     setDeleteState(deleteState == true ? false : true);
