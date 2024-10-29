@@ -12,7 +12,6 @@ export default function AdminReports() {
           width="100%"
           height="600px"
           frameBorder="0"
-          allowFullScreen
         ></iframe>
       </div>
     </div>
