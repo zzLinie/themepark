@@ -1,10 +1,10 @@
 const express = require("express");
-const cors = require("cors");
+// const cors = require("cors");
 const db = require("../connect");
 
 const employeeRoute = express.Router();
 
-employeeRoute.use(cors());
+// employeeRoute.use(cors());
 employeeRoute.use(express.json());
 
 employeeRoute.post("/create", (req, res) => {
