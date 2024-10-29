@@ -16,3 +16,21 @@ Thumbs.db
 # Local environment files
 .env
 .env.local
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.idea/
+.vscode/
+*.iml
+
+# Local environment files
+.env
+.env.local
