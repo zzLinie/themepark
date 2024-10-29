@@ -21,11 +21,11 @@ app.use("/shops", shops);
 app.use("/employees", employeeAuth);
 app.use("/tickets", tickets);
 
-const corsOptions = {
-  origin: `https://calm-sea-0fc88f210.5.azurestaticapps.net`,
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: `https://calm-sea-0fc88f210.5.azurestaticapps.net`,
+//   optionsSuccessStatus: 200,
+// };
+app.use(cors());
 app.get(`/`, (req, res) => {
   res.send(`Cors-enabled for specified domain`);
 });
