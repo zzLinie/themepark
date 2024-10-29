@@ -101,7 +101,6 @@ const SpecialEventForm = () => {
             onChange={handleChange}
             required
           />
-
           {/* Submit Button */}
           <button type="submit">Submit</button>
         </form>

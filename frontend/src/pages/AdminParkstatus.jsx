@@ -23,7 +23,7 @@ const ParkStatusForm = () => {
         return;
       }
     }
-    try {
+    /*try {
       const response = await axios.post(
         "http://localhost:3000/parkstatus/create",
         ParkStatusData
@@ -32,14 +32,33 @@ const ParkStatusForm = () => {
         alert(response.data.message);
       }
       await getParkStatus();
-    } catch (err) {
+    }*/
+       try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/parkstatus/create`,
+      ParkStatusData
+    );
+    if(response.data.message) {
+      alert(response.data.message);
+    }
+    await getParkStatus();
+  } 
+    catch (err) {
       alert("Error: " + err.message);
     }
   };
 
-  const getParkStatus = () => {
+
+  /*const getParkStatus = () => {
     axios
       .get("http://localhost:3000/parkstatus/read")
+      .then((res) => setParkStatusList(res.data.result))
+      .catch((err) => console.error(err));
+  }; */
+
+  const getParkStatus = () => {
+    axios
+      .get(`${import.meta.env.VITE_API_BASE_URL}/parkstatus/read`)
       .then((res) => setParkStatusList(res.data.result))
       .catch((err) => console.error(err));
   };

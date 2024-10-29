@@ -56,7 +56,7 @@ export default function Rides() {
           <div key={index}>
             <RideCard
               rideName={ride.rideName}
-              rideCapacity={ride.rideCapacity}
+              rideCapacity={ride.capacity}
               rideImage={rideImg}
               rideDescription={"this is the rides decription"}
             />

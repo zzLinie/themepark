@@ -12,12 +12,13 @@ export default function DiningCard({
     <div className="card-container">
       <div>
         <img src={diningImage} alt="" />
-        <p>{diningOverview}</p>
+        
       </div>
       <div className="content-container">
         <h1>{diningName}</h1>
         <p>{`Location: ${diningLocation}`}</p>
         <p>{`Products: ${diningProducts}`}</p>
+        <p>{diningOverview}</p>
       </div>
     </div>
   );

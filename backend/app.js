@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
+
 const auth = require("./routes/auth");
 const employee = require("./routes/employee");
 const parkstatus = require("./routes/parkstatus");
@@ -21,6 +22,14 @@ app.use("/rides", rides);
 app.use("/shops", shops);
 app.use("/employees", employeeAuth);
 app.use("/tickets", tickets);
+
+const corsOptions = {origin: `https://calm-sea-0fc88f210.5.azurestaticapps.net`,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions))
+app.get(`/`, (req, res) => {
+  res.send(`Cors-enabled for specified domain`);
+});
 
 app.listen(3000, () => {
   console.log("server running");
