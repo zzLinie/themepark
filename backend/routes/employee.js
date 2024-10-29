@@ -53,7 +53,7 @@ employeeRoute.post("/create", (req, res) => {
   );
 });
 employeeRoute.get("/read", (req, res) => {
-  const sql = "SELECT * from adminemployeesview";
+  const sql = "SELECT * from employee";
   db.query(sql, (err, result) => {
     if (err) {
       console.log(err);
