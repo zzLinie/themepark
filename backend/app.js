@@ -23,7 +23,7 @@ app.use("/shops", shops);
 app.use("/employees", employeeAuth);
 app.use("/tickets", tickets);
 
-const corsOptions = {origin: `https://calm-sea-0fc88f210.5.azurestaticapps.net`,
+const corsOptions = {origin:`https://calm-sea-0fc88f210.5.azurestaticapps.net`,
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions))
