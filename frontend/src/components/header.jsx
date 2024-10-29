@@ -13,6 +13,7 @@ export default function Header() {
         <Link to="/rides">Rides</Link>
         <Link to="/dining">Dining</Link>
         <Link to="/events">Events</Link>
+        <Link to="/giftshops">Shops</Link>
         <Link to={"/employees"}>Employee Dashboard</Link>
         <Link to={"/admin/reports"}>Admin Dashboard</Link>
         <Link to={"/employees/login"}> Employee Login </Link>
