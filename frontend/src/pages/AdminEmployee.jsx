@@ -32,7 +32,7 @@ export default function AdminEmployee() {
     e.preventDefault();
     try {
       const request = await axios.post(
-        "http://localhost:3000/employee/create",
+        `https://themepark-server.vercel.app/employee/create`,
         values
       );
       alert(request.data);
@@ -44,7 +44,7 @@ export default function AdminEmployee() {
 
   const deleteRow = (idVal) => {
     axios
-      .delete(`http://localhost:3000/employee/delete/${idVal}`)
+      .delete(`https://themepark-server.vercel.app/employee/delete/${idVal}`)
       .then((res) => {
         alert(res.data);
         setEmployeeList(
@@ -58,9 +58,9 @@ export default function AdminEmployee() {
       .catch((err) => console.error(err));
   };
 
-  const getEmployees = () => {
-    axios
-      .get("http://localhost:3000/employee/read")
+  const getEmployees = async () => {
+    await axios
+      .get(`https://themepark-server.vercel.app/employee/read`)
       .then((res) => setEmployeeList(res.data.result))
       .catch((err) => console.error(err));
   };
@@ -72,7 +72,7 @@ export default function AdminEmployee() {
 
   const getEmployeeData = (ssn) => {
     axios
-      .get(`http://localhost:3000/employee/read/${ssn}`)
+      .get(`https://themepark-server.vercel.app/employee/read/${ssn}`)
       .then((res) => {
         setEmployeeData({ ...employeeData, ...res.data.result });
         setValues({ ...values, ...res.data.result[0] });
@@ -85,7 +85,7 @@ export default function AdminEmployee() {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .put("http://localhost:3000/employee/update", values)
+      .put(`https://themepark-server.vercel.app/employee/update`, values)
       .then((res) => alert(res.data))
       .catch((err) => console.log(err));
     setDeleteState(deleteState == true ? false : true);
@@ -226,39 +226,40 @@ export default function AdminEmployee() {
           </tr>
         </thead>
 
-        {employeeList.map((val, key) => {
-          return (
-            <>
-              <tbody key={key}>
-                <tr>
-                  <td>{val.Ssn}</td>
-                  <td>{val.Fname}</td>
-                  <td>{val.Minitial}</td>
-                  <td>{val.Lname}</td>
-                  <td>{val.Age}</td>
-                  <td>{val.DOB}</td>
-                  <td>{val.Phonenumber}</td>
-                  <td>{val.Address}</td>
-                  <td>{val.City}</td>
-                  <td>{val.State}</td>
-                  <td>{val.Zipcode}</td>
-                  <td>{val.Departmentid}</td>
-                  <td>{val.Hourlypay}</td>
-                  <td>{val.Position}</td>
-                  <td>{val.Benefits}</td>
-                  <td>{val.Supervisorssn}</td>
-                  <td>{val.EmployeeEmail}</td>
-                  <div className="table-btn-container">
-                    <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
-                    <button onClick={() => getEmployeeData(val.Ssn)}>
-                      Edit
-                    </button>
-                  </div>
-                </tr>
-              </tbody>
-            </>
-          );
-        })}
+        {employeeList &&
+          employeeList.map((val, key) => {
+            return (
+              <>
+                <tbody key={key}>
+                  <tr>
+                    <td>{val.Ssn}</td>
+                    <td>{val.Fname}</td>
+                    <td>{val.Minitial}</td>
+                    <td>{val.Lname}</td>
+                    <td>{val.Age}</td>
+                    <td>{val.DOB}</td>
+                    <td>{val.Phonenumber}</td>
+                    <td>{val.Address}</td>
+                    <td>{val.City}</td>
+                    <td>{val.State}</td>
+                    <td>{val.Zipcode}</td>
+                    <td>{val.Departmentid}</td>
+                    <td>{val.Hourlypay}</td>
+                    <td>{val.Position}</td>
+                    <td>{val.Benefits}</td>
+                    <td>{val.Supervisorssn}</td>
+                    <td>{val.EmployeeEmail}</td>
+                    <div className="table-btn-container">
+                      <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
+                      <button onClick={() => getEmployeeData(val.Ssn)}>
+                        Edit
+                      </button>
+                    </div>
+                  </tr>
+                </tbody>
+              </>
+            );
+          })}
       </table>
       <div className="employee-card">
         <h1>Add Employee</h1>

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import EmployeeHeader from '../components/employeeHeader';
+import React, { useState } from "react";
+import axios from "axios";
+import EmployeeHeader from "../components/employeeHeader";
 
 const RideForm = () => {
   // Form state to hold ride data
@@ -24,7 +24,7 @@ const RideForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "http://localhost:3000/rides/create",
+        "https://themepark-server.vercel.app/rides/create",
         formData
       );
       alert(`Ride created with ID: ${response.data.rideID}`);

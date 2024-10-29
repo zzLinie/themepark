@@ -11,7 +11,7 @@ export default function Rides() {
 
   const ridesList = () => {
     axios
-      .get("http://localhost:3000/rides/read")
+      .get("https://themepark-server.vercel.app/rides/read")
       .then((res) => {
         setRides(
           res.data.result.filter((ride) => {
@@ -51,19 +51,20 @@ export default function Rides() {
           <option value="kid">Kids Rides</option>
         </select>
       </div>
-      {rides.map((ride, index) => {
-        return (
-          <div key={index}>
-            <RideCard
-              rideName={ride.rideName}
-              rideCapacity={ride.capacity}
-              rideImage={rideImg}
-              rideDescription={"this is the rides decription"}
-            />
-            ;
-          </div>
-        );
-      })}
+      {rides &&
+        rides.map((ride, index) => {
+          return (
+            <div key={index}>
+              <RideCard
+                rideName={ride.rideName}
+                rideCapacity={ride.capacity}
+                rideImage={rideImg}
+                rideDescription={"this is the rides decription"}
+              />
+              ;
+            </div>
+          );
+        })}
     </>
   );
 }

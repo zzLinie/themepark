@@ -12,11 +12,13 @@ export default function AdminLogin() {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/admin", values).then((res) => {
-      res.data.Status == "Success"
-        ? navigate("/admin/reports")
-        : alert(res.data.Error);
-    });
+    axios
+      .post("https://themepark-server.vercel.app/admin", values)
+      .then((res) => {
+        res.data.Status == "Success"
+          ? navigate("/admin/reports")
+          : alert(res.data.Error);
+      });
   };
   return (
     <div className="admin-page-container">

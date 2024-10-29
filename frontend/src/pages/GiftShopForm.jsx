@@ -1,5 +1,5 @@
 // ShopForm.js
-import React, { useState } from "react";
+import { useState } from "react";
 import Select from "react-select";
 import axios from "axios";
 import EmployeeHeader from "../components/employeeHeader";
@@ -46,7 +46,7 @@ const ShopForm = () => {
     try {
       // Replace with your backend API endpoint for shop/restaurant creation
       const response = await axios.post(
-        "http://localhost:3000/shops/create",
+        "https://themepark-server.vercel.app/shops/create",
         formData
       );
       alert(`Ticket created successfully:`);
@@ -109,26 +109,27 @@ const ShopForm = () => {
 
           {/* Products Section */}
           <label>Products:</label>
-          {formData.products.map((product, index) => (
-            <div key={index} className="product-entry">
-              <input
-                type="text"
-                name="name"
-                value={product.name}
-                onChange={(e) => handleProductChange(index, e)}
-                placeholder="Product Name"
-                required
-              />
-              <input
-                type="number"
-                name="price"
-                value={product.price}
-                onChange={(e) => handleProductChange(index, e)}
-                placeholder="Product Price"
-                required
-              />
-            </div>
-          ))}
+          {formData &&
+            formData.products.map((product, index) => (
+              <div key={index} className="product-entry">
+                <input
+                  type="text"
+                  name="name"
+                  value={product.name}
+                  onChange={(e) => handleProductChange(index, e)}
+                  placeholder="Product Name"
+                  required
+                />
+                <input
+                  type="number"
+                  name="price"
+                  value={product.price}
+                  onChange={(e) => handleProductChange(index, e)}
+                  placeholder="Product Price"
+                  required
+                />
+              </div>
+            ))}
 
           {/* Add More Product Button */}
           <button type="button" onClick={handleAddProduct}>
