@@ -49,19 +49,19 @@ const ParkStatusForm = () => {
     }
   };
 
-  /*const getParkStatus = () => {
+  const getParkStatus = () => {
     axios
       .get("https://themepark-server.vercel.app/parkstatus/read")
       .then((res) => setParkStatusList(res.data.result))
       .catch((err) => console.error(err));
-  }; */
-
-  const getParkStatus = () => {
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/parkstatus/read`)
-      .then((res) => setParkStatusList(res.data.result))
-      .catch((err) => console.error(err));
   };
+
+  // const getParkStatus = () => {
+  //   axios
+  //     .get(`${import.meta.env.VITE_API_BASE_URL}/parkstatus/read`)
+  //     .then((res) => setParkStatusList(res.data.result))
+  //     .catch((err) => console.error(err));
+  // };
 
   useEffect(() => {
     getParkStatus();
