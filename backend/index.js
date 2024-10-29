@@ -25,7 +25,14 @@ app.use("/tickets", tickets);
 //   origin: `https://calm-sea-0fc88f210.5.azurestaticapps.net`,
 //   optionsSuccessStatus: 200,
 // };
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://themepark-client.vercel.app", // Allow your client app
+    credentials: true, // Enable sending cookies with requests
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+  })
+);
+
 app.get(`/`, (req, res) => {
   res.send(`Cors-enabled for specified domain`);
 });
