@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminReports from "./pages/AdminReports.jsx";
-import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference */
+// import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference */
 import Dining from "./pages/Dining.jsx";
 import Shops from "./pages/GiftShops.jsx";
 import Events from "./pages/Events.jsx";
@@ -17,8 +17,22 @@ import TicketForm from "./pages/TicketForm.jsx";
 import RideForm from "./pages/RidesForm.jsx";
 import SpecialEventForm from "./pages/SpecialEventForm.jsx";
 import EmployeeLogin from "./pages/EmployeeLogin.jsx";
+import { useEffect, useState } from "react";
 
 export default function App() {
+  const [auth, setAuth] = useState(false); // Authentication state
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const response = await fetch("http://localhost:3000/verify", {
+        credentials: "include",
+      });
+      const data = await response.json();
+      setAuth(data.Verify); // Set auth state based on the response
+    };
+
+    checkAuth(); // Initial check on mount
+  }, []);
   return (
     <BrowserRouter>
       <Routes>
@@ -28,10 +42,10 @@ export default function App() {
         <Route element={<Shops />} path="/giftshops" />
         <Route element={<Rides />} path="/rides" />
         <Route element={<Events />} path="/events" />
-        <Route element={<AdminLogin />} path="admin" />
+        <Route element={<AdminLogin authProp={setAuth} />} path="admin" />
         <Route element={<TicketForm />} path="/ticket" />
         <Route element={<EmployeeLogin />} path="employees/login" />
-        <Route element={<ProtectedRoutes />}>
+        <Route element={<ProtectedRoutes auth={auth} />}>
           {/*pages unavalible until user is authenticated*/}
           <Route element={<AdminReports />} path="/admin/reports" />
           <Route element={<AdminEmployee />} path="/admin/employees" />
