@@ -20,7 +20,7 @@ export default function AdminLogin({ authProp }) {
       })
       .then((res) => {
         if (res.data.auth) {
-          alert("authenticated");
+          alert("Granted Access");
           axios
             .get("http://localhost:3000/admin/verify", {
               withCredentials: true,
