@@ -37,6 +37,26 @@ parkStatusRoute.get("/read", (req, res) => {
   });
 });
 
+parkStatusRoute.put("/update", (req, res) => {
+  const {
+    parkStatusDate,
+    weatherType,
+  } = req.body;
+
+  const sql = `UPDATE parkstatus SET parkStatusDate?, weatherType=? WHERE parkStatusID = ?;`;
+  db.query(
+    sql,
+    [
+      parkStatusDate,
+      weatherType,
+    ],
+    (err, result) => {
+      if (err) console.log(err);
+      res.send("row updated");
+    }
+  );
+});
+
 parkStatusRoute.get("/readhistory", (req, res) => {
     const sql = "SELECT * from parkstatus WHERE date <= CURRENT_DATE";
     db.query(sql, (err, result) => {

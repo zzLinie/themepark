@@ -82,6 +82,15 @@ const ParkStatusForm = () => {
     return date.toLocaleDateString("en-CA");
   };
 
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    axios
+      .put(`https://themepark-server.vercel.app/parkstatus/update`, values)
+      .then((res) => alert(res.data))
+      .catch((err) => console.log(err));
+    setDeleteState(deleteState == true ? false : true);
+  };
+
   return (
     <>
       <AdminHeader />
@@ -122,6 +131,7 @@ const ParkStatusForm = () => {
               <th>Capacity</th>
               <th>Opening Time</th>
               <th>Closing Time</th>
+              <th>Edit</th>
             </tr>
           </thead>
 
@@ -138,11 +148,21 @@ const ParkStatusForm = () => {
                       <td>{val.capacity}</td>
                       <td>{val.openingTime}</td>
                       <td>{val.closingTime}</td>
+                      <td>    
+                      <button type="submit" onClick={handleUpdate}>
+                      Update
+                      </button>
+                      <button type="button" onClick={() => modalRef.current.close()}>
+                       Close
+                      </button>
+                      </td>
                     </tr>
                   </tbody>
                 </>
+                
               );
             })}
+            
         </table>
       </div>
     </>
