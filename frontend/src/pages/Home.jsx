@@ -1,6 +1,5 @@
 import Header from "../components/header";
 import "./home.css";
-import "./login.css";
 
 export default function Home() {
   return (

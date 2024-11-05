@@ -9,9 +9,9 @@ export default function EmployeeHeader() {
           <h1>Themepark</h1>
         </Link>
         <div className="employee-tabs">
-          <Link to={"/login/employees/shop"}>Shop</Link>
-          <Link to={"/login/employees/events"}>Events</Link>
-          <Link to={"/login/employees/ride"}>Rides</Link>
+          <Link to={"/employees/shop"}>Shop</Link>
+          <Link to={"/employees/events"}>Events</Link>
+          <Link to={"/employees/ride"}>Rides</Link>
         </div>
         <Link to={"/"}>Log Out</Link>
       </div>
