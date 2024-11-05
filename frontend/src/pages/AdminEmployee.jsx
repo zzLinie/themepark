@@ -60,7 +60,7 @@ export default function AdminEmployee() {
 
   const getEmployees = async () => {
     await axios
-      .get(`/api/employee/read`)
+      .get(`https://themepark-server.vercel.app/employee/read`)
       .then((res) => setEmployeeList(res.data.result))
       .catch((err) => console.error(err));
   };
