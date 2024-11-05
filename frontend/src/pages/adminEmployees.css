@@ -24,8 +24,8 @@ th {
 td {
   font-size: 14px;
 }
-.modal > form {
+/* .modal > form {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-}
+} */
