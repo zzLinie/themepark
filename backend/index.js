@@ -21,7 +21,7 @@ app.use(
 
 app.use(express.json());
 app.use("/admin", auth);
-app.use("/employee", employee);
+app.use("/api/employee", employee);
 app.use("/parkstatus", parkstatus);
 app.use("/events", events);
 app.use("/rides", rides);
