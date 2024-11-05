@@ -16,7 +16,7 @@ export default function AdminLogin() {
       .post("https://themepark-server.vercel.app/admin", values)
       .then((res) => {
         res.data.Status == "Success"
-          ? navigate("/admin/reports")
+          ? navigate("/login/admin/reports")
           : alert(res.data.Error);
       });
   };
@@ -25,7 +25,7 @@ export default function AdminLogin() {
       <Header />
       <div className="admin-login-container">
         <div className="form-container">
-          <h1>Log In</h1>
+          <h1>Admin Login</h1>
           <p>Log in with admin credentials</p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username</label>

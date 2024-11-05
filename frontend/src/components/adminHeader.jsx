@@ -9,9 +9,9 @@ export default function AdminHeader() {
           <h1>Themepark</h1>
         </Link>
         <div className="admin-tabs">
-          <Link to={"/admin/reports"}>Reports</Link>
-          <Link to={"/admin/employees"}>Employees</Link>
-          <Link to={"/admin/parkstatus"}>Park Status</Link>
+          <Link to={"/login/admin/reports"}>Reports</Link>
+          <Link to={"/login/admin/employees"}>Employees</Link>
+          <Link to={"/login/admin/parkstatus"}>Park Status</Link>
         </div>
         <Link to={"/"}>Log Out</Link>
       </div>

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminReports from "./pages/AdminReports.jsx";
-import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference */
+// import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference */
 import Dining from "./pages/Dining.jsx";
 import Shops from "./pages/GiftShops.jsx";
 import Events from "./pages/Events.jsx";
@@ -17,6 +17,7 @@ import TicketForm from "./pages/TicketForm.jsx";
 import RideForm from "./pages/RidesForm.jsx";
 import SpecialEventForm from "./pages/SpecialEventForm.jsx";
 import EmployeeLogin from "./pages/EmployeeLogin.jsx";
+import Login from "./pages/Login.jsx";
 
 export default function App() {
   return (
@@ -28,18 +29,23 @@ export default function App() {
         <Route element={<Shops />} path="/giftshops" />
         <Route element={<Rides />} path="/rides" />
         <Route element={<Events />} path="/events" />
-        <Route element={<AdminLogin />} path="admin" />
+        <Route element={<AdminLogin />} path="/login/admin" />
         <Route element={<TicketForm />} path="/ticket" />
-        <Route element={<EmployeeLogin />} path="employees/login" />
+        <Route element={<EmployeeLogin />} path="/login/employee" />
+        <Route element={<Login />} path="/login" />
+
         <Route element={<ProtectedRoutes />}>
           {/*pages unavalible until user is authenticated*/}
-          <Route element={<AdminReports />} path="/admin/reports" />
-          <Route element={<AdminEmployee />} path="/admin/employees" />
-          <Route element={<AdminParkstatus />} path="/admin/parkstatus" />
-          <Route element={<Employees />} path="employees" />
-          <Route element={<GiftShopForm />} path="employees/shop" />
-          <Route element={<SpecialEventForm />} path="employees/events" />
-          <Route element={<RideForm />} path="employees/ride" />
+          <Route element={<AdminReports />} path="/login/admin/reports" />
+          <Route element={<AdminEmployee />} path="/login/admin/employees" />
+          <Route element={<AdminParkstatus />} path="/login/admin/parkstatus" />
+          <Route element={<Employees />} path="/login/employees/dashboard" />
+          <Route element={<GiftShopForm />} path="/login/employees/shop" />
+          <Route
+            element={<SpecialEventForm />}
+            path="/login/employees/events"
+          />
+          <Route element={<RideForm />} path="/login/employees/ride" />
         </Route>
       </Routes>
     </BrowserRouter>
