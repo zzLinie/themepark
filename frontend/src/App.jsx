@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminReports from "./pages/AdminReports.jsx";
-import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference */
+// import AdminHome from "./pages/Home.jsx"; /*line to define adminhome reference */
 import Dining from "./pages/Dining.jsx";
 import Shops from "./pages/GiftShops.jsx";
 import Events from "./pages/Events.jsx";
