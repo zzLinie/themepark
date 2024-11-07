@@ -13,7 +13,7 @@ export default function Events() {
   const [eventList, setEventList] = useState([]);
   const getEvents = () => {
     axios
-      .get("https://themepark-server.vercel.app/events/read")
+      .get("https://themepark-backend.onrender.com/events/read")
       .then((res) => setEventList(res.data.result))
       .catch((err) => console.error(err));
   };

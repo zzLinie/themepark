@@ -38,7 +38,7 @@ const SpecialEventForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "https://themepark-server.vercel.app/events/create",
+        "https://themepark-backend.onrender.com/events/create",
         eventData
       );
       alert(`Special event created with ID: ${response.data.eventID}`);

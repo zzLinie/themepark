@@ -15,14 +15,14 @@ export default function AdminLogin({ authProp }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://themepark-server.vercel.app/admin", values, {
+      .post("https://themepark-backend.onrender.com/admin", values, {
         withCredentials: true,
       })
       .then((res) => {
         if (res.data.auth) {
           alert("Granted Access");
           axios
-            .get("https://themepark-server.vercel.app/admin/verify", {
+            .get("https://themepark-backend.onrender.com/admin/verify", {
               withCredentials: true,
             })
             .then((res) => {

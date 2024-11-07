@@ -26,7 +26,7 @@ export default function App() {
   useEffect(() => {
     const checkAuth = async () => {
       const response = await fetch(
-        "https://themepark-server.vercel.app/verify",
+        "https://themepark-backend.onrender.com/verify",
         {
           credentials: "include",
         }

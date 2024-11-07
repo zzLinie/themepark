@@ -13,7 +13,7 @@ export default function EmployeeLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://themepark-server.vercel.app/employees/auth", values)
+      .post("https://themepark-backend.onrender.com/employees/auth", values)
       .then((res) => {
         res.data.Status == "Success"
           ? navigate("/login/employee/dashboard")

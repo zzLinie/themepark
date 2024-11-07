@@ -50,7 +50,7 @@ const TicketForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "https://themepark-server.vercel.app/tickets/create",
+        "https://themepark-backend.onrender.com/tickets/create",
         ticketData
       );
       alert(`Ticket created with ID: ${response.data.ticketID}`);

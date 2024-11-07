@@ -10,7 +10,7 @@ export default function GiftShops() {
   const [shopList, setShopList] = useState([]);
   const getShops = () => {
     axios
-      .get("https://themepark-server.vercel.app/shops/readGiftShops")
+      .get("https://themepark-backend.onrender.com/shops/readGiftShops")
       .then((res) => setShopList(res.data.result))
       .catch((err) => console.error(err));
   };

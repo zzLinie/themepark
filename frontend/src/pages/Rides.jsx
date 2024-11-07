@@ -11,7 +11,7 @@ export default function Rides() {
 
   const ridesList = () => {
     axios
-      .get("https://themepark-server.vercel.app/rides/read")
+      .get("https://themepark-backend.onrender.com/rides/read")
       .then((res) => {
         setRides(
           res.data.result.filter((ride) => {
