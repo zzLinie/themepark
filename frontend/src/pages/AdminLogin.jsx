@@ -28,7 +28,7 @@ export default function AdminLogin({ authProp }) {
             .then((res) => {
               authProp(res.data.Verify);
               if (res.data.Verify) {
-                navigate("/admin/reports");
+                navigate("/login/admin/reports");
               }
             });
         } else {

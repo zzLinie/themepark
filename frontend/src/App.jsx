@@ -18,6 +18,7 @@ import RideForm from "./pages/RidesForm.jsx";
 import SpecialEventForm from "./pages/SpecialEventForm.jsx";
 import EmployeeLogin from "./pages/EmployeeLogin.jsx";
 import { useEffect, useState } from "react";
+import Login from "./pages/Login.jsx";
 
 export default function App() {
   const [auth, setAuth] = useState(false); // Authentication state
@@ -45,18 +46,24 @@ export default function App() {
         <Route element={<Shops />} path="/giftshops" />
         <Route element={<Rides />} path="/rides" />
         <Route element={<Events />} path="/events" />
-        <Route element={<AdminLogin authProp={setAuth} />} path="admin" />
+        <Route
+          element={<AdminLogin authProp={setAuth} />}
+          path="/login/admin"
+        />
         <Route element={<TicketForm />} path="/ticket" />
-        <Route element={<EmployeeLogin />} path="employees/login" />
+        <Route element={<EmployeeLogin />} path="/login/employee" />
+        <Route element={<Login />} path="/login" />
         <Route element={<ProtectedRoutes auth={auth} />}>
-          {/*pages unavalible until user is authenticated*/}
-          <Route element={<AdminReports />} path="/admin/reports" />
-          <Route element={<AdminEmployee />} path="/admin/employees" />
-          <Route element={<AdminParkstatus />} path="/admin/parkstatus" />
-          <Route element={<Employees />} path="employees" />
-          <Route element={<GiftShopForm />} path="employees/shop" />
-          <Route element={<SpecialEventForm />} path="employees/events" />
-          <Route element={<RideForm />} path="employees/ride" />
+          <Route element={<AdminReports />} path="/login/admin/reports" />
+          <Route element={<AdminEmployee />} path="/login/admin/employees" />
+          <Route element={<AdminParkstatus />} path="/login/admin/parkstatus" />
+          <Route element={<Employees />} path="/login/employees/dashboard" />
+          <Route element={<GiftShopForm />} path="/login/employees/shop" />
+          <Route
+            element={<SpecialEventForm />}
+            path="/login/employees/events"
+          />
+          <Route element={<RideForm />} path="/login/employees/ride" />
         </Route>
       </Routes>
     </BrowserRouter>
