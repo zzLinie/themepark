@@ -5,9 +5,9 @@ export default function AdminHeader() {
   return (
     <>
       <div className="admin-header">
-        <a href="">
+        <Link to="/">
           <h1>Themepark</h1>
-        </a>
+        </Link>
         <div className="admin-tabs">
           <Link to={"/admin/reports"}>Reports</Link>
           <Link to={"/admin/employees"}>Employees</Link>
