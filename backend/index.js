@@ -11,18 +11,10 @@ const shops = require("./routes/shops");
 const employeeAuth = require("./routes/employeeAuth");
 const tickets = require("./routes/tickets");
 
-// app.use(
-//   cors({
-//     origin: "https://themepark-client.vercel.app", // Allow your client app
-//     credentials: true, // Enable sending cookies with requests
-//     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
-//   })
-// );
-
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: "https://themepark-client.vercel.app",
     methods: ["POST", "GET"],
   })
 );
