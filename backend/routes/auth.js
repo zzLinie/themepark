@@ -59,7 +59,11 @@ app.post("/", (req, res) => {
       const token = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
       });
-      res.cookie("token", token);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      });
       return res.json({ auth: true, token: token, result: req.body.userName });
     });
   });
