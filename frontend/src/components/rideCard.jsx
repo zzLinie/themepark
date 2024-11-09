@@ -1,6 +1,7 @@
 import "./rideCard.css";
 import PropTypes from "prop-types";
 
+
 export default function RideCard({
   rideImage,
   rideName,

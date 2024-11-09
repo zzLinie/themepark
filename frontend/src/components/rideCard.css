@@ -1,13 +1,13 @@
 .card-container {
-  margin-top: 40px;
+  margin: 5px auto;
   display: flex;
   gap: 30px;
   border-bottom: 2px solid var(--borderColor);
   padding: 20px 0;
+  max-width: 1000px;
 }
 
 .card-container img {
-  margin-left: 40px;
   width: 200px;
   height: 200px;
 }
