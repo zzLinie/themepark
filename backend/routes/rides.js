@@ -28,8 +28,8 @@ ridesRoute.post('/create', (req, res) => {
 
   // Insert query
   const query = `
-    INSERT INTO Rides (rideName, rideCount, capacity, openingTime, closingTime, technician)
-    VALUES (?, 0, ?, ?, ?, 116433494)
+    INSERT INTO Rides (rideName, capacity, openingTime, closingTime, technician)
+    VALUES (?, ?, ?, ?, 116433494)
   `;
 
   // Execute query with callback
