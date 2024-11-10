@@ -5,10 +5,8 @@ button {
   padding: 10px 15px;
 }
 .loginButton {
-  background-color: var(--accent);
   color: var(--secondaryText);
 }
 .ticketButton {
-  background-color: var(--warningColor);
   color: var(--secondaryText);
 }

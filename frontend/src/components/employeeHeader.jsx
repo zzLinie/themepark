@@ -5,13 +5,13 @@ export default function EmployeeHeader() {
   return (
     <>
       <div className="employee-header">
-        <a href="">
+        <Link to="/">
           <h1>Themepark</h1>
-        </a>
+        </Link>
         <div className="employee-tabs">
-          <Link to={"/employees/shop"}>Shop</Link>
-          <Link to={"/employees/events"}>Events</Link>
-          <Link to={"/employees/ride"}>Rides</Link>
+          <Link to={"/login/employees/shop"}>Shop</Link>
+          <Link to={"/login/employees/events"}>Events</Link>
+          <Link to={"/login/employees/ride"}>Rides</Link>
         </div>
         <Link to={"/"}>Log Out</Link>
       </div>

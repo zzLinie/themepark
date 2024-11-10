@@ -11,7 +11,6 @@ const app = express.Router();
 //parses data that comes into json format
 app.use(express.json());
 
-app.use(cors());
 app.use(cookieParser());
 
 const salt = 10;
@@ -33,27 +32,57 @@ app.post("/create", (req, res) => {
 app.post("/", (req, res) => {
   const sql = "SELECT userName, password FROM admin where userName=?;";
   //data is sql results
-  db.query(sql, [req.body.userName], (err, data) => {
-    if (err) return res.json({ Error: `Login error in server` });
-    //username is found
-    // @ts-ignore
-    if (data.length > 0) {
-      bcrypt.compare(
-        req.body.password.toString(),
-        data[0].password,
-        (err, response) => {
-          if (err) return res.json({ Error: "password compare error" });
-          if (response) {
-            return res.json({ Status: "Success" });
-          } else {
-            return res.json({ Error: "Password not found" });
-          }
-        }
-      );
-    } else {
-      return res.json({ Error: "no username found" });
+  db.query(sql, [req.body.userName], async (err, result) => {
+    //sql query error
+    if (err) return res.send("sql query error");
+
+    //username doesnt exist
+    if (!result[0]) {
+      //username doesnt exist
+      return res.json({ Response: "Username doesnt exist" });
     }
+    //database stored password
+    const { password } = result[0];
+    const inputedPassword = req.body.password;
+
+    //compare user inputted password to resulted query hash
+    bcrypt.compare(inputedPassword, password, (err, result) => {
+      if (err) return res.json({ Response: "Password compare error" });
+
+      //user inputted wrong password
+      if (!result) {
+        return res.json({ Response: "Password not found" });
+      }
+
+      //inputted correct password
+      //create token for user
+      const token = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1d",
+      });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      });
+      return res.json({ auth: true, token: token, result: req.body.userName });
+    });
   });
+});
+
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ Verify: false });
+  } else {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) return res.json({ Verify: false });
+      next();
+    });
+  }
+};
+
+app.get("/verify", verifyUser, (req, res) => {
+  return res.json({ Verify: true });
 });
 
 module.exports = app;

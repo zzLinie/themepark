@@ -27,7 +27,7 @@ const ParkStatusForm = () => {
     }
     try {
       const response = await axios.post(
-        "https://themepark-server.vercel.app/parkstatus/create",
+        "https://themepark-backend.onrender.com/parkstatus/create",
         ParkStatusData
       );
       if (response.data.message) {
@@ -41,7 +41,7 @@ const ParkStatusForm = () => {
 
   const getParkStatus = () => {
     axios
-      .get("https://themepark-server.vercel.app/parkstatus/read")
+      .get("https://themepark-backend.onrender.com/parkstatus/read")
       .then((res) => setParkStatusList(res.data.result))
       .catch((err) => console.error(err));
   };

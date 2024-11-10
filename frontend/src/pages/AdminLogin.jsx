@@ -2,23 +2,40 @@ import { useState } from "react";
 import Header from "../components/header";
 import "./adminLogin.css";
 import axios from "axios";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-export default function AdminLogin() {
+export default function AdminLogin({ authProp }) {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     userName: "",
     password: "",
   });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://themepark-server.vercel.app/admin", values)
+      .post("https://themepark-backend.onrender.com/admin", values, {
+        withCredentials: true,
+      })
       .then((res) => {
-        res.data.Status == "Success"
-          ? navigate("/admin/reports")
-          : alert(res.data.Error);
-      });
+        if (res.data.auth) {
+          alert("Granted Access");
+          axios
+            .get("https://themepark-backend.onrender.com/admin/verify", {
+              withCredentials: true,
+            })
+            .then((res) => {
+              authProp(res.data.Verify);
+              if (res.data.Verify) {
+                navigate("/login/admin/reports");
+              }
+            });
+        } else {
+          alert(res.data.Response);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div className="admin-page-container">
@@ -49,3 +66,7 @@ export default function AdminLogin() {
     </div>
   );
 }
+
+AdminLogin.propTypes = {
+  authProp: PropTypes.bool,
+};

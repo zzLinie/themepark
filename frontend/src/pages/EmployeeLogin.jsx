@@ -13,10 +13,10 @@ export default function EmployeeLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://themepark-server.vercel.app/employees/auth", values)
+      .post("https://themepark-backend.onrender.com/employees/auth", values)
       .then((res) => {
         res.data.Status == "Success"
-          ? navigate("/employees")
+          ? navigate("/login/employee/dashboard")
           : alert(res.data.Error);
       });
   };
@@ -25,7 +25,7 @@ export default function EmployeeLogin() {
       <Header />
       <div className="admin-login-container">
         <div className="form-container">
-          <h1>Log In</h1>
+          <h1>Employee Login</h1>
           <p>Log in with employee credentials</p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email</label>

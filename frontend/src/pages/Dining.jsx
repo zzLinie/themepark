@@ -5,12 +5,13 @@ import "./events.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./DataEntryForm.css";
+import "./Rides.css";
 
 export default function Dining() {
   const [restaurantList, setRestaurantList] = useState([]);
   const getRestaurants = () => {
     axios
-      .get("https://themepark-server.vercel.app/shops/readRestaurants")
+      .get("https://themepark-backend.onrender.com/shops/readRestaurants")
       .then((res) => setRestaurantList(res.data.result))
       .catch((err) => console.error(err));
   };
@@ -21,15 +22,13 @@ export default function Dining() {
   return (
     <div>
       <Header />
+      <div class="parkTitle">
       <h1>Restaurants & Dining</h1>
       <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam porro
-        dignissimos dolore dolor maiores. Aut optio rem ipsa nostrum, provident,
-        obcaecati assumenda asperiores, eveniet dolore consectetur beatae! Illo,
-        fuga nesciunt?
+      Theme Park offers a wide variety of different kinds of food to eat and environments to eat it in. Whether you’re looking for just a snack or a full meal, we have exactly what you need to keep you fueled up for the rest of the day.
       </p>
       <div>
-        <h2>Filter By Dining Type</h2>
+        <h2>Filter By</h2>
         <select name="dining" id="dining">
           <option value="all">All Resturants</option>
           <option value="kids">Mexican Food</option>
@@ -37,6 +36,7 @@ export default function Dining() {
           <option value="kids">Snacks & Beverages</option>
           <option value="family">Desserts</option>
         </select>
+      </div>
       </div>
       {restaurantList &&
         restaurantList.map((restaurant, index) => (

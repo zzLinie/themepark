@@ -1,9 +1,9 @@
 import Header from "../components/header";
 import RideCard from "../components/rideCard";
-import rideImg from "../assets/images/placeholder-image.webp";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./events.css";
+import "./Rides.css";
 
 export default function Rides() {
   const [rides, setRides] = useState([]);
@@ -11,7 +11,7 @@ export default function Rides() {
 
   const ridesList = () => {
     axios
-      .get("https://themepark-server.vercel.app/rides/read")
+      .get("https://themepark-backend.onrender.com/rides/read")
       .then((res) => {
         setRides(
           res.data.result.filter((ride) => {
@@ -32,12 +32,10 @@ export default function Rides() {
   return (
     <>
       <Header />
+      <div class="parkTitle">
       <h1>Park Rides</h1>
       <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate
-        enim itaque perspiciatis voluptatibus numquam commodi corrupti
-        voluptates, atque aspernatur dolore at accusantium inventore, quidem
-        nemo error eos nulla rerum minima!
+      From thrilling coasters to rides for the kids, Theme Park has something for everyone.
       </p>
       <div>
         <h2>Filter By</h2>
@@ -51,6 +49,7 @@ export default function Rides() {
           <option value="kid">Kids Rides</option>
         </select>
       </div>
+      </div>
       {rides &&
         rides.map((ride, index) => {
           return (
@@ -58,8 +57,8 @@ export default function Rides() {
               <RideCard
                 rideName={ride.rideName}
                 rideCapacity={ride.capacity}
-                rideImage={rideImg}
-                rideDescription={"this is the rides decription"}
+                rideImage={ride.imageFileName}
+                rideDescription={ride.rideDesc}
               />
               ;
             </div>

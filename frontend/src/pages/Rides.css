@@ -1,0 +1,24 @@
+.parkTitle {
+    margin:40px auto;
+    max-width:1000px;
+    height: 165px;
+}
+
+.parkTitle h1 {
+    text-align: left;
+}
+
+.parkTitle h2 {
+    text-align: left;
+    font-size: 30px;
+    width: 150px;
+    float: left;
+}
+
+
+.parkTitle select {
+    font-size: 20px;
+    width: 200px;
+    margin: 30px;
+}
+

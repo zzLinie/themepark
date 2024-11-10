@@ -13,9 +13,9 @@ const tickets = require("./routes/tickets");
 
 app.use(
   cors({
-    origin: "https://themepark-client.vercel.app", // Allow your client app
-    credentials: true, // Enable sending cookies with requests
-    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+    credentials: true,
+    origin: "https://gleaming-lokum-158537.netlify.app",
+    methods: ["POST", "GET"],
   })
 );
 
@@ -28,11 +28,6 @@ app.use("/rides", rides);
 app.use("/shops", shops);
 app.use("/employees", employeeAuth);
 app.use("/tickets", tickets);
-
-// const corsOptions = {
-//   origin: `https://calm-sea-0fc88f210.5.azurestaticapps.net`,
-//   optionsSuccessStatus: 200,
-// };
 
 app.get(`/`, (req, res) => {
   res.send(`Cors-enabled for specified domain`);
