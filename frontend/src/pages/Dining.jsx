@@ -1,6 +1,5 @@
 import Header from "../components/header";
 import DiningCard from "../components/diningCard";
-import diningImage from "../assets/images/placeholder-image.webp";
 import "./events.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -42,11 +41,11 @@ export default function Dining() {
         restaurantList.map((restaurant, index) => (
           <DiningCard
             key={index}
-            diningImage={diningImage}
+            diningImage={restaurant.imageFileName}
             diningLocation={restaurant.location}
             diningName={restaurant.shopName}
             diningProducts={"products here"}
-            diningOverview={"burger and fries"}
+            diningOverview={restaurant.shopDesc}
           />
         ))}
     </div>

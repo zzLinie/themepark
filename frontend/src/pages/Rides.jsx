@@ -60,7 +60,6 @@ export default function Rides() {
                 rideImage={ride.imageFileName}
                 rideDescription={ride.rideDesc}
               />
-              ;
             </div>
           );
         })}
