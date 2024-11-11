@@ -1,6 +1,5 @@
 import Header from "../components/header";
 import DiningCard from "../components/diningCard";
-import diningImage from "../assets/images/placeholder-image.webp";
 import "./events.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -31,11 +30,11 @@ export default function GiftShops() {
         shopList.map((shop, index) => (
           <DiningCard
             key={index}
-            diningImage={diningImage}
+            diningImage={shop.imageFileName}
             diningLocation={shop.location}
             diningName={shop.shopName}
             diningProducts={"products here"}
-            diningOverview={"gifts and souvenirs"}
+            diningOverview={shop.shopDesc}
           />
         ))}
     </div>
