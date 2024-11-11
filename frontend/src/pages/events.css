@@ -10,6 +10,7 @@
   padding-top: 10px;
   border-bottom: 2px solid var(--borderColor);
   width: fit-content;
+  color:aliceblue
 }
 .hero h1,
 .hero p {
