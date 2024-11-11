@@ -14,8 +14,8 @@ const tickets = require("./routes/tickets");
 app.use(
   cors({
     credentials: true,
-    origin: "https://gleaming-lokum-158537.netlify.app",
-    methods: ["POST", "GET"],
+    origin: "http://localhost:5173",
+    methods: ["POST", "GET", "PUT"],
   })
 );
 
