@@ -4,7 +4,6 @@ import Select from "react-select";
 import axios from "axios";
 import "./DataEntryForm.css";
 import EmployeeHeader from "../components/employeeHeader";
-import { useDropZone } from "react-dropzone";
 
 const SpecialEventForm = () => {
   // Initialize today's date in YYYY-MM-DD
@@ -17,8 +16,6 @@ const SpecialEventForm = () => {
     startDate: today,
     endDate: today,
   });
-
-  const[imageFile, setImageFile] = useState(null);
 
   // Handle changes in input fields
   const handleChange = (e) => {
@@ -33,11 +30,6 @@ const SpecialEventForm = () => {
       [name]: selectedOption ? selectedOption.value : null,
     });
   };
-
-  const onDrop = (acceptedFiles) => {
-    setImageFile(acceptedFiles[0]);
-  };
-  const {getRootProps, getInputProps} = useDropZone({onDrop});
 
   // Form submission handler
   const handleSubmit = async (e) => {
@@ -109,16 +101,6 @@ const SpecialEventForm = () => {
             onChange={handleChange}
             required
           />
-
-          <label>Event Image:</label>
-          <div {...getRootProps()} className = "dropzone">
-            <input {...getInputProps()} />
-            {imageFile ? (
-              <p>{imageFile.name}</p>
-            ) : (
-              <p>Drop an image here, or click to select one</p>
-            )}
-          </div>
           {/* Submit Button */}
           <button type="submit">Submit</button>
         </form>
