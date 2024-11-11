@@ -7,6 +7,15 @@
 }
 .event-container h1 {
   margin-top: 0;
+  color:aliceblue;
+  text-shadow: 2px 2px 2px black;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.event-container p  {
+  color:aliceblue;
+  text-shadow: 2px 2px 2px black;
+  font-family: Arial, Helvetica, sans-serif;
 }
 section {
   padding: 30px;
