@@ -9,7 +9,7 @@ export default function RideCard({
 }) {
   return (
     <div className="card-container">
-      <img className="card-image" src={`src/assets/images/${rideImage}`} alt="Ride Image" />
+      <img className="card-image" src={`/images/${rideImage}`} alt="Ride Image" />
       <div className="content-container">
         <h1>{rideName}</h1>
         <p>{rideDescription}</p>

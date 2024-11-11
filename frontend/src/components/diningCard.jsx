@@ -11,7 +11,7 @@ export default function DiningCard({
   return (
     <div className="card-container">
       <div>
-      <img className="card-image" src={`src/assets/images/${diningImage}`} alt="Image not found" />
+      <img className="card-image" src={`/images/${diningImage}`} alt="Image not found" />
       </div>
       <div className="content-container">
         <h1>{diningName}</h1>
