@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import Login from "./pages/Login.jsx";
 
 export default function App() {
-  const [auth, setAuth] = useState(false); // Authentication state
+  const [auth, setAuth] = useState(true); // Authentication state, change this to true to bypass auth
 
   useEffect(() => {
     const checkAuth = async () => {

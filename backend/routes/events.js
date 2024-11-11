@@ -22,7 +22,7 @@ eventsRoute.post('/create', (req, res) => {
     eventName,
     eventType,
     startDate,
-    endDate
+    endDate,
   } = req.body;
 
   // Basic validation
@@ -41,7 +41,7 @@ eventsRoute.post('/create', (req, res) => {
     eventName,
     eventType,
     startDate,
-    endDate
+    endDate,
   ], (error, results) => {
     if (error) {
       console.error("Error inserting special event:", error);

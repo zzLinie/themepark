@@ -205,7 +205,6 @@ export default function AdminEmployee() {
       <table>
         <thead>
           <tr>
-            <th>SSN</th>
             <th>First Name</th>
             <th>M Initial</th>
             <th>Last Name</th>
@@ -232,7 +231,6 @@ export default function AdminEmployee() {
               <>
                 <tbody key={key}>
                   <tr>
-                    <td>{val.Ssn}</td>
                     <td>{val.Fname}</td>
                     <td>{val.Minitial}</td>
                     <td>{val.Lname}</td>
@@ -264,12 +262,6 @@ export default function AdminEmployee() {
       <div className="employee-card">
         <h1>Add Employee</h1>
         <form action="" className="employee-form" onSubmit={postData}>
-          <Input
-            inputNaming={"empSSN"}
-            inputText={"SSN"}
-            inputType={"number"}
-            handleInputChange={handleChildData}
-          />
           <Input
             inputNaming={"empFname"}
             inputText={"First Name"}
