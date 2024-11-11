@@ -11,12 +11,12 @@ export default function DiningCard({
   return (
     <div className="card-container">
       <div>
-        <img src={diningImage} alt="" />
-        <p>{diningOverview}</p>
+        <img src={`src/assets/images/${diningImage}`} alt="" />
       </div>
       <div className="content-container">
         <h1>{diningName}</h1>
         <p>{`Location: ${diningLocation}`}</p>
+        <p>{diningOverview}</p>
         <p>{`Products: ${diningProducts}`}</p>
       </div>
     </div>

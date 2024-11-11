@@ -1,9 +1,10 @@
 .card-container {
-  margin-top: 40px;
+  margin: 5px auto;
   display: flex;
   gap: 30px;
   border-bottom: 2px solid var(--borderColor);
   padding: 20px 0;
+  max-width: 1000px;
 }
 
 .card-container img {
@@ -12,4 +13,9 @@
 }
 .card-container h1 {
   margin-top: 0;
+  text-align: left;
+}
+
+p {
+margin-bottom: 10px;
 }

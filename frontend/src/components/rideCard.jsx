@@ -4,15 +4,14 @@ import PropTypes from "prop-types";
 export default function RideCard({
   rideImage,
   rideName,
-  rideHeight,
+  rideCapacity,
   rideDescription,
 }) {
   return (
     <div className="card-container">
-      <img className="card-image" src={rideImage} alt="Ride Image" />
+      <img className="card-image" src={`src/assets/images/${rideImage}`} alt="Ride Image" />
       <div className="content-container">
         <h1>{rideName}</h1>
-        <p>{`Minimum Height: "${rideHeight}`}</p>
         <p>{rideDescription}</p>
       </div>
     </div>

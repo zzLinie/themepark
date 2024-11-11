@@ -1,20 +1,33 @@
 import Header from "../components/header";
 import DiningCard from "../components/diningCard";
-import diningImage from "../assets/images/placeholder-image.webp";
+import "./events.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "./DataEntryForm.css";
+import "./Rides.css";
 
 export default function Dining() {
+  const [restaurantList, setRestaurantList] = useState([]);
+  const getRestaurants = () => {
+    axios
+      .get("https://themepark-backend.onrender.com/shops/readRestaurants")
+      .then((res) => setRestaurantList(res.data.result))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
   return (
     <div>
       <Header />
+      <div class="parkTitle">
       <h1>Restaurants & Dining</h1>
       <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam porro
-        dignissimos dolore dolor maiores. Aut optio rem ipsa nostrum, provident,
-        obcaecati assumenda asperiores, eveniet dolore consectetur beatae! Illo,
-        fuga nesciunt?
+      Theme Park offers a wide variety of different kinds of food to eat and environments to eat it in. Whether you’re looking for just a snack or a full meal, we have exactly what you need to keep you fueled up for the rest of the day.
       </p>
       <div>
-        <h2>Filter By Dining Type</h2>
+        <h2>Filter By</h2>
         <select name="dining" id="dining">
           <option value="all">All Resturants</option>
           <option value="kids">Mexican Food</option>
@@ -23,27 +36,18 @@ export default function Dining() {
           <option value="family">Desserts</option>
         </select>
       </div>
-      <DiningCard
-        diningImage={diningImage}
-        diningLocation={"123 santana drive"}
-        diningName={"Resturant Name 1"}
-        diningProducts={"products here"}
-        diningOverview={"burger and fries"}
-      />
-      <DiningCard
-        diningImage={diningImage}
-        diningLocation={"123 university lane"}
-        diningName={"Resturant Name 2"}
-        diningProducts={"products here"}
-        diningOverview={"ice cream"}
-      />
-      <DiningCard
-        diningImage={diningImage}
-        diningLocation={"123 hospital avenue"}
-        diningName={"Resturant Name 3"}
-        diningProducts={"products here"}
-        diningOverview={"hot dogs"}
-      />
+      </div>
+      {restaurantList &&
+        restaurantList.map((restaurant, index) => (
+          <DiningCard
+            key={index}
+            diningImage={restaurant.imageFileName}
+            diningLocation={restaurant.location}
+            diningName={restaurant.shopName}
+            diningProducts={"products here"}
+            diningOverview={restaurant.shopDesc}
+          />
+        ))}
     </div>
   );
 }
