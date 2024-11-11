@@ -8,7 +8,10 @@ const ParkStatusForm = () => {
     parkStatusDate: "",
     weatherType: "",
   });
+
   const [parkStatusList, setParkStatusList] = useState([]);
+  const[editRow, setEditRow] = useState(null);
+  const [parkHistoryList, setParkHistoryList] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,12 +49,12 @@ const ParkStatusForm = () => {
       .catch((err) => console.error(err));
   };
 
-  // const getParkStatus = () => {
-  //   axios
-  //     .get(`${import.meta.env.VITE_API_BASE_URL}/parkstatus/read`)
-  //     .then((res) => setParkStatusList(res.data.result))
-  //     .catch((err) => console.error(err));
-  // };
+  const getParkHistory = () =>  {
+    axios
+    .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
+    .then((res) => setParkHistoryList(res.data.result))
+    .catch((err) => console.error(err));
+  }
 
   useEffect(() => {
     getParkStatus();
@@ -82,16 +85,102 @@ const ParkStatusForm = () => {
     return date.toLocaleDateString("en-CA");
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    axios
-      .put(`https://themepark-server.vercel.app/parkstatus/update`, values)
-      .then((res) => alert(res.data))
-      .catch((err) => console.log(err));
-    setDeleteState(deleteState == true ? false : true);
+    try{
+      const response = await axios.put(`https://themepark-backend.onrender.com/parkstatus/update`, editRow);
+      if(response.data.message) {
+        alert(response.data.message);
+      }
+      await getParkStatus();
+      setEditRow(null);
+    }
+    catch(err){
+      alert("Error: " + err.message);
+    }
   };
+  
+    return (
+      <>
+        <AdminHeader />
+        <div className="dataentryformcontainer">
+          <h1>{editRow ? "Edit Park Operating Day" : "Add Park Operating Day"}</h1>
+          <form onSubmit={editRow ? handleUpdate : handleSubmit}>
+            <label>Date</label>
+            <input
+              type="date"
+              name="parkStatusDate"
+              value={editRow ? editRow.parkStatusDate : ParkStatusData.parkStatusDate}
+              onChange={(e) =>
+                editRow
+                  ? setEditRow({ ...editRow, parkStatusDate: e.target.value })
+                  : setParkStatusData({ ...ParkStatusData, parkStatusDate: e.target.value })
+              }
+              required
+            />
+  
+            <label>Weather Type</label>
+            <select
+              name="weatherType"
+              value={editRow ? editRow.weatherType : ParkStatusData.weatherType}
+              onChange={(e) =>
+                editRow
+                  ? setEditRow({ ...editRow, weatherType: e.target.value })
+                  : setParkStatusData({ ...ParkStatusData, weatherType: e.target.value })
+              }
+              required
+            >
+              <option value="">Select Weather Type</option>
+              <option value="0">Fair</option>
+              <option value="1">Cloudy</option>
+              <option value="2">Rainout</option>
+            </select>
+            <button type="submit">{editRow ? "Update" : "Submit"}</button>
+          </form>
+        </div>
+        <h2>Upcoming Park Days</h2>
+        <div className="tablecontainer">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Weather Type</th>
+                <th>Capacity</th>
+                <th>Opening Time</th>
+                <th>Closing Time</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            {parkStatusList &&
+              parkStatusList.map((val, key) => (
+                <tbody key={key}>
+                  <tr>
+                    <td>{formatDate(val.date)}</td>
+                    <td style={getWeatherStyle(val.weatherType)}>
+                      {getWeatherDescription(val.weatherType)}
+                    </td>
+                    <td>{val.capacity}</td>
+                    <td>{val.openingTime}</td>
+                    <td>{val.closingTime}</td>
+                    <td>
+                      <button type="button" onClick={() => setEditRow(val)}>
+                        Edit
+                      </button>
+                      <button type="button" onClick={() => modalRef.current.close()}>
+                        Close
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              ))}
+          </table>
+        </div>
+      </>
+    );
+  };
+  export default ParkStatusForm;
 
-  return (
+ /* return (
     <>
       <AdminHeader />
       <div className="dataentryformcontainer">
@@ -168,5 +257,4 @@ const ParkStatusForm = () => {
     </>
   );
 };
-
-export default ParkStatusForm;
+*/
