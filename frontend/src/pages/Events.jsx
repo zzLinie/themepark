@@ -1,12 +1,5 @@
 import Header from "../components/header";
 import EventSection from "../components/eventSection";
-import eventImage from "../assets/images/placeholder-image.webp";
-import anniversaryImage from "../assets/images/anniversary.jpg";
-import halloweenImage from "../assets/images/halloween.jpg";
-import thanksgivingImage from "../assets/images/thanksgiving.jpg";
-import christmasImage from "../assets/images/christmas.jpg";
-import newYearImage from "../assets/images/newyear.jpg";
-import fireworksImage from "../assets/images/fireworks.jpg";
 import "./events.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -30,25 +23,6 @@ export default function Events() {
     return date.toLocaleDateString("en-CA");
   };
 
-  const getEventImage = (eventID) => {
-    switch (eventID) {
-      case 212:
-        return halloweenImage;
-        case 215:
-          return newYearImage;
-      case 216:
-        return anniversaryImage;
-      case 218:
-        return fireworksImage;
-      case 213:
-        return thanksgivingImage;
-        case 214:
-          return christmasImage;
-      default:
-        return eventImage;
-    }
-  };
-
   return (
     <>
       <Header />
@@ -63,7 +37,7 @@ export default function Events() {
             eventStart={formatDate(event.startDate)}
             eventEnd={formatDate(event.endDate)}
             eventDescription={event.eventType}
-            eventImage={getEventImage(event.eventID)}
+            eventImage={event.imageFileName}
           />
         ))}
     </>
