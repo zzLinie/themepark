@@ -19,10 +19,15 @@ table,
 td,
 th {
   border: 1px solid black;
+  margin-left: 60px;
+  justify-content: center;
 }
 
 td {
   font-size: 14px;
+}
+h1{
+  text-align: center;
 }
 /* .modal > form {
   display: grid;

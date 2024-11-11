@@ -11,7 +11,7 @@ export default function DiningCard({
   return (
     <div className="card-container">
       <div>
-        <img src={`src/assets/images/${diningImage}`} alt="" />
+      <img className="card-image" src={`src/assets/images/${diningImage}`} alt="Image not found" />
       </div>
       <div className="content-container">
         <h1>{diningName}</h1>
@@ -23,7 +23,7 @@ export default function DiningCard({
   );
 }
 DiningCard.propTypes = {
-  diningImage: PropTypes.string,
+  diningImage: PropTypes.string.isRequired,
   diningName: PropTypes.string,
   diningLocation: PropTypes.string,
   diningProducts: PropTypes.string,

@@ -1,10 +1,23 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
 const db = require("../connect");
 const eventsRoute = express.Router();
 
 eventsRoute.use(cors());
 eventsRoute.use(express.json());
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../assets/images"));
+  },
+  filename: (req, file, cb) =>  {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({storage: storage});
 
 eventsRoute.get("/read", (req, res) => {
   const sql = "SELECT * FROM specialevents WHERE startDate >= CURRENT_DATE ORDER BY startDate LIMIT 3";
@@ -17,13 +30,14 @@ eventsRoute.get("/read", (req, res) => {
 });
 
 // Route to add a new special event
-eventsRoute.post('/create', (req, res) => {
+eventsRoute.post('/create', upload.single("image"), (req, res) => {
   const {
     eventName,
     eventType,
     startDate,
-    endDate
+    endDate,
   } = req.body;
+  const imageFileName = req.file ? req.file.filename: null;
 
   // Basic validation
   if (!eventName || eventType === undefined || !startDate || !endDate) {
@@ -32,8 +46,8 @@ eventsRoute.post('/create', (req, res) => {
 
   // Define SQL query for inserting a special event
   const query = `
-    INSERT INTO SpecialEvents (eventName, eventType, startDate, endDate)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO SpecialEvents (eventName, eventType, startDate, endDate, imageFileName)
+    VALUES (?, ?, ?, ?, ?)
   `;
 
   // Execute the query with the provided form data
@@ -41,7 +55,8 @@ eventsRoute.post('/create', (req, res) => {
     eventName,
     eventType,
     startDate,
-    endDate
+    endDate,
+    imageFileName
   ], (error, results) => {
     if (error) {
       console.error("Error inserting special event:", error);
