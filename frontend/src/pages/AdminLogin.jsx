@@ -15,14 +15,14 @@ export default function AdminLogin({ authProp }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://themepark-backend.onrender.com/admin", values, {
+      .post("http://localhost:3000/admin", values, {
         withCredentials: true,
       })
       .then((res) => {
         if (res.data.auth) {
           alert("Granted Access");
           axios
-            .get("https://themepark-backend.onrender.com/admin/verify", {
+            .get("http://localhost:3000/admin/verify", {
               withCredentials: true,
             })
             .then((res) => {

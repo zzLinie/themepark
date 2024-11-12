@@ -11,7 +11,7 @@ export default function Rides() {
 
   const ridesList = () => {
     axios
-      .get("https://themepark-backend.onrender.com/rides/read")
+      .get("http://localhost:3000/rides/read")
       .then((res) => {
         setRides(
           res.data.result.filter((ride) => {
@@ -32,23 +32,24 @@ export default function Rides() {
   return (
     <>
       <Header />
-      <div class="parkTitle">
-      <h1>Park Rides</h1>
-      <p>
-      From thrilling coasters to rides for the kids, Theme Park has something for everyone.
-      </p>
-      <div>
-        <h2>Filter By</h2>
-        <select
-          name="rides"
-          id="rides"
-          onChange={(e) => setRideFilter(e.target.value)}
-        >
-          <option value="all">All Rides</option>
-          <option value="family">Family Rides</option>
-          <option value="kid">Kids Rides</option>
-        </select>
-      </div>
+      <div className="parkTitle">
+        <h1>Park Rides</h1>
+        <p>
+          From thrilling coasters to rides for the kids, Theme Park has
+          something for everyone.
+        </p>
+        <div>
+          <h2>Filter By</h2>
+          <select
+            name="rides"
+            id="rides"
+            onChange={(e) => setRideFilter(e.target.value)}
+          >
+            <option value="all">All Rides</option>
+            <option value="family">Family Rides</option>
+            <option value="kid">Kids Rides</option>
+          </select>
+        </div>
       </div>
       {rides &&
         rides.map((ride, index) => {

@@ -38,7 +38,7 @@ const SpecialEventForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "https://themepark-backend.onrender.com/events/create",
+        "http://localhost:3000/events/create",
         eventData
       );
       alert(`Special event created with ID: ${response.data.eventID}`);

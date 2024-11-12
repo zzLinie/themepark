@@ -33,7 +33,7 @@ const ParkStatusForm = () => {
     }
     try {
       const response = await axios.post(
-        "https://themepark-backend.onrender.com/parkstatus/create",
+        "http://localhost:3000/parkstatus/create",
         ParkStatusData
       );
       if (response.data.message) {
@@ -47,14 +47,14 @@ const ParkStatusForm = () => {
 
   const getParkStatus = () => {
     axios
-      .get("https://themepark-backend.onrender.com/parkstatus/read")
+      .get("http://localhost:3000/parkstatus/read")
       .then((res) => setParkStatusList(res.data.result))
       .catch((err) => console.error(err));
   };
 
   const getParkHistory = () => {
     axios
-      .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
+      .get("http://localhost:3000/parkstatus/readhistory")
       .then((res) => setParkHistoryList(res.data.result))
       .catch((err) => console.error(err));
   };
@@ -98,10 +98,10 @@ const ParkStatusForm = () => {
     setIsModalOpen(false);
   };
 
-  const openHistoryModal = () => { 
+  const openHistoryModal = () => {
     getParkHistory();
     setIsHistoryModalOpen(true);
-  }; 
+  };
   const closeHistoryModal = () => {
     setIsHistoryModalOpen(false);
   };
@@ -110,7 +110,7 @@ const ParkStatusForm = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://themepark-backend.onrender.com/parkstatus/update`,
+        `http://localhost:3000/parkstatus/update`,
         editRow
       );
       if (response.data.message) {
@@ -230,7 +230,7 @@ const ParkStatusForm = () => {
     </>
   );
 };*/
-  
+
   return (
     <>
       <AdminHeader />
@@ -289,7 +289,10 @@ const ParkStatusForm = () => {
                     <button type="button" onClick={() => openModal(val)}>
                       Edit
                     </button>
-                    <button type="button" onClick={() => modalRef.current.close()}>
+                    <button
+                      type="button"
+                      onClick={() => modalRef.current.close()}
+                    >
                       Close
                     </button>
                   </td>
@@ -343,8 +346,7 @@ const ParkStatusForm = () => {
 
 export default ParkStatusForm;
 
-
- /* return (
+/* return (
     <>
       <AdminHeader />
       <div className="dataentryformcontainer">
