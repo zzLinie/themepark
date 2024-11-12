@@ -85,7 +85,7 @@ const ParkStatusForm = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-CA");
+    return date.toLocaleDateString("en-TX");
   };
 
   const openModal = (row) => {
