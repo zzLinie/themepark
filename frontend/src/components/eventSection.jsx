@@ -11,12 +11,12 @@ export default function EventSection({
     <section>
       <div
         className="event-container"
-        style={{ backgroundImage: `url(${eventImage})` }}
+        style={{ backgroundImage: `url(/images/${eventImage})` }}
       >
         <h1>{eventName}</h1>
-        <p>{`Start Date: ${eventStart}`}</p>
-        <p>{`End Date: ${eventEnd}`}</p>
-        <p>{eventDescription}</p>
+        <p><span>{`Start Date: ${eventStart}`}</span></p>
+        <p><span>{`End Date: ${eventEnd}`}</span></p>
+        <p><span>{eventDescription}</span></p>
       </div>
     </section>
   );

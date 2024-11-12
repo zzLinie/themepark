@@ -55,14 +55,14 @@ export default function AdminEmployee() {
         //change delete state variable everytime delete button is clicked
         deleteState == false ? setDeleteState(true) : setDeleteState(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => alert(err));
   };
 
   const getEmployees = async () => {
     await axios
       .get(`https://themepark-backend.onrender.com/employee/read`)
       .then((res) => setEmployeeList(res.data.result))
-      .catch((err) => console.error(err));
+      .catch((err) => alert(err + " when retrieving employees"));
   };
 
   //renders employee list after delete button click
@@ -79,7 +79,7 @@ export default function AdminEmployee() {
         const modal = modalRef.current;
         modal.showModal();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => alert(err));
   };
 
   const handleUpdate = (e) => {
@@ -87,7 +87,7 @@ export default function AdminEmployee() {
     axios
       .put(`https://themepark-backend.onrender.com/employee/update`, values)
       .then((res) => alert(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err));
     setDeleteState(deleteState == true ? false : true);
   };
 
@@ -205,7 +205,6 @@ export default function AdminEmployee() {
       <table>
         <thead>
           <tr>
-            <th>SSN</th>
             <th>First Name</th>
             <th>M Initial</th>
             <th>Last Name</th>
@@ -232,7 +231,6 @@ export default function AdminEmployee() {
               <>
                 <tbody key={key}>
                   <tr>
-                    <td>{val.Ssn}</td>
                     <td>{val.Fname}</td>
                     <td>{val.Minitial}</td>
                     <td>{val.Lname}</td>
@@ -264,12 +262,6 @@ export default function AdminEmployee() {
       <div className="employee-card">
         <h1>Add Employee</h1>
         <form action="" className="employee-form" onSubmit={postData}>
-          <Input
-            inputNaming={"empSSN"}
-            inputText={"SSN"}
-            inputType={"number"}
-            handleInputChange={handleChildData}
-          />
           <Input
             inputNaming={"empFname"}
             inputText={"First Name"}
