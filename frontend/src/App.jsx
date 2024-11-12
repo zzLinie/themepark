@@ -26,9 +26,12 @@ export default function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const response = await fetch("http://localhost:3000/verify", {
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://themepark-backend.onrender.com/verify",
+        {
+          credentials: "include",
+        }
+      );
       const data = await response.json();
       setAuth(data.Verify); // Set auth state based on the response
     };

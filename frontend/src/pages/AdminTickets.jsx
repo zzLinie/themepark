@@ -8,7 +8,7 @@ export default function AdminTickets() {
   const [customerSearchInfo, setCustomerSearchInfo] = useState({});
   const getTickets = () => {
     axios
-      .get("http://localhost:3000/adminTickets/retrieveAll")
+      .get("https://themepark-backend.onrender.com/adminTickets/retrieveAll")
       .then((res) => setTicketList(res.data.Result))
       .catch((err) => alert(err));
   };
@@ -18,7 +18,7 @@ export default function AdminTickets() {
     console.log(customerSearchInfo);
     axios
       .post(
-        "http://localhost:3000/adminTickets/filterCustomer",
+        "https://themepark-backend.onrender.com/adminTickets/filterCustomer",
         customerSearchInfo
       )
       .then((res) => {

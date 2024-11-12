@@ -33,7 +33,7 @@ const ParkStatusForm = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3000/parkstatus/create",
+        "https://themepark-backend.onrender.com/parkstatus/create",
         ParkStatusData
       );
       if (response.data.message) {
@@ -47,14 +47,14 @@ const ParkStatusForm = () => {
 
   const getParkStatus = () => {
     axios
-      .get("http://localhost:3000/parkstatus/read")
+      .get("https://themepark-backend.onrender.com/parkstatus/read")
       .then((res) => setParkStatusList(res.data.result))
       .catch((err) => console.error(err));
   };
 
   const getParkHistory = () => {
     axios
-      .get("http://localhost:3000/parkstatus/readhistory")
+      .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
       .then((res) => setParkHistoryList(res.data.result))
       .catch((err) => console.error(err));
   };
@@ -110,7 +110,7 @@ const ParkStatusForm = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:3000/parkstatus/update`,
+        `https://themepark-backend.onrender.com/parkstatus/update`,
         editRow
       );
       if (response.data.message) {
