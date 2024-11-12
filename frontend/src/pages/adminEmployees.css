@@ -18,9 +18,18 @@
 table,
 td,
 th {
-  border: 1px solid black;
+  border-bottom: 1px solid black;
   margin-left: 60px;
+  margin:0 auto;
+  text-align: center;
   justify-content: center;
+  min-width: 80px;
+}
+tr{
+  transition-duration: .2s;
+}
+tr:hover {
+  background-color:lightslategrey;
 }
 
 td {
@@ -28,6 +37,21 @@ td {
 }
 h1{
   text-align: center;
+}
+button{
+  background-color:grey;
+  border:1px solid dimgray;
+  color:black;
+  display:inline-block;
+  font-size: 12;
+  border-radius: 5px;
+  transition-duration: .4s;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-right: 3px;
+}
+button:hover{
+  background-color: dimgray;
 }
 /* .modal > form {
   display: grid;

@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <div className="header-container">
       <Link to="/">
-        <h1>Theme park</h1>
+        <h1>Themepark</h1>
       </Link>
       <div className="links">
         <Link to="/">Home</Link>

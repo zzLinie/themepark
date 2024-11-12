@@ -4,11 +4,11 @@
   align-items: center;
   border-bottom: 2px solid var(--borderColor);
   padding: 10px 10%;
-  background-color: #F6CA56;
+  background-color: #d0d265;
 }
 .links {
   display: flex;
-  gap: 25px;
+  gap: 30px;
   align-items: center;
 }
 .header-button-container {
