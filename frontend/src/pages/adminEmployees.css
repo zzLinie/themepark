@@ -46,6 +46,7 @@ td {
 }
 h1{
   text-align: center;
+  grid-column: span 1
 }
 button{
   background-color:lightgrey;

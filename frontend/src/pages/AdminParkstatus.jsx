@@ -167,23 +167,6 @@ const ParkStatusForm = () => {
       .catch((err) => console.log(err));
     setDeleteState(deleteState == true ? false : true);
   };
-
-  /*const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.put(
-        `https://themepark-backend.onrender.com/parkstatus/update`,
-        parkStatusData
-      );
-      if (response.data.message) {
-        alert(response.data.message);
-      }
-      await getParkStatus();
-      closeModal();
-    } catch (err) {
-      alert("Error: " + err.message);
-    }
-  };*/
   
   return (
     <>
@@ -260,7 +243,7 @@ const ParkStatusForm = () => {
               <th>Capacity</th>
               <th>Opening Time</th>
               <th>Closing Time</th>
-              <th>Edit</th>
+              <th>Action</th>
             </tr>
           </thead>
           {parkStatusList &&

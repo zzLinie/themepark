@@ -1,5 +1,6 @@
 import "./employeeHeader.css";
 import { Link } from "react-router-dom";
+import Button from "./button";
 
 export default function EmployeeHeader() {
   return (
@@ -13,7 +14,11 @@ export default function EmployeeHeader() {
           <Link to={"/login/employees/events"}>Events</Link>
           <Link to={"/login/employees/ride"}>Rides</Link>
         </div>
-        <Link to={"/"}>Log Out</Link>
+        <div className="header-button-container">
+        <Link to="/"Log Out>
+          <Button buttonClass="logoutbutton" buttonText="Log Out" />
+        </Link>
+      </div>
       </div>
       <div className="employee-banner">
         <h1>Employee Dashboard</h1>

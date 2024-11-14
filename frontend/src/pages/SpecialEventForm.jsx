@@ -1,6 +1,7 @@
 // SpecialEventForm.js
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
+import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import "./DataEntryForm.css";
 import EmployeeHeader from "../components/employeeHeader";
@@ -17,11 +18,19 @@ const SpecialEventForm = () => {
     endDate: today,
   });
 
+  const[imageFile, setImageFile] = useState(null);
+
   // Handle changes in input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
+
+  const onDrop = (acceptedFiles) => {
+    setImageFile(acceptedFiles[0]);
+  }
+
+  const{ getRootProps, getInputProps } = useDropzone({ onDrop });
 
   // Handle dropdown selection changes
   const handleSelectChange = (selectedOption, { name }) => {
@@ -35,11 +44,22 @@ const SpecialEventForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("eventName", eventData.eventName);
+    formData.append("eventType", eventData.eventType);
+    formData.append("startDate", eventData.startDate);
+    formData.append("endDate", eventData.endDate);
+
     try {
       // Send POST request to the server API
       const response = await axios.post(
         "https://themepark-backend.onrender.com/events/create",
-        eventData
+        eventData, {
+          header:{
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       alert(`Special event created with ID: ${response.data.eventID}`);
 
@@ -50,6 +70,7 @@ const SpecialEventForm = () => {
         startDate: today,
         endDate: today,
       });
+      setImageFile(null);
     } catch (error) {
       console.error("Error creating special event:", error);
       alert("Failed to create special event. Please try again.");
@@ -101,6 +122,15 @@ const SpecialEventForm = () => {
             onChange={handleChange}
             required
           />
+          <label>Event Image:</label>
+          <div {...getRootProps()} className="dropzone">
+          <input {...getInputProps()} />
+          {imageFile ? (
+            <p>{imageFile.name}</p>
+          ) : (
+            <p>Drag or select an image</p>
+          )}
+          </div>
           {/* Submit Button */}
           <button type="submit">Submit</button>
         </form>
