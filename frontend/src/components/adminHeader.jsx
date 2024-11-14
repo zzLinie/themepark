@@ -1,4 +1,5 @@
 import "./adminHeader.css";
+import Button from "./button"
 import { Link } from "react-router-dom";
 
 export default function AdminHeader() {
@@ -14,11 +15,15 @@ export default function AdminHeader() {
           <Link to={"/login/admin/parkstatus"}>Park Status</Link>
           <Link to={"/login/admin/tickets"}>Tickets</Link>
         </div>
-        <Link to={"/"}>Log Out</Link>
+        <div className="header-button-container">
+        <Link to="/"Log Out>
+          <Button buttonClass="logoutbutton" buttonText="Log Out" />
+        </Link>
+      </div>
       </div>
       <div className="admin-banner">
         <h1>Admin Dashboard</h1>
-      </div>
+        </div>
     </>
   );
 }

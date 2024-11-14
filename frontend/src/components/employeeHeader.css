@@ -2,14 +2,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--borderColor);
-  padding: 10px 10%;
+  border-bottom: 1px solid var(--borderColor);
+  border-color:grey;
+  padding: 0px 5%;
   background-color: #f2f2f2;
-  gap: 15px;
+  gap: 10px;
+  height:65px;
 }
 .employee-tabs {
   display: flex;
-  gap: 25px;
+  gap: 30px;
 }
 .employee-banner {
   background-color: var(--accent);
@@ -17,8 +19,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px 0;
+  height:65px
 }
 .employee-banner h1 {
-  color: white;
+  color: black;
+}
+
+.header-button-container {
+  display: flex;
+  gap: 25px;
 }

@@ -204,7 +204,7 @@ export default function AdminEmployee() {
       </dialog>
       
       <div className="employee-card">
-        <h1>Add Employee</h1>
+      <h1>Add Employee</h1>
         <form action="" className="employee-form" onSubmit={postData}>
           <Input
             inputNaming={"empFname"}
