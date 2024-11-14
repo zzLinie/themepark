@@ -202,42 +202,7 @@ export default function AdminEmployee() {
           </button>
         </form>
       </dialog>
-      <table>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Phone Number</th>
-            <th>Dept ID</th>
-            <th>Hourly</th>
-            <th>Position</th>
-            <th>Employee Email</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        {employeeList &&
-          employeeList.map((val, key) => {
-            return (
-                <tbody key={key}>
-                  <tr>
-                    <td>{val.Fname}</td>
-                    <td>{val.Lname}</td>
-                    <td>{val.Phonenumber}</td>
-                    <td>{val.Departmentid}</td>
-                    <td>{val.Hourlypay}</td>
-                    <td>{val.Position}</td>
-                    <td>{val.EmployeeEmail}</td>
-                    <div className="table-btn-container">
-                      <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
-                      <button onClick={() => getEmployeeData(val.Ssn)}>
-                        Edit
-                      </button>
-                    </div>
-                  </tr>
-                </tbody>
-            );
-          })}
-      </table>
+      
       <div className="employee-card">
         <h1>Add Employee</h1>
         <form action="" className="employee-form" onSubmit={postData}>
@@ -322,6 +287,42 @@ export default function AdminEmployee() {
           <button type="submit">Submit</button>
         </form>
       </div>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Dept ID</th>
+            <th>Hourly</th>
+            <th>Position</th>
+            <th>Employee Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        {employeeList &&
+          employeeList.map((val, key) => {
+            return (
+                <tbody key={key}>
+                  <tr>
+                    <td>{val.Fname}</td>
+                    <td>{val.Lname}</td>
+                    <td>{val.Phonenumber}</td>
+                    <td>{val.Departmentid}</td>
+                    <td>{val.Hourlypay}</td>
+                    <td>{val.Position}</td>
+                    <td>{val.EmployeeEmail}</td>
+                    <div className="table-btn-container">
+                      <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
+                      <button onClick={() => getEmployeeData(val.Ssn)}>
+                        Edit
+                      </button>
+                    </div>
+                  </tr>
+                </tbody>
+            );
+          })}
+      </table>
     </>
   );
 }
