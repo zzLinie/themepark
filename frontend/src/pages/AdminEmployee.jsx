@@ -94,8 +94,8 @@ export default function AdminEmployee() {
   return (
     <>
       <AdminHeader />
-      <dialog ref={modalRef}>
-        <form>
+      <dialog ref={modalRef}className="dialog-container">
+        <form className="form-group">
           <InputDialog
             inputNaming={"empSSN"}
             inputText={"SSN"}
