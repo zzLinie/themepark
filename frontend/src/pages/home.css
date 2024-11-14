@@ -17,4 +17,6 @@
 .hero-container h1 {
   text-align: center;
   margin-top: 50px;
+  color:goldenrod;
+  text-shadow: black 1px 0 10px;
 }
