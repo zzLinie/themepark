@@ -55,14 +55,14 @@ export default function AdminEmployee() {
         //change delete state variable everytime delete button is clicked
         deleteState == false ? setDeleteState(true) : setDeleteState(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => alert(err));
   };
 
   const getEmployees = async () => {
     await axios
       .get(`https://themepark-backend.onrender.com/employee/read`)
       .then((res) => setEmployeeList(res.data.result))
-      .catch((err) => console.error(err));
+      .catch((err) => alert(err + " when retrieving employees"));
   };
 
   //renders employee list after delete button click
@@ -79,7 +79,7 @@ export default function AdminEmployee() {
         const modal = modalRef.current;
         modal.showModal();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => alert(err));
   };
 
   const handleUpdate = (e) => {
@@ -87,7 +87,7 @@ export default function AdminEmployee() {
     axios
       .put(`https://themepark-backend.onrender.com/employee/update`, values)
       .then((res) => alert(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err));
     setDeleteState(deleteState == true ? false : true);
   };
 

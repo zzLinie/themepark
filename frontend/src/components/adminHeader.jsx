@@ -12,6 +12,7 @@ export default function AdminHeader() {
           <Link to={"/login/admin/reports"}>Reports</Link>
           <Link to={"/login/admin/employees"}>Employees</Link>
           <Link to={"/login/admin/parkstatus"}>Park Status</Link>
+          <Link to={"/login/admin/tickets"}>Tickets</Link>
         </div>
         <Link to={"/"}>Log Out</Link>
       </div>

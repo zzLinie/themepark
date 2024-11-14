@@ -150,10 +150,10 @@ const ParkStatusForm = () => {
     setIsModalOpen(false);
   };
 
-  const openHistoryModal = () => { 
+  const openHistoryModal = () => {
     getParkHistory();
     setIsHistoryModalOpen(true);
-  }; 
+  };
   const closeHistoryModal = () => {
     setIsHistoryModalOpen(false);
   };

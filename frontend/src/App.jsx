@@ -19,6 +19,7 @@ import SpecialEventForm from "./pages/SpecialEventForm.jsx";
 import EmployeeLogin from "./pages/EmployeeLogin.jsx";
 import { useEffect, useState } from "react";
 import Login from "./pages/Login.jsx";
+import AdminTickets from "./pages/AdminTickets.jsx";
 
 export default function App() {
   const [auth, setAuth] = useState(true); // Authentication state, change this to true to bypass auth
@@ -54,6 +55,7 @@ export default function App() {
         <Route element={<EmployeeLogin />} path="/login/employee" />
         <Route element={<Login />} path="/login" />
         <Route element={<ProtectedRoutes auth={auth} />}>
+          <Route element={<AdminTickets />} path="/login/admin/tickets" />
           <Route element={<AdminReports />} path="/login/admin/reports" />
           <Route element={<AdminEmployee />} path="/login/admin/employees" />
           <Route element={<AdminParkstatus />} path="/login/admin/parkstatus" />
