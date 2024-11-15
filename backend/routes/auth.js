@@ -90,6 +90,7 @@ app.get("/verify", verifyUser, (req, res) => {
   // @ts-ignore
   return res.json({ Verify: true, user: req.user });
 });
+// @ts-ignore
 app.post("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
