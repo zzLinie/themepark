@@ -15,7 +15,7 @@ const adminTickets = require("./routes/adminTickets");
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: "gleaming-lokum-158537.netlify.app",
     methods: ["POST", "GET", "PUT"],
   })
 );
