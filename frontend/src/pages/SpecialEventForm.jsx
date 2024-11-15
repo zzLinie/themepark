@@ -1,143 +1,237 @@
-// SpecialEventForm.js
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
-import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import { useDropzone } from "react-dropzone";
+import Modal from "./Modal";
 import "./DataEntryForm.css";
+import "./DataForm.css";
 import EmployeeHeader from "../components/employeeHeader";
 
-const SpecialEventForm = () => {
-  // Initialize today's date in YYYY-MM-DD
-  const today = new Date().toISOString().split("T")[0];
+const API_URL = "http://localhost:3000/events";
 
-  // Set initial form
-  const [eventData, setEventData] = useState({
-    eventName: "", // Event name
-    eventType: "", // Event type
-    startDate: today,
-    endDate: today,
-  });
+function SpecialEventForm() {
+    const [events, setEvents] = useState([]);
+    const [newEvent, setNewEvent] = useState({ eventName: "", eventType: "", startDate: "", endDate: "",  imageFileName: "" });
+    const [editingEvent, setEditingEvent] = useState(null);
+    const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
 
-  const [imageFile, setImageFile] = useState(null);
+    useEffect(() => {
+        fetchEvents();
+    }, []);
 
-  // Handle changes in input fields
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEventData({ ...eventData, [name]: value });
-  };
-
-  const onDrop = (acceptedFiles) => {
-    setImageFile(acceptedFiles[0]);
-  };
-
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-  // Handle dropdown selection changes
-  const handleSelectChange = (selectedOption, { name }) => {
-    setEventData({
-      ...eventData,
-      [name]: selectedOption ? selectedOption.value : null,
-    });
-  };
-
-  // Form submission handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("image", imageFile);
-    formData.append("eventName", eventData.eventName);
-    formData.append("eventType", eventData.eventType);
-    formData.append("startDate", eventData.startDate);
-    formData.append("endDate", eventData.endDate);
-
-    try {
-      // Send POST request to the server API
-      const response = await axios.post(
-        "https://themepark-backend.onrender.com/events/create",
-        formData,
-        {
-          header: {
-            "Content-Type": "multipart/form-data",
-          },
+    const fetchEvents = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/read`);
+            setEvents(response.data.result);
+        } catch (error) {
+            console.error("Error fetching events:", error);
         }
-      );
-      alert(`Special event created with ID: ${response.data.eventID}`);
+    };
 
-      // Reset form fields
-      setEventData({
-        eventName: "", // Event name
-        eventType: "", // Event type
-        startDate: today,
-        endDate: today,
+    const [imageFile, setImageFile] = useState(null);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewEvent({ ...newEvent, [name]: value });
+    };
+
+    const onDrop = (acceptedFiles) => {
+        setImageFile(acceptedFiles[0]);
+      };
+    
+    const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+    const handleCreateEvent = async () => {
+        try {
+            await axios.post(`${API_URL}/create`, newEvent);
+            fetchEvents();
+            setCreateModalOpen(false);
+            setNewEvent({ eventName: "", eventType: "", startDate: "", endDate: "", imageFileName:"" });
+        } catch (error) {
+            console.error("Error creating event:", error);
+        }
+    };
+
+    const handleEditEvent = (event) => {
+      // Format the date values properly for datetime-local input
+      const formattedStartDate = formatForDateLocal(event.startDate);
+      const formattedEndDate = formatForDateLocal(event.endDate);
+      
+      setEditingEvent({
+          ...event,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate
       });
-      setImageFile(null);
-    } catch (error) {
-      console.error("Error creating special event:", error);
-      alert("Failed to create special event. Please try again.");
-    }
+      setEditModalOpen(true);
   };
 
-  return (
-    <>
+    const handleUpdateEvent = async () => {
+        try {
+            await axios.put(`${API_URL}/${editingEvent.eventID}`, editingEvent);
+            fetchEvents();
+            setEditModalOpen(false);
+            setEditingEvent(null);
+        } catch (error) {
+            console.error("Error updating event:", error);
+        }
+    };
+
+    // Format the DATETIME string to dd-MMM-yyyy format
+    const formatDate = (dateStr) => {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+      });
+  };
+
+    const formatForDateLocal = (dateStr) => {
+      const date = new Date(dateStr);
+      return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
+  };
+
+    const handleDeleteEvent = (id) => {
+      const confirmDelete = window.confirm("Are you sure you want to delete this event?");
+      if (confirmDelete) {
+          try {
+              axios.delete(`${API_URL}/${id}`);
+              fetchEvents();  // Re-fetch events after deletion
+          } catch (error) {
+              console.error("Error deleting event:", error);
+          }
+      }
+    };
+
+    return (
+      <>
       <EmployeeHeader />
-      <div className="dataentryformcontainer">
-        <h1>Add New Special Event</h1>
-        <form onSubmit={handleSubmit}>
-          {/* Event Name */}
-          <label>Event Name:</label>
-          <input
-            type="text"
-            name="eventName"
-            value={eventData.eventName}
-            onChange={handleChange}
-            required
-          />
+        <div className="container">
+            <h1>Event Management</h1>
+            <button onClick={() => setCreateModalOpen(true)} className="create-button">
+                Create Event
+            </button>
 
-          {/* Event Type */}
-          <label>Event Type:</label>
-          <input
-            type="text"
-            name="eventType"
-            value={eventData.eventType}
-            onChange={handleChange}
-            required
-          />
+            <table className="data-table">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Event Type</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {events.length > 0 ? (
+                        events.map((event) => (
+                            <tr key={event.id}>
+                                <td>{event.eventName}</td>
+                                <td>{event.eventType}</td>
+                                <td>{formatDate(event.startDate)}</td>
+                                <td>{formatDate(event.endDate)}</td>
+                                <td>
+                                    {event.imageFileName ? (
+                                        <img
+                                            src={`/public/images/${event.imageFileName}`}
+                                            alt={event.eventName}
+                                            width="50"
+                                        />
+                                    ) : (
+                                        "No Image"
+                                    )}
+                                </td>
+                                <td>
+                                    <button onClick={() => handleEditEvent(event)} className="edit-button">
+                                        Edit
+                                    </button>
+                                    <button onClick={() => handleDeleteEvent(event.eventID)} className="delete-button">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="5">No events found</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
 
-          {/* Event Date, defaulting to today */}
-          <label>Start Date:</label>
-          <input
-            type="date"
-            name="startDate"
-            value={eventData.startDate}
-            onChange={handleChange}
-            required
-          />
+            {/* Create Event Modal */}
+            <Modal isOpen={isCreateModalOpen} onClose={() => setCreateModalOpen(false)}>
+                <h2>Create Event</h2>
+                <input
+                    type="text"
+                    name="eventName"
+                    value={newEvent.eventName}
+                    onChange={handleInputChange}
+                    placeholder="Event Name"
+                />
+                <input
+                    type="text"
+                    name="eventType"
+                    value={newEvent.eventType}
+                    onChange={handleInputChange}
+                    placeholder="Event Type"
+                />
+                <input
+                    type="date"
+                    name="startDate"
+                    value={newEvent.startDate}
+                    onChange={handleInputChange}
+                />
+                <input
+                    type="date"
+                    name="endDate"
+                    value={newEvent.endDate}
+                    onChange={handleInputChange}
+                />
+                <div {...getRootProps()} className="dropzone">
+                    <input {...getInputProps()} />
+                    {imageFile ? (
+                    <p>{imageFile.name}</p>
+                    ) : (
+                    <p>Drag or select an image</p>
+                    )}
+                </div>
+                <button onClick={handleCreateEvent} className="create-button">Create</button>
+            </Modal>
 
-          {/* Event Start Time */}
-          <label>End Date:</label>
-          <input
-            type="date"
-            name="endDate"
-            value={eventData.endDate}
-            onChange={handleChange}
-            required
-          />
-          <label>Event Image:</label>
-          <div {...getRootProps()} className="dropzone">
-            <input {...getInputProps()} />
-            {imageFile ? (
-              <p>{imageFile.name}</p>
-            ) : (
-              <p>Drag or select an image</p>
-            )}
-          </div>
-          {/* Submit Button */}
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </>
-  );
-};
+            {/* Edit Event Modal */}
+            <Modal isOpen={isEditModalOpen} onClose={() => setEditModalOpen(false)}>
+                <h2>Edit Event</h2>
+                <input
+                    type="text"
+                    name="eventName"
+                    value={editingEvent?.eventName || ""}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, eventName: e.target.value })}
+                />
+                <input
+                    type="text"
+                    name="eventType"
+                    value={editingEvent?.eventType || ""}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, eventType: e.target.value })}
+                />
+                <input
+                    type="date"
+                    name="startDate"
+                    value={editingEvent ?.startDate || ""}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, startDate: e.target.value })}
+                />
+                <input
+                    type="date"
+                    name="endDate"
+                    value={editingEvent ?.endDate || ""}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, endDate: e.target.value })}
+                />
+                <button onClick={handleUpdateEvent} className="update-button">Update</button>
+            </Modal>
+        </div>
+        </>
+    );
+}
 
 export default SpecialEventForm;
