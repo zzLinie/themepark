@@ -15,21 +15,15 @@ const ParkStatusForm = () => {
   const [editRow, setEditRow] = useState(null);
   const [deleteState, setDeleteState] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [parkHistoryList, setParkHistoryList] = useState([]);
-  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setParkStatusData({ ...ParkStatusData, [name]: value });
   };
 
-  const handleChildData = (dataObj) => {
-    setParkStatusData({ ...ParkStatusData, ...dataObj });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(parkStatusList.includes(ParkStatusData.date)) {
+    if(parkStatusList.some(status => status.parkStatusDate === ParkStatusData.parkStatusDate)) {
       const confirm = window.confirm(
         "The date you are trying to submit for already exists"
       );
@@ -71,18 +65,12 @@ const ParkStatusForm = () => {
     axios
       .get(`https://themepark-backend.onrender.com/parkstatus/read/${parkStatusID}`)
       .then((res) => {
-        setEditRow({ ...editRow, ...res.data.result });
-        setParkStatusData({ ...ParkStatusData, ...res.data.result[0] });
+        setEditRow(res.data.result);
+        setIsModalOpen(true);
+        /*setParkStatusData({ ...ParkStatusData, ...res.data.result });
         const modal = modalRef.current;
-        modal.showModal();
+        modal.showModal();*/
       })
-      .catch((err) => console.error(err));
-  };
-
-  const getParkHistory = () => {
-    axios
-      .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
-      .then((res) => setParkHistoryList(res.data.result))
       .catch((err) => console.error(err));
   };
 
@@ -150,19 +138,15 @@ const ParkStatusForm = () => {
     setIsModalOpen(false);
   };
 
-  const openHistoryModal = () => {
-    getParkHistory();
-    setIsHistoryModalOpen(true);
-  };
-  const closeHistoryModal = () => {
-    setIsHistoryModalOpen(false);
-  };
-
-
   const handleUpdate = (e) => {
     e.preventDefault();
+    const updatedData =   {
+      parkStatusID: editRow.parkStatusID,
+      parkStatusDate: editRow.parkStatusDate,
+      weatherType: editRow.weatherType,
+    };
     axios
-      .put(`https://themepark-backend.onrender.com/parkstatus/update`, ParkStatusData)
+      .put(`https://themepark-backend.onrender.com/parkstatus/update`, updatedData)
       .then((res) => alert(res.data))
       .catch((err) => console.log(err));
     setDeleteState(deleteState == true ? false : true);
@@ -312,3 +296,21 @@ const ParkStatusForm = () => {
   );
 };
 export default ParkStatusForm;
+
+ /* const openHistoryModal = () => {
+    getParkHistory();
+    setIsHistoryModalOpen(true);
+  };
+  const closeHistoryModal = () => {
+    setIsHistoryModalOpen(false);
+  };
+*/
+  /*const [parkHistoryList, setParkHistoryList] = useState([]);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);*/
+
+    /*const getParkHistory = () => {
+    axios
+      .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
+      .then((res) => setParkHistoryList(res.data.result))
+      .catch((err) => console.error(err));
+  };*/

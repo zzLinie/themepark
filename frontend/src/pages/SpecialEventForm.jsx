@@ -55,7 +55,7 @@ const SpecialEventForm = () => {
       // Send POST request to the server API
       const response = await axios.post(
         "https://themepark-backend.onrender.com/events/create",
-        eventData, {
+        formData, {
           header:{
             "Content-Type": "multipart/form-data",
           },
