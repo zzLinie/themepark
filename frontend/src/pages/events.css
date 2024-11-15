@@ -1,18 +1,18 @@
 .hero {
-  height: 80vh;
+  height: 60vh;
   background-image: url("../assets/images/events-hero.jpg");
   background-size: cover;
   background-position: center;
-  filter: saturate(30%);
+  filter: saturate(50%);
 }
 .hero h1 {
+  font-size: 20;
   margin: 0 auto;
-  padding-top: 10px;
-  border-bottom: 2px solid var(--borderColor);
+  padding-top: 50px;
   width: fit-content;
-  color:aliceblue
+  color:gold;
+  text-shadow: black 1px 0 10px;
 }
-.hero h1,
 .hero p {
   color: var(--backgroundColor);
   text-align: center;

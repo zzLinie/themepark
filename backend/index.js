@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const path = require("path");
 
 const auth = require("./routes/auth");
 const employee = require("./routes/employee");
@@ -21,6 +22,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use("/admin", auth);
 app.use("/employee", employee);
 app.use("/parkstatus", parkstatus);
