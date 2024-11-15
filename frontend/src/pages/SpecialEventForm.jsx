@@ -54,10 +54,16 @@ const SpecialEventForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "http://localhost:3000/events/create",
+<<<<<<< HEAD
+        "https://themepark-backend.onrender.com/events/create",
         eventData,
         {
           header: {
+=======
+        "https://themepark-backend.onrender.com/events/create",
+        formData, {
+          header:{
+>>>>>>> 3250c72d81264b131dc024d0733d652b9356a636
             "Content-Type": "multipart/form-data",
           },
         }

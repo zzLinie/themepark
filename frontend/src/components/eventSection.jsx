@@ -2,16 +2,16 @@ import PropTypes from "prop-types";
 import "./eventSection.css";
 export default function EventSection({
   eventName,
-  eventImage,
   eventStart,
   eventEnd,
   eventDescription,
+  eventImage,
 }) {
   return (
     <section>
       <div
         className="event-container"
-        style={{ backgroundImage: `url(https://your-backend-domain.com/images/${eventImage})` }}
+        style={{ backgroundImage: `url(https://gleaming-lokum-158537.netlify.app/images/${eventImage})` }}
       >
         <h1>{eventName}</h1>
         <p><span>{`Start Date: ${eventStart}`}</span></p>

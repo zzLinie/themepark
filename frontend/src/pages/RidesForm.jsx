@@ -24,7 +24,7 @@ const RideForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "http://localhost:3000/rides/create",
+        "https://themepark-backend.onrender.com/rides/create",
         formData
       );
       alert(`Ride created with ID: ${response.data.rideID}`);

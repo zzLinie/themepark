@@ -8,7 +8,7 @@ export default function AdminHeader() {
 
   const handleLogout = () => {
     axios
-      .post("http://localhost:3000/admin/logout", [], {
+      .post("https://themepark-backend.onrender.com/admin/logout", [], {
         withCredentials: true,
       })
       .then((res) => {

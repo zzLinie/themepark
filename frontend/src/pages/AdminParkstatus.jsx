@@ -15,21 +15,19 @@ const ParkStatusForm = () => {
   const [editRow, setEditRow] = useState(null);
   const [deleteState, setDeleteState] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [parkHistoryList, setParkHistoryList] = useState([]);
-  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setParkStatusData({ ...ParkStatusData, [name]: value });
   };
 
-  const handleChildData = (dataObj) => {
-    setParkStatusData({ ...ParkStatusData, ...dataObj });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     if (parkStatusList.includes(ParkStatusData.date)) {
+=======
+    if(parkStatusList.some(status => status.parkStatusDate === ParkStatusData.parkStatusDate)) {
+>>>>>>> 3250c72d81264b131dc024d0733d652b9356a636
       const confirm = window.confirm(
         "The date you are trying to submit for already exists"
       );
@@ -48,7 +46,7 @@ const ParkStatusForm = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3000/parkstatus/create",
+        "https://themepark-backend.onrender.com/parkstatus/create",
         ParkStatusData
       );
       if (response.data.message) {
@@ -62,30 +60,34 @@ const ParkStatusForm = () => {
 
   const getParkStatus = () => {
     axios
-      .get("http://localhost:3000/parkstatus/read")
+      .get("https://themepark-backend.onrender.com/parkstatus/read")
       .then((res) => setParkStatusList(res.data.result))
       .catch((err) => console.error(err));
   };
 
   const getParkStatusData = (parkStatusID) => {
     axios
-      .get(`http://localhost:3000/parkstatus/read/${parkStatusID}`)
+      .get(`https://themepark-backend.onrender.com/parkstatus/read/${parkStatusID}`)
       .then((res) => {
-        setEditRow({ ...editRow, ...res.data.result });
-        setParkStatusData({ ...ParkStatusData, ...res.data.result[0] });
+        setEditRow(res.data.result);
+        setIsModalOpen(true);
+        /*setParkStatusData({ ...ParkStatusData, ...res.data.result });
         const modal = modalRef.current;
-        modal.showModal();
+        modal.showModal();*/
       })
       .catch((err) => console.error(err));
   };
 
+<<<<<<< HEAD
   const getParkHistory = () => {
     axios
-      .get("http://localhost:3000/parkstatus/readhistory")
+      .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
       .then((res) => setParkHistoryList(res.data.result))
       .catch((err) => console.error(err));
   };
 
+=======
+>>>>>>> 3250c72d81264b131dc024d0733d652b9356a636
   useEffect(() => {
     getParkStatus();
   }, []);
@@ -150,18 +152,15 @@ const ParkStatusForm = () => {
     setIsModalOpen(false);
   };
 
-  const openHistoryModal = () => {
-    getParkHistory();
-    setIsHistoryModalOpen(true);
-  };
-  const closeHistoryModal = () => {
-    setIsHistoryModalOpen(false);
-  };
-
   const handleUpdate = (e) => {
     e.preventDefault();
+    const updatedData =   {
+      parkStatusID: editRow.parkStatusID,
+      parkStatusDate: editRow.parkStatusDate,
+      weatherType: editRow.weatherType,
+    };
     axios
-      .put(`http://localhost:3000/parkstatus/update`, ParkStatusData)
+      .put(`https://themepark-backend.onrender.com/parkstatus/update`, updatedData)
       .then((res) => alert(res.data))
       .catch((err) => console.log(err));
     setDeleteState(deleteState == true ? false : true);
@@ -319,3 +318,24 @@ const ParkStatusForm = () => {
   );
 };
 export default ParkStatusForm;
+<<<<<<< HEAD
+=======
+
+ /* const openHistoryModal = () => {
+    getParkHistory();
+    setIsHistoryModalOpen(true);
+  };
+  const closeHistoryModal = () => {
+    setIsHistoryModalOpen(false);
+  };
+*/
+  /*const [parkHistoryList, setParkHistoryList] = useState([]);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);*/
+
+    /*const getParkHistory = () => {
+    axios
+      .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
+      .then((res) => setParkHistoryList(res.data.result))
+      .catch((err) => console.error(err));
+  };*/
+>>>>>>> 3250c72d81264b131dc024d0733d652b9356a636

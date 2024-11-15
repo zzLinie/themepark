@@ -32,7 +32,7 @@ export default function AdminEmployee() {
     e.preventDefault();
     try {
       const request = await axios.post(
-        `http://localhost:3000/employee/create`,
+        `https://themepark-backend.onrender.com/employee/create`,
         values
       );
       alert(request.data);
@@ -44,7 +44,7 @@ export default function AdminEmployee() {
 
   const deleteRow = (idVal) => {
     axios
-      .delete(`http://localhost:3000/employee/delete/${idVal}`)
+      .delete(`https://themepark-backend.onrender.com/employee/delete/${idVal}`)
       .then((res) => {
         alert(res.data);
         setEmployeeList(
@@ -60,7 +60,7 @@ export default function AdminEmployee() {
 
   const getEmployees = async () => {
     await axios
-      .get(`http://localhost:3000/employee/read`)
+      .get(`https://themepark-backend.onrender.com/employee/read`)
       .then((res) => setEmployeeList(res.data.result))
       .catch((err) => alert(err + " when retrieving employees"));
   };
@@ -72,7 +72,7 @@ export default function AdminEmployee() {
 
   const getEmployeeData = (ssn) => {
     axios
-      .get(`http://localhost:3000/employee/read/${ssn}`)
+      .get(`https://themepark-backend.onrender.com/employee/read/${ssn}`)
       .then((res) => {
         setEmployeeData({ ...employeeData, ...res.data.result });
         setValues({ ...values, ...res.data.result[0] });
@@ -85,7 +85,7 @@ export default function AdminEmployee() {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:3000/employee/update`, values)
+      .put(`https://themepark-backend.onrender.com/employee/update`, values)
       .then((res) => alert(res.data))
       .catch((err) => alert(err));
     setDeleteState(deleteState == true ? false : true);
@@ -94,7 +94,7 @@ export default function AdminEmployee() {
   return (
     <>
       <AdminHeader />
-      <dialog ref={modalRef}className="dialog-container">
+      <dialog ref={modalRef} className="dialog-container">
         <form className="form-group">
           <InputDialog
             inputNaming={"empSSN"}
@@ -202,9 +202,9 @@ export default function AdminEmployee() {
           </button>
         </form>
       </dialog>
-      
+
       <div className="employee-card">
-      <h1>Add Employee</h1>
+        <h1>Add Employee</h1>
         <form action="" className="employee-form" onSubmit={postData}>
           <Input
             inputNaming={"empFname"}
@@ -303,23 +303,23 @@ export default function AdminEmployee() {
         {employeeList &&
           employeeList.map((val, key) => {
             return (
-                <tbody key={key}>
-                  <tr>
-                    <td>{val.Fname}</td>
-                    <td>{val.Lname}</td>
-                    <td>{val.Phonenumber}</td>
-                    <td>{val.Departmentid}</td>
-                    <td>{val.Hourlypay}</td>
-                    <td>{val.Position}</td>
-                    <td>{val.EmployeeEmail}</td>
-                    <div className="table-btn-container">
-                      <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
-                      <button onClick={() => getEmployeeData(val.Ssn)}>
-                        Edit
-                      </button>
-                    </div>
-                  </tr>
-                </tbody>
+              <tbody key={key}>
+                <tr>
+                  <td>{val.Fname}</td>
+                  <td>{val.Lname}</td>
+                  <td>{val.Phonenumber}</td>
+                  <td>{val.Departmentid}</td>
+                  <td>{val.Hourlypay}</td>
+                  <td>{val.Position}</td>
+                  <td>{val.EmployeeEmail}</td>
+                  <div className="table-btn-container">
+                    <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
+                    <button onClick={() => getEmployeeData(val.Ssn)}>
+                      Edit
+                    </button>
+                  </div>
+                </tr>
+              </tbody>
             );
           })}
       </table>

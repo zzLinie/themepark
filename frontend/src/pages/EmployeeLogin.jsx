@@ -15,13 +15,13 @@ export default function EmployeeLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/employees/auth", values, {
+      .post("https://themepark-backend.onrender.com/employees/auth", values, {
         withCredentials: true,
       })
       .then((res) => {
         if (res.data.auth) {
           axios
-            .get("http://localhost:3000/employees/verify", {
+            .get("https://themepark-backend.onrender.com/employees/verify", {
               withCredentials: true,
             })
             .then((res) => {
