@@ -62,6 +62,7 @@ app.post("/", (req, res) => {
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
       });
+      console.log("admin ", token);
       res.cookie("token", token, {
         httpOnly: true,
         secure: true,
