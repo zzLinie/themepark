@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({storage:storage});
+const upload = multer({ storage:storage });
 eventsRoute.use(express.json());
 eventsRoute.use("/images", express.static(path.join(__dirname, "public/images")));
 
@@ -32,7 +32,7 @@ eventsRoute.get("/read", (req, res) => {
 });
 
 // Route to add a new special event
-eventsRoute.post('/create', upload.single("image"),(req, res) => {
+eventsRoute.post('/create', upload.single("image"), (req, res) => {
   const {
     eventName,
     eventType,
@@ -48,7 +48,7 @@ eventsRoute.post('/create', upload.single("image"),(req, res) => {
 
   // Define SQL query for inserting a special event
   const query = `
-    INSERT INTO SpecialEvents (eventName, eventType, startDate, endDate, imageFileName)
+    INSERT INTO specialevents (eventName, eventType, startDate, endDate, imageFileName)
     VALUES (?, ?, ?, ?, ?)
   `;
 
