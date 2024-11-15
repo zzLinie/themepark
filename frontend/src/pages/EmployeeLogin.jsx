@@ -30,7 +30,9 @@ export default function EmployeeLogin() {
                 alert("Granted Access");
                 setRole(res.data.user.role);
                 navigate("/login/employees/dashboard");
-                setWelcomeMessage(res.data.user.email);
+                const email = res.data.user.email || "Unknown";
+                let name = email.substring(0, email.indexOf("@"));
+                setWelcomeMessage(name);
               }
             });
         } else {
