@@ -27,6 +27,7 @@ export default function EmployeeLogin() {
             .then((res) => {
               setAuth(res.data.Verify);
               if (res.data.Verify) {
+                console.log(res.data);
                 alert("Granted Access");
                 setRole(res.data.user.role);
                 navigate("/login/employees/dashboard");

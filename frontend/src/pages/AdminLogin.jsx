@@ -39,7 +39,7 @@ export default function AdminLogin() {
           alert(res.data.Response);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err));
   };
   return (
     <div className="admin-page-container">
