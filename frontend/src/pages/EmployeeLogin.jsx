@@ -27,12 +27,12 @@ export default function EmployeeLogin() {
             .then((res) => {
               setAuth(res.data.Verify);
               if (res.data.Verify) {
-                const email = res.data.user.email;
-                let name = email.substring(0, email.indexOf("@"));
-                setWelcomeMessage(name);
                 alert("Granted Access");
                 setRole(res.data.user.role);
                 navigate("/login/employees/dashboard");
+                const email = res.data.user.email || "Unknown";
+                let name = email.substring(0, email.indexOf("@"));
+                setWelcomeMessage(name);
               }
             });
         } else {
