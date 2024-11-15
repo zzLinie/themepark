@@ -7,7 +7,7 @@ import { useAuth } from "../utils/AuthProvider";
 
 export default function EmployeeLogin() {
   const navigate = useNavigate();
-  const { setAuth, setRole, setWelcomeMessage } = useAuth();
+  const { setAuth, setRole } = useAuth();
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -30,9 +30,6 @@ export default function EmployeeLogin() {
                 alert("Granted Access");
                 setRole(res.data.user.role);
                 navigate("/login/employees/dashboard");
-                const email = res.data.user.email || "Unknown";
-                let name = email.substring(0, email.indexOf("@"));
-                setWelcomeMessage(name);
               }
             });
         } else {
