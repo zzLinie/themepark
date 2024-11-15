@@ -18,7 +18,7 @@ const SpecialEventForm = () => {
     endDate: today,
   });
 
-  const[imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
 
   // Handle changes in input fields
   const handleChange = (e) => {
@@ -28,9 +28,9 @@ const SpecialEventForm = () => {
 
   const onDrop = (acceptedFiles) => {
     setImageFile(acceptedFiles[0]);
-  }
+  };
 
-  const{ getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   // Handle dropdown selection changes
   const handleSelectChange = (selectedOption, { name }) => {
@@ -54,9 +54,10 @@ const SpecialEventForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "https://themepark-backend.onrender.com/events/create",
-        eventData, {
-          header:{
+        "http://localhost:3000/events/create",
+        eventData,
+        {
+          header: {
             "Content-Type": "multipart/form-data",
           },
         }
@@ -124,12 +125,12 @@ const SpecialEventForm = () => {
           />
           <label>Event Image:</label>
           <div {...getRootProps()} className="dropzone">
-          <input {...getInputProps()} />
-          {imageFile ? (
-            <p>{imageFile.name}</p>
-          ) : (
-            <p>Drag or select an image</p>
-          )}
+            <input {...getInputProps()} />
+            {imageFile ? (
+              <p>{imageFile.name}</p>
+            ) : (
+              <p>Drag or select an image</p>
+            )}
           </div>
           {/* Submit Button */}
           <button type="submit">Submit</button>

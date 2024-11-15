@@ -3,11 +3,11 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--borderColor);
-  border-color:grey;
+  border-color: grey;
   padding: 0px 5%;
   background-color: #f2f2f2;
   gap: 10px;
-  height:65px;
+  height: 65px;
 }
 .employee-tabs {
   display: flex;
@@ -19,10 +19,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height:65px
+  height: 65px;
 }
 .employee-banner h1 {
   color: black;
+}
+.employee-banner span {
+  color: white;
 }
 
 .header-button-container {

@@ -16,13 +16,13 @@ const adminTickets = require("./routes/adminTickets");
 app.use(
   cors({
     credentials: true,
-    origin: "gleaming-lokum-158537.netlify.app",
+    origin: "http://localhost:5173",
     methods: ["POST", "GET", "PUT"],
   })
 );
 
 app.use(express.json());
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use("/admin", auth);
 app.use("/employee", employee);
 app.use("/parkstatus", parkstatus);

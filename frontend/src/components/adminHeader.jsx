@@ -1,8 +1,24 @@
 import "./adminHeader.css";
-import Button from "./button"
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../utils/AuthProvider";
 
 export default function AdminHeader() {
+  const { setAuth, setRole, welcomeMessage, setWelcomeMessage } = useAuth();
+
+  const handleLogout = () => {
+    axios
+      .post("http://localhost:3000/admin/logout", [], {
+        withCredentials: true,
+      })
+      .then((res) => {
+        alert(res.data.Response);
+        setAuth(false);
+        setRole("");
+        setWelcomeMessage("");
+      })
+      .catch((err) => alert(err));
+  };
   return (
     <>
       <div className="admin-header">
@@ -16,14 +32,18 @@ export default function AdminHeader() {
           <Link to={"/login/admin/tickets"}>Tickets</Link>
         </div>
         <div className="header-button-container">
-        <Link to="/"Log Out>
-          <Button buttonClass="logoutbutton" buttonText="Log Out" />
-        </Link>
-      </div>
+          <Link to="/login" Log Out>
+            <button className="logoutbutton" onClick={handleLogout}>
+              Log Out
+            </button>
+          </Link>
+        </div>
       </div>
       <div className="admin-banner">
-        <h1>Admin Dashboard</h1>
-        </div>
+        <h1>
+          Admin Dashboard - <span>{welcomeMessage}</span>
+        </h1>
+      </div>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import EmployeeHeader from "../components/employeeHeader";
 
@@ -24,7 +24,7 @@ const RideForm = () => {
     try {
       // Send POST request to the server API
       const response = await axios.post(
-        "https://themepark-backend.onrender.com/rides/create",
+        "http://localhost:3000/rides/create",
         formData
       );
       alert(`Ride created with ID: ${response.data.rideID}`);
