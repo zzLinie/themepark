@@ -15,7 +15,6 @@ export default function AdminTickets() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(customerSearchInfo);
     axios
       .post(
         "https://themepark-backend.onrender.com/adminTickets/filterCustomer",

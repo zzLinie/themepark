@@ -59,7 +59,6 @@ employeeAuth.post("/auth", (req, res) => {
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
       });
-      console.log("employee ", token);
       res.cookie("token", token, {
         httpOnly: true,
         secure: true,

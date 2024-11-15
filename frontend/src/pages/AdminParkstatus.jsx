@@ -157,7 +157,7 @@ const ParkStatusForm = () => {
         updatedData
       )
       .then((res) => alert(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err));
     setDeleteState(deleteState == true ? false : true);
   };
 
