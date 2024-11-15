@@ -6,7 +6,7 @@ import "./DataEntryForm.css";
 import "./DataForm.css";
 import EmployeeHeader from "../components/employeeHeader";
 
-const API_URL = "http://localhost:3000/events";
+const API_URL = "https://themepark-backend.onrender.com/events";
 
 function SpecialEventForm() {
     const [events, setEvents] = useState([]);
