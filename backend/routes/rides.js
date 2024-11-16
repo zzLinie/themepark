@@ -57,5 +57,24 @@ ridesRoute.delete("/:rideID", (req, res) => {
   });
 });
 
+ridesRoute.get("/top-rides", (req, res) => {
+  const query = `
+      SELECT rideName, rideType, capacity, SUM(visitCount) as popularityScore 
+      FROM rides r join ridevisit rv on r.rideID = rv.rideID 
+	    GROUP BY rv.rideID
+      ORDER BY popularityScore DESC
+      LIMIT 5
+  `;
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error("Error fetching top rides:", err);
+          res.status(500).send("Error fetching top rides");
+      } else {
+          res.json(results);
+      }
+  });
+});
+
+
 module.exports = ridesRoute;
 
