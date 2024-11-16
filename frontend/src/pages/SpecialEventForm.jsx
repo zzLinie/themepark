@@ -53,6 +53,9 @@ function SpecialEventForm() {
     };
 
     const handleEditEvent = (event) => {
+        if(event === undefined) {
+            return;
+        }
       // Format the date values properly for datetime-local input
       const formattedStartDate = formatForDateLocal(event.startDate);
       const formattedEndDate = formatForDateLocal(event.endDate);
@@ -124,8 +127,8 @@ function SpecialEventForm() {
                     </tr>
                 </thead>
                 <tbody>
-                    {events.length > 0 ? (
-                        events.map((event) => (
+                    {events.content.length > 0 ? (
+                        events.content.map((event) => (
                             <tr key={event.id}>
                                 <td>{event.eventName}</td>
                                 <td>{event.eventType}</td>
