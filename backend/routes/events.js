@@ -96,12 +96,12 @@ eventsRoute.get("/upcoming-events", (req, res) => {
       ORDER BY startDate ASC
       LIMIT 5
   `;
-  db.query(query, (err, results) => {
+  db.query(query, (err, result) => {
       if (err) {
           console.error("Error fetching upcoming events:", err);
           res.status(500).send("Error fetching upcoming events");
       } else {
-          res.json(results);
+          res.json( {result} );
       }
   });
 });
@@ -114,14 +114,13 @@ eventsRoute.get("/upcoming-maintenance", (req, res) => {
 	    INNER JOIN employee AS e ON e.Ssn = r.technician
       WHERE m.maintenanceOpenDate > NOW()
       ORDER BY m.maintenanceOpenDate ASC
-      LIMIT 5
   `;
-  db.query(query, (err, results) => {
+  db.query(query, (err, result) => {
       if (err) {
           console.error("Error fetching upcoming maintenance:", err);
           res.status(500).send("Error fetching upcoming maintenance");
       } else {
-          res.json(results);
+          res.json( {result} );
       }
   });
 });

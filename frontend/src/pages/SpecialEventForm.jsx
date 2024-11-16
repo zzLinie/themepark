@@ -6,7 +6,7 @@ import "./DataEntryForm.css";
 import "./DataForm.css";
 import EmployeeHeader from "../components/employeeHeader";
 
-const API_URL = "https://gleaming-lokum-158537.netlify.app/events";
+const API_URL = "https://themepark-backend.onrender.com/events";
 
 function SpecialEventForm() {
     const [events, setEvents] = useState([]);
@@ -129,7 +129,7 @@ function SpecialEventForm() {
                 <tbody>
                     {events && events.map((event, key) => {
                         return(
-                            <tr> 
+                            <tr key={key}> 
                                 <td>{event.eventName}</td>
                                 <td>{event.eventType}</td>
                                 <td>{formatDate(event.startDate)}</td>
@@ -155,12 +155,7 @@ function SpecialEventForm() {
                                 </td>
                             </tr>
                                 );
-                        
-                        })} : (
-                        <tr>
-                            <td colSpan="5">No events found</td>
-                        </tr>
-                    )
+                            })}
                 </tbody>
             </table>
 
