@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function maintenance()   {
     const[maintData, setmaintData] = useEffect({
-        maintenaceOpenDate: "",
+        maintenanceOpenDate: "",
         maintenanceCloseDate: "",
         rideID: "",
     });

@@ -21,8 +21,6 @@ const RidesForm = () => {
       }
     };
 
-
-
     // Fetch rides from the API
     const fetchRides = async () => {
         try {
@@ -115,7 +113,7 @@ const RidesForm = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {rides.map((ride) => (
+                    {rides && rides.map((ride) => (
                         <tr key={ride.rideID}>
                             <td>{ride.rideName}</td>
                             <td>{ride.capacity}</td>
@@ -127,7 +125,7 @@ const RidesForm = () => {
                             <td>
                                 {ride.imageFileName ? (
                                     <img
-                                        src={`/public/images/${ride.imageFileName}`}
+                                        src={`/images/${ride.imageFileName}`}
                                         alt={ride.rideName}
                                         width="50"
                                     />
@@ -187,7 +185,7 @@ const RidesForm = () => {
                         }
                     >
                         <option value="">Select Technician</option>
-                        {employees.map((employee) => (
+                        {employees && employees.map((employee) => (
                             <option key={employee.Ssn} value={employee.Ssn}>
                                 {employee.Fname} {employee.Lname}
                             </option>

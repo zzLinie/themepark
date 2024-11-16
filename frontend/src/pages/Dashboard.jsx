@@ -94,7 +94,7 @@ const Dashboard = () => {
                 {/* Top Rides */}
                 <div className="dashboard-card">
                     <h2>Top 5 Popular Rides</h2>
-                    {topRides.length > 0 ? (
+                    {topRides ? (
                         <table className="dashboard-table">
                             <thead>
                                 <tr>
@@ -105,7 +105,7 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {topRides.content.map((ride, index) => (
+                                {topRides && topRides.map((ride, index) => (
                                     <tr key={index}>
                                         <td>{ride.rideName}</td>
                                         <td>{ride.rideType}</td>
@@ -123,7 +123,7 @@ const Dashboard = () => {
                 {/* Upcoming Events */}
                 <div className="dashboard-card">
                     <h2>Top 5 Upcoming Events</h2>
-                    {upcomingEvents.length > 0 ? (
+                    {upcomingEvents ? (
                         <table className="dashboard-table">
                             <thead>
                                 <tr>
@@ -134,7 +134,7 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {upcomingEvents.content.map((event, index) => (
+                                {upcomingEvents && upcomingEvents.map((event, index) => (
                                     <tr key={index}>
                                         <td>{event.eventName}</td>
                                         <td>{event.eventType}</td>
@@ -160,9 +160,9 @@ const Dashboard = () => {
                     />
                     <div className="day-events">
                         <h3>Events on {selectedDate.toDateString()}</h3>
-                        {dayEvents.length > 0 ? (
+                        {dayEvents ? (
                             <ul>
-                                {dayEvents.content.map((event, index) => (
+                                {dayEvents && dayEvents.map((event, index) => (
                                     <li key={index}>
                                         <strong>{event.eventName}</strong> - {event.eventType} <br />
                                         From: {new Date(event.startDate).toDateString()} <br />
@@ -177,7 +177,7 @@ const Dashboard = () => {
                 </div>
                  <div className="dashboard-card">
                     <h2>Top 5 Upcoming Maintenance</h2>
-                    {upcomingMaintenance.length > 0 ? (
+                    {upcomingMaintenance ? (
                         <table className="dashboard-table">
                             <thead>
                                 <tr>
@@ -188,7 +188,7 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {upcomingMaintenance.content.map((maintenance, index) => (
+                                {upcomingMaintenance && upcomingMaintenance.map((maintenance, index) => (
                                     <tr key={index}>
                                         <td>{maintenance.rideName}</td>
                                         <td>{maintenance.technician}</td>
