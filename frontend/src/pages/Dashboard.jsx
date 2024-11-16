@@ -17,7 +17,7 @@ const Dashboard = () => {
         // Fetch top 5 popular rides
         const fetchTopRides = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/rides/top-rides");
+                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/rides/top-rides");
                 setTopRides(response.data);
             } catch (error) {
                 console.error("Error fetching top rides:", error);
@@ -27,7 +27,7 @@ const Dashboard = () => {
         // Fetch top 5 upcoming events
         const fetchUpcomingEvents = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/events/upcoming-events");
+                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/events/upcoming-events");
                 setUpcomingEvents(response.data);
             } catch (error) {
                 console.error("Error fetching upcoming events:", error);
@@ -37,7 +37,7 @@ const Dashboard = () => {
         // Fetch top 5 upcoming maintenance
         const fetchUpcomingMaintenance = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/events/upcoming-maintenance");
+                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/events/upcoming-maintenance");
                 setUpcomingMaintenance(response.data);
             } catch (error) {
                 console.error("Error fetching upcoming maintenance:", error);
@@ -46,7 +46,7 @@ const Dashboard = () => {
 
         const fetchEvents = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/events/read");
+                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/events/read");
                 setEvents(response.data.result);
             } catch (error) {
                 console.error("Error fetching upcoming maintenance:", error);
