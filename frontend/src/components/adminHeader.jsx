@@ -41,7 +41,7 @@ export default function AdminHeader() {
       </div>
       <div className="admin-banner">
         <h1>
-          Admin Dashboard - <span>{welcomeMessage}</span>
+          Admin Dashboard - <span>Welcome {welcomeMessage}</span>
         </h1>
       </div>
     </>

@@ -13,6 +13,7 @@ const shops = require("./routes/shops");
 const employeeAuth = require("./routes/employeeAuth");
 const tickets = require("./routes/tickets");
 const adminTickets = require("./routes/adminTickets");
+const customerRoute = require("./routes/customerLogin");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -42,6 +43,7 @@ app.use("/shops", shops);
 app.use("/employees", employeeAuth);
 app.use("/tickets", tickets);
 app.use("/adminTickets", adminTickets);
+app.use("/customer", customerRoute);
 
 app.get(`/`, (req, res) => {
   res.send(`Cors-enabled for specified domain`);

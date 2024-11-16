@@ -25,3 +25,6 @@ p {
 a {
   text-decoration: none;
 }
+.operating-toggle-container {
+  display: none;
+}
