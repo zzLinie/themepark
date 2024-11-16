@@ -127,9 +127,9 @@ function SpecialEventForm() {
                     </tr>
                 </thead>
                 <tbody>
-                    {events.content.length > 0 ? (
-                        events.content.map((event) => (
-                            <tr key={event.id}>
+                    {events && events.map((event, key) => {
+                        return(
+                            <tr> 
                                 <td>{event.eventName}</td>
                                 <td>{event.eventType}</td>
                                 <td>{formatDate(event.startDate)}</td>
@@ -154,12 +154,13 @@ function SpecialEventForm() {
                                     </button>
                                 </td>
                             </tr>
-                        ))
-                    ) : (
+                                );
+                        
+                        })} : (
                         <tr>
                             <td colSpan="5">No events found</td>
                         </tr>
-                    )}
+                    )
                 </tbody>
             </table>
 

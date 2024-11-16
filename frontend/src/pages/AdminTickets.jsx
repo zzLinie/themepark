@@ -68,7 +68,7 @@ export default function AdminTickets() {
       <AdminHeader />
       <section>
         <div className="ticket-report-container">
-          <h1>Ticket Availibilty</h1>
+          <h1>Ticket Availabilty</h1>
           <div>
             <label htmlFor="operatingDay">Operating Day</label>
             <select
