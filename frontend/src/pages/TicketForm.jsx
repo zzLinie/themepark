@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Select from "react-select";
 import axios from "axios";
-import EmployeeHeader from "../components/employeeHeader";
+import Header from "../components/header";
 
 const TicketForm = () => {
   // Get today's date in YYYY-MM-DD
@@ -62,7 +62,7 @@ const TicketForm = () => {
 
   return (
     <>
-      <EmployeeHeader />
+      <Header />
       <div className="dataentryformcontainer">
         <h1>Add New Ticket</h1>
         <form onSubmit={handleSubmit}>

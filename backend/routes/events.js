@@ -22,7 +22,7 @@ eventsRoute.use(express.json());
 eventsRoute.use("/images", express.static(path.join(__dirname, "public/images")));
 
 eventsRoute.get("/read", (req, res) => {
-  const sql = "SELECT * FROM specialevents WHERE startDate >= CURRENT_DATE ORDER BY startDate LIMIT 3";
+  const sql = "SELECT * FROM specialevents WHERE startDate >= CURRENT_DATE ORDER BY startDate";
   db.query(sql, (err, result) => {
     if (err) {
       console.log(err);
@@ -70,6 +70,23 @@ eventsRoute.post('/create', upload.single("image"), (req, res) => {
   });
 });
 
+eventsRoute.delete('/:id', (req, res) => {
+  db.query('DELETE FROM SpecialEvents WHERE eventID = ?', [req.params.id], (err) => {
+      if (err) throw err;
+  });
+});
+
+eventsRoute.put('/:id', (req, res) => {
+  const { eventName, eventType, startDate, endDate } = req.body;
+  db.query(
+      'UPDATE SpecialEvents SET eventName = ?, eventType = ?, startDate = ?, endDate = ? WHERE eventID = ?',
+      [eventName, eventType, startDate, endDate, req.params.id],
+      (err) => {
+          if (err) throw err;
+       //   res.redirect('/events');
+      }
+  );
+});
 
 module.exports = eventsRoute;
 

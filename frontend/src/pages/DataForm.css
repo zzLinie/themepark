@@ -1,0 +1,93 @@
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.create-button,
+.edit-button,
+.delete-button,
+.update-button,
+.cancel-button {
+    padding: 8px 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-button {
+    background-color: #4CAF50;
+    color: white;
+    margin-left: 60px;
+}
+
+.edit-button {
+    background-color: #FFC107;
+    color: white;
+    margin-right: 5px;
+}
+
+.delete-button {
+    background-color: #F44336;
+    color: white;
+}
+
+.update-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.cancel-button {
+    background-color: #9E9E9E;
+    color: white;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.data-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.data-table tr:hover {
+    background-color: #eaf4f4;
+}
+
