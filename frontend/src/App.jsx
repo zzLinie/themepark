@@ -22,6 +22,7 @@ import Login from "./pages/Login.jsx";
 import AdminTickets from "./pages/AdminTickets.jsx";
 import EmployeeProtectedRoute from "./utils/EmployeeProtectedRoute.jsx";
 import { AuthProvider } from "./utils/AuthProvider.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 export default function App() {
   return (
@@ -48,7 +49,7 @@ export default function App() {
             />
           </Route>
           <Route element={<EmployeeProtectedRoute />}>
-            <Route element={<Employees />} path="/login/employees/dashboard" />
+            <Route element={<Dashboard />} path="/login/employees/dashboard" />
 	    <Route element={<EmployeeHome />} path="/login/employees/home" />
             <Route element={<GiftShopForm />} path="/login/employees/shop" />
             <Route
