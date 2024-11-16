@@ -13,12 +13,12 @@ const Dashboard = () => {
     const [dayEvents, setDayEvents] = useState([]);
     const [events, setEvents] = useState([]);
 
-    useEffect(() => {
+   
         // Fetch top 5 popular rides
         const fetchTopRides = async () => {
             try {
-                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/rides/top-rides");
-                setTopRides(response.data);
+                const response = await axios.get("https://themepark-backend.onrender.com/rides/top-rides");
+                setTopRides(response.data.result);
             } catch (error) {
                 console.error("Error fetching top rides:", error);
             }
@@ -27,8 +27,8 @@ const Dashboard = () => {
         // Fetch top 5 upcoming events
         const fetchUpcomingEvents = async () => {
             try {
-                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/events/upcoming-events");
-                setUpcomingEvents(response.data);
+                const response = await axios.get("https://themepark-backend.onrender.com/events/upcoming-events");
+                setUpcomingEvents(response.data.result);
             } catch (error) {
                 console.error("Error fetching upcoming events:", error);
             }
@@ -37,8 +37,8 @@ const Dashboard = () => {
         // Fetch top 5 upcoming maintenance
         const fetchUpcomingMaintenance = async () => {
             try {
-                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/events/upcoming-maintenance");
-                setUpcomingMaintenance(response.data);
+                const response = await axios.get("https://themepark-backend.onrender.com/events/upcoming-maintenance");
+                setUpcomingMaintenance(response.data.result);
             } catch (error) {
                 console.error("Error fetching upcoming maintenance:", error);
             }
@@ -46,13 +46,14 @@ const Dashboard = () => {
 
         const fetchEvents = async () => {
             try {
-                const response = await axios.get("https://gleaming-lokum-158537.netlify.app/events/read");
+                const response = await axios.get("https://themepark-backend.onrender.com/events/read");
                 setEvents(response.data.result);
             } catch (error) {
                 console.error("Error fetching upcoming maintenance:", error);
             }
         };
 
+        useEffect(() => {
         fetchEvents();
         fetchTopRides();
         fetchUpcomingEvents();
@@ -105,14 +106,16 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {topRides && topRides.map((ride, index) => (
-                                    <tr key={index}>
+                                {topRides && topRides.map((ride, key) => {
+                                    return(
+                                    <tr key={key}>
                                         <td>{ride.rideName}</td>
                                         <td>{ride.rideType}</td>
                                         <td>{ride.capacity}</td>
                                         <td>{ride.popularityScore}</td>
                                     </tr>
-                                ))}
+                                );
+                            })}
                             </tbody>
                         </table>
                     ) : (
@@ -134,14 +137,16 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {upcomingEvents && upcomingEvents.map((event, index) => (
-                                    <tr key={index}>
+                                {upcomingEvents && upcomingEvents.map((event, key) => {
+                                    return(
+                                    <tr key={key}>
                                         <td>{event.eventName}</td>
                                         <td>{event.eventType}</td>
                                         <td>{new Date(event.startDate).toDateString()}</td>
                                         <td>{new Date(event.endDate).toDateString()}</td>
                                     </tr>
-                                ))}
+                                );
+                            })}
                             </tbody>
                         </table>
                     ) : (
@@ -162,13 +167,15 @@ const Dashboard = () => {
                         <h3>Events on {selectedDate.toDateString()}</h3>
                         {dayEvents ? (
                             <ul>
-                                {dayEvents && dayEvents.map((event, index) => (
-                                    <li key={index}>
+                                {dayEvents && dayEvents.map((event, key) => {
+                                    return(
+                                    <li key={key}>
                                         <strong>{event.eventName}</strong> - {event.eventType} <br />
                                         From: {new Date(event.startDate).toDateString()} <br />
                                         To: {new Date(event.endDate).toDateString()}
                                     </li>
-                                ))}
+                                );
+                            })}
                             </ul>
                         ) : (
                             <p>No events scheduled for this day.</p>
@@ -188,14 +195,16 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {upcomingMaintenance && upcomingMaintenance.map((maintenance, index) => (
-                                    <tr key={index}>
+                                {upcomingMaintenance && upcomingMaintenance.map((maintenance, key) => {
+                                    return(
+                                    <tr key={key}>
                                         <td>{maintenance.rideName}</td>
                                         <td>{maintenance.technician}</td>
                                         <td>{new Date(maintenance.maintenanceDate).toDateString()}</td>
                                         <td>{maintenance.status}</td>
                                     </tr>
-                                ))}
+                                );
+                            })}
                             </tbody>
                         </table>
                     ) : (

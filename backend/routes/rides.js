@@ -65,12 +65,12 @@ ridesRoute.get("/top-rides", (req, res) => {
       ORDER BY popularityScore DESC
       LIMIT 5
   `;
-  db.query(query, (err, results) => {
+  db.query(query, (err, result) => {
       if (err) {
           console.error("Error fetching top rides:", err);
           res.status(500).send("Error fetching top rides");
       } else {
-          res.json(results);
+          res.json( {result} );
       }
   });
 });
