@@ -8,6 +8,7 @@ import Shops from "./pages/GiftShops.jsx";
 import Events from "./pages/Events.jsx";
 import Rides from "./pages/Rides.jsx";
 
+import EmployeeHome from "./pages/Dashboard.jsx";
 import AdminProtectedRoute from "./utils/AdminProtectedRoute.jsx";
 import AdminEmployee from "./pages/AdminEmployee.jsx";
 import AdminParkstatus from "./pages/AdminParkstatus.jsx";
@@ -48,6 +49,7 @@ export default function App() {
           </Route>
           <Route element={<EmployeeProtectedRoute />}>
             <Route element={<Employees />} path="/login/employees/dashboard" />
+	    <Route element={<EmployeeHome />} path="/login/employees/home" />
             <Route element={<GiftShopForm />} path="/login/employees/shop" />
             <Route
               element={<SpecialEventForm />}
