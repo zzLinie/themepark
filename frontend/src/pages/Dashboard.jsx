@@ -61,6 +61,9 @@ const Dashboard = () => {
 
     // Handle date selection
     const handleDateChange = (date) => {
+        if(date === undefined)  {
+            return;
+        }
         setSelectedDate(date);
         const formattedDate = date.toISOString().split("T")[0];
         const filteredEvents = events.filter(
@@ -71,6 +74,9 @@ const Dashboard = () => {
 
     // Add custom styles for dates with events
     const tileContent = ({ date, view }) => {
+        if(date === undefined || view === undefined)  {
+            return;
+        }
         if (view === "month") {
             const formattedDate = date.toISOString().split("T")[0];
             const hasEvent = events.some(
@@ -99,7 +105,7 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {topRides.map((ride, index) => (
+                                {topRides.content.map((ride, index) => (
                                     <tr key={index}>
                                         <td>{ride.rideName}</td>
                                         <td>{ride.rideType}</td>
@@ -128,7 +134,7 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {upcomingEvents.map((event, index) => (
+                                {upcomingEvents.content.map((event, index) => (
                                     <tr key={index}>
                                         <td>{event.eventName}</td>
                                         <td>{event.eventType}</td>
@@ -156,7 +162,7 @@ const Dashboard = () => {
                         <h3>Events on {selectedDate.toDateString()}</h3>
                         {dayEvents.length > 0 ? (
                             <ul>
-                                {dayEvents.map((event, index) => (
+                                {dayEvents.content.map((event, index) => (
                                     <li key={index}>
                                         <strong>{event.eventName}</strong> - {event.eventType} <br />
                                         From: {new Date(event.startDate).toDateString()} <br />
@@ -182,7 +188,7 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {upcomingMaintenance.map((maintenance, index) => (
+                                {upcomingMaintenance.content.map((maintenance, index) => (
                                     <tr key={index}>
                                         <td>{maintenance.rideName}</td>
                                         <td>{maintenance.technician}</td>
