@@ -14,6 +14,8 @@ export default function Header() {
         <Link to="/dining">Dining</Link>
         <Link to="/events">Events</Link>
         <Link to="/giftshops">Shops</Link>
+        {/* <Link to="/login/admin/reports">ad</Link>
+        <Link to="/login/employees/dashboard">emp</Link> */}
       </div>
       <div className="header-button-container">
         <Link to="/ticket">

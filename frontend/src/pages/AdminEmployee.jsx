@@ -94,7 +94,7 @@ export default function AdminEmployee() {
   return (
     <>
       <AdminHeader />
-      <dialog ref={modalRef}className="dialog-container">
+      <dialog ref={modalRef} className="dialog-container">
         <form className="form-group">
           <InputDialog
             inputNaming={"empSSN"}
@@ -202,9 +202,9 @@ export default function AdminEmployee() {
           </button>
         </form>
       </dialog>
-      
+
       <div className="employee-card">
-      <h1>Add Employee</h1>
+        <h1>Add Employee</h1>
         <form action="" className="employee-form" onSubmit={postData}>
           <Input
             inputNaming={"empFname"}
@@ -303,23 +303,23 @@ export default function AdminEmployee() {
         {employeeList &&
           employeeList.map((val, key) => {
             return (
-                <tbody key={key}>
-                  <tr>
-                    <td>{val.Fname}</td>
-                    <td>{val.Lname}</td>
-                    <td>{val.Phonenumber}</td>
-                    <td>{val.Departmentid}</td>
-                    <td>{val.Hourlypay}</td>
-                    <td>{val.Position}</td>
-                    <td>{val.EmployeeEmail}</td>
-                    <div className="table-btn-container">
-                      <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
-                      <button onClick={() => getEmployeeData(val.Ssn)}>
-                        Edit
-                      </button>
-                    </div>
-                  </tr>
-                </tbody>
+              <tbody key={key}>
+                <tr>
+                  <td>{val.Fname}</td>
+                  <td>{val.Lname}</td>
+                  <td>{val.Phonenumber}</td>
+                  <td>{val.Departmentid}</td>
+                  <td>{val.Hourlypay}</td>
+                  <td>{val.Position}</td>
+                  <td>{val.EmployeeEmail}</td>
+                  <div className="table-btn-container">
+                    <button onClick={() => deleteRow(val.Ssn)}>Delete</button>
+                    <button onClick={() => getEmployeeData(val.Ssn)}>
+                      Edit
+                    </button>
+                  </div>
+                </tr>
+              </tbody>
             );
           })}
       </table>

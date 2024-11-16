@@ -22,7 +22,7 @@ eventsRoute.use(express.json());
 eventsRoute.use("/images", express.static(path.join(__dirname, "public/images")));
 
 eventsRoute.get("/read", (req, res) => {
-  const sql = "SELECT * FROM specialevents WHERE startDate >= CURRENT_DATE ORDER BY startDate LIMIT 3";
+  const sql = "SELECT * FROM specialevents WHERE startDate >= CURRENT_DATE ORDER BY startDate";
   db.query(sql, (err, result) => {
     if (err) {
       console.log(err);
@@ -39,7 +39,7 @@ eventsRoute.post('/create', upload.single("image"), (req, res) => {
     startDate,
     endDate,
   } = req.body;
-  const imageFileName = req.file ? req.file.filename : null;
+  const imageFileName = req.file ? req.file.filename : under-construction.webp;
 
   // Basic validation
   if (!eventName || eventType === undefined || !startDate || !endDate) {
@@ -69,6 +69,63 @@ eventsRoute.post('/create', upload.single("image"), (req, res) => {
     res.status(201).json({ message: "Special event created successfully", eventID: results.insertId });
   });
 });
+
+eventsRoute.delete('/:id', (req, res) => {
+  db.query('DELETE FROM SpecialEvents WHERE eventID = ?', [req.params.id], (err) => {
+      if (err) throw err;
+  });
+});
+
+eventsRoute.put('/:id', (req, res) => {
+  const { eventName, eventType, startDate, endDate } = req.body;
+  db.query(
+      'UPDATE SpecialEvents SET eventName = ?, eventType = ?, startDate = ?, endDate = ? WHERE eventID = ?',
+      [eventName, eventType, startDate, endDate, req.params.id],
+      (err) => {
+          if (err) throw err;
+       //   res.redirect('/events');
+      }
+  );
+});
+
+eventsRoute.get("/upcoming-events", (req, res) => {
+  const query = `
+      SELECT eventName, eventType, startDate, endDate
+      FROM SpecialEvents
+      WHERE startDate > NOW()
+      ORDER BY startDate ASC
+      LIMIT 5
+  `;
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error("Error fetching upcoming events:", err);
+          res.status(500).send("Error fetching upcoming events");
+      } else {
+          res.json(results);
+      }
+  });
+});
+
+eventsRoute.get("/upcoming-maintenance", (req, res) => {
+  const query = `
+      SELECT m.maintenanceID, r.rideName, e.Fname as technician,  m.maintenanceOpenDate as maintenanceDate, m.maintenanceStatus as status
+      FROM maintenance AS m
+      INNER JOIN rides AS r ON m.rideID = r.rideID
+	    INNER JOIN employee AS e ON e.Ssn = r.technician
+      WHERE m.maintenanceOpenDate > NOW()
+      ORDER BY m.maintenanceOpenDate ASC
+      LIMIT 5
+  `;
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error("Error fetching upcoming maintenance:", err);
+          res.status(500).send("Error fetching upcoming maintenance");
+      } else {
+          res.json(results);
+      }
+  });
+});
+
 
 
 module.exports = eventsRoute;

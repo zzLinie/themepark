@@ -13,12 +13,13 @@ const shops = require("./routes/shops");
 const employeeAuth = require("./routes/employeeAuth");
 const tickets = require("./routes/tickets");
 const adminTickets = require("./routes/adminTickets");
+const customerRoute = require("./routes/customerLogin");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, "public/images"));
   },
-  filename: (req, file, cb) =>  {
+  filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
   },
 });
@@ -32,7 +33,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use("/admin", auth);
 app.use("/employee", employee);
 app.use("/parkstatus", parkstatus);
@@ -42,6 +43,7 @@ app.use("/shops", shops);
 app.use("/employees", employeeAuth);
 app.use("/tickets", tickets);
 app.use("/adminTickets", adminTickets);
+app.use("/customer", customerRoute);
 
 app.get(`/`, (req, res) => {
   res.send(`Cors-enabled for specified domain`);

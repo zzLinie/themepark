@@ -23,7 +23,11 @@ const ParkStatusForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(parkStatusList.some(status => status.parkStatusDate === ParkStatusData.parkStatusDate)) {
+    if (
+      parkStatusList.some(
+        (status) => status.parkStatusDate === ParkStatusData.parkStatusDate
+      )
+    ) {
       const confirm = window.confirm(
         "The date you are trying to submit for already exists"
       );
@@ -63,7 +67,9 @@ const ParkStatusForm = () => {
 
   const getParkStatusData = (parkStatusID) => {
     axios
-      .get(`https://themepark-backend.onrender.com/parkstatus/read/${parkStatusID}`)
+      .get(
+        `https://themepark-backend.onrender.com/parkstatus/read/${parkStatusID}`
+      )
       .then((res) => {
         setEditRow(res.data.result);
         setIsModalOpen(true);
@@ -98,28 +104,28 @@ const ParkStatusForm = () => {
     return {};
   };
 
-  const getTimeStyle = (time) =>  {
-    if(time === null) {
-      return {color: "red"};
+  const getTimeStyle = (time) => {
+    if (time === null) {
+      return { color: "red" };
     }
     return {};
-  }
+  };
 
-  const getOpenTime = (openingTime) =>   {
-    switch(openingTime) {
+  const getOpenTime = (openingTime) => {
+    switch (openingTime) {
       case null:
         return "CLOSED";
-        default:
-          return openingTime;
+      default:
+        return openingTime;
     }
   };
 
-  const getCloseTime = (closingTime) =>   {
-    switch(closingTime) {
+  const getCloseTime = (closingTime) => {
+    switch (closingTime) {
       case null:
         return "CLOSED";
-        default:
-          return closingTime;
+      default:
+        return closingTime;
     }
   };
 
@@ -140,18 +146,21 @@ const ParkStatusForm = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    const updatedData =   {
+    const updatedData = {
       parkStatusID: editRow.parkStatusID,
       parkStatusDate: editRow.parkStatusDate,
       weatherType: editRow.weatherType,
     };
     axios
-      .put(`https://themepark-backend.onrender.com/parkstatus/update`, updatedData)
+      .put(
+        `https://themepark-backend.onrender.com/parkstatus/update`,
+        updatedData
+      )
       .then((res) => alert(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err));
     setDeleteState(deleteState == true ? false : true);
   };
-  
+
   return (
     <>
       <AdminHeader />
@@ -185,31 +194,37 @@ const ParkStatusForm = () => {
       <h2>Upcoming Park Days</h2>
       <dialog ref={modalRef}>
         <form>
-            <label>Date</label>
-            <input
-              type="date"
-              name="parkStatusDate"
-              value={parkStatusList.parkStatusDate}
-              onChange={(e) =>
-                setParkStatusData({ ...ParkStatusData, parkStatusDate: e.target.value })
-              }
-              required
-            />
+          <label>Date</label>
+          <input
+            type="date"
+            name="parkStatusDate"
+            value={parkStatusList.parkStatusDate}
+            onChange={(e) =>
+              setParkStatusData({
+                ...ParkStatusData,
+                parkStatusDate: e.target.value,
+              })
+            }
+            required
+          />
 
-            <label>Weather Type</label>
-            <select
-              name="weatherType"
-              value={parkStatusList.weatherType}
-              onChange={(e) =>
-                setParkStatusData({ ...ParkStatusData, weatherType: e.target.value })
-              }
-              required
-            >
-              <option value="">Select Weather Type</option>
-              <option value="0">Fair</option>
-              <option value="1">Cloudy</option>
-              <option value="2">Rainout</option>
-            </select>
+          <label>Weather Type</label>
+          <select
+            name="weatherType"
+            value={parkStatusList.weatherType}
+            onChange={(e) =>
+              setParkStatusData({
+                ...ParkStatusData,
+                weatherType: e.target.value,
+              })
+            }
+            required
+          >
+            <option value="">Select Weather Type</option>
+            <option value="0">Fair</option>
+            <option value="1">Cloudy</option>
+            <option value="2">Rainout</option>
+          </select>
 
           <button type="submit" onClick={handleUpdate}>
             Update
@@ -219,20 +234,20 @@ const ParkStatusForm = () => {
           </button>
         </form>
       </dialog>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Weather Type</th>
-              <th>Capacity</th>
-              <th>Opening Time</th>
-              <th>Closing Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          {parkStatusList &&
-            parkStatusList.map((val, key) => {
-              return(
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Weather Type</th>
+            <th>Capacity</th>
+            <th>Opening Time</th>
+            <th>Closing Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        {parkStatusList &&
+          parkStatusList.map((val, key) => {
+            return (
               <tbody key={key}>
                 <tr>
                   <td>{formatDate(val.date)}</td>
@@ -247,13 +262,15 @@ const ParkStatusForm = () => {
                     {getCloseTime(val.closingTime)}
                   </td>
                   <div className="table-btn-container">
-                  <button onClick={() => getParkStatusData(val.parkStatusID)}>Edit</button>
-                    </div>
+                    <button onClick={() => getParkStatusData(val.parkStatusID)}>
+                      Edit
+                    </button>
+                  </div>
                 </tr>
               </tbody>
-              );
-            })}
-        </table>
+            );
+          })}
+      </table>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -297,7 +314,7 @@ const ParkStatusForm = () => {
 };
 export default ParkStatusForm;
 
- /* const openHistoryModal = () => {
+/* const openHistoryModal = () => {
     getParkHistory();
     setIsHistoryModalOpen(true);
   };
@@ -305,10 +322,10 @@ export default ParkStatusForm;
     setIsHistoryModalOpen(false);
   };
 */
-  /*const [parkHistoryList, setParkHistoryList] = useState([]);
+/*const [parkHistoryList, setParkHistoryList] = useState([]);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);*/
 
-    /*const getParkHistory = () => {
+/*const getParkHistory = () => {
     axios
       .get("https://themepark-backend.onrender.com/parkstatus/readhistory")
       .then((res) => setParkHistoryList(res.data.result))

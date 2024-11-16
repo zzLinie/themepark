@@ -1,0 +1,10 @@
+section {
+  padding: 0px 5%;
+}
+.ticket-report-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}

@@ -3,9 +3,11 @@ import Header from "../components/header";
 import "./adminLogin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../utils/AuthProvider";
 
 export default function EmployeeLogin() {
   const navigate = useNavigate();
+  const { setAuth, setRole, setWelcomeMessage } = useAuth();
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -13,13 +15,33 @@ export default function EmployeeLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://themepark-backend.onrender.com/employees/auth", values)
+      .post("https://themepark-backend.onrender.com/employees/auth", values, {
+        withCredentials: true,
+      })
       .then((res) => {
-        res.data.Status == "Success"
-          ? navigate("/login/employee/dashboard")
-          : alert(res.data.Error);
-      });
+        if (res.data.auth) {
+          axios
+            .get("https://themepark-backend.onrender.com/employees/verify", {
+              withCredentials: true,
+            })
+            .then((res) => {
+              setAuth(res.data.Verify);
+              if (res.data.Verify) {
+                const { email } = res.data.user;
+                const name = email.substring(0, email.indexOf("@"));
+                setWelcomeMessage(name);
+                alert("Granted Access");
+                setRole(res.data.user.role);
+                navigate("/login/employees/dashboard");
+              }
+            });
+        } else {
+          alert(res.data.Response);
+        }
+      })
+      .catch((err) => alert(err));
   };
+
   return (
     <div className="admin-page-container">
       <Header />

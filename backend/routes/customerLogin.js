@@ -5,44 +5,43 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 
-const app = express.Router();
+const customerRoute = express.Router();
 
 //parses data that comes into json format
-app.use(express.json());
+customerRoute.use(express.json());
+//allows cookies to be sent to request header
+customerRoute.use(cookieParser());
 
-app.use(cookieParser());
+// const salt = 10;
+// customerRoute.put("/", (req, res) => {
+//   const sql = "UPDATE customers SET `password` = ?;";
 
-const salt = 10;
-app.post("/create", (req, res) => {
-  const sql = "INSERT INTO admin (`userName`, `password`) VALUES (?);";
-
-  //changes our plain text password into encrypted password
-  bcrypt.hash(req.body.password.toString(), salt, (err, hashPassword) => {
-    if (err) return res.json({ Error: "Error for hashing password" });
-    const values = [req.body.userName, hashPassword];
-    db.query(sql, [values], (err, sqlResult) => {
-      if (err) return res.json({ Error: "Inserting data error in server" });
-      return res.json({ Status: "Success" });
-    });
-  });
-});
-
-//admin login post request
-app.post("/", (req, res) => {
-  const sql = "SELECT userName, password FROM admin where userName=?;";
-  //data is sql results
-  db.query(sql, [req.body.userName], async (err, result) => {
+//   //changes our plain text password into encrypted password
+//   bcrypt.hash(req.body.password, salt, (err, hashPassword) => {
+//     if (err) return res.json({ Error: "Error for hashing password" });
+//     const pw = [hashPassword];
+//     db.query(sql, [pw], (err, sqlResult) => {
+//       if (err) return res.json({ Error: "Inserting data error in server" });
+//       return res.json({ Status: "Success" });
+//     });
+//   });
+// });
+customerRoute.post("/", (req, res) => {
+  const sql =
+    "SELECT customerID, Email, password FROM customers where Email=?;";
+  db.query(sql, [req.body.email], (err, result) => {
     //sql query error
     if (err) return res.send("sql query error");
 
-    //username doesnt exist
+    //email doesnt exist
     if (!result[0]) {
-      //username doesnt exist
-      return res.json({ Response: "Username doesnt exist" });
+      return res.json({ Response: "Email doesnt exist" });
     }
     //database stored password
     const { password } = result[0];
     const inputedPassword = req.body.password;
+    //database stored id
+    const { customerID } = result[0];
 
     //compare user inputted password to resulted query hash
     bcrypt.compare(inputedPassword, password, (err, result) => {
@@ -52,11 +51,12 @@ app.post("/", (req, res) => {
       if (!result) {
         return res.json({ Response: "Password not found" });
       }
-
+      //customerID from sql query
       //create token for user
+      console.log(customerID);
       const payload = {
-        userName: req.body.userName,
-        role: "Admin",
+        id: customerID,
+        role: "Customer",
       };
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
@@ -65,13 +65,11 @@ app.post("/", (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        maxAge: 86400000,
       });
       return res.json({ auth: true, token: token });
     });
   });
 });
-
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
@@ -85,18 +83,4 @@ const verifyUser = (req, res, next) => {
   }
 };
 
-// @ts-ignore
-app.get("/verify", verifyUser, (req, res) => {
-  // @ts-ignore
-  return res.json({ Verify: true, user: req.user });
-});
-// @ts-ignore
-app.post("/logout", (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-  });
-  return res.json({ Response: "Logged out Successfully" });
-});
-
-module.exports = app;
+module.exports = customerRoute;

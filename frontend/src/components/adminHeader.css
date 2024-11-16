@@ -6,8 +6,8 @@
   border-color: grey;
   padding: 0px 5%;
   background-color: whitesmoke;
-  gap:10px;
-  height:65px
+  gap: 10px;
+  height: 65px;
 }
 .admin-tabs {
   display: flex;
@@ -25,10 +25,13 @@
   justify-content: center;
 }
 .admin-banner h1 {
-  color:black;
+  color: black;
 }
 
 .header-button-container {
   display: flex;
   gap: 25px;
+}
+.admin-banner span {
+  color: rgb(0, 123, 255);
 }
