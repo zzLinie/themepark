@@ -26,7 +26,7 @@ const GiftShopForm = () => {
 
     const fetchShops = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/shops/read");
+            const response = await axios.get("https://themepark-backend.onrender.com/shops/read");
             setShops(response.data.result);
         } catch (error) {
             console.error("Error fetching shops:", error);
