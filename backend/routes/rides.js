@@ -35,7 +35,7 @@ ridesRoute.post('/create', (req, res) => {
   // Insert query
   const query = `
     INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName)
-    VALUES (?, ?, ?, ?, ?, 'under-construction.webp')
+    VALUES (?, ?, ?, ?, ?, ?, 'under-construction.webp')
   `;
 
   // Execute query with callback
@@ -64,10 +64,10 @@ ridesRoute.delete("/:rideID", (req, res) => {
 });
 
 ridesRoute.put('/:id', (req, res) => {
-  const { rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName } = req.body;
+  const { rideName, rideType, capacity, openingTime, closingTime, technician } = req.body;
   db.query(
-      'UPDATE Rides SET rideName = ?, rideType = ?, capacity = ?, openingTime = ?, closingTime = ?, technician = ?, imageFileName = ? WHERE rideID = ?',
-      [ rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName, req.params.id],
+      'UPDATE Rides SET rideName = ?, rideType = ?, capacity = ?, openingTime = ?, closingTime = ?, technician = ?, WHERE rideID = ?',
+      [ rideName, rideType, capacity, openingTime, closingTime, technician, req.params.id],
       (err) => {
           if (err) throw err;
       }
