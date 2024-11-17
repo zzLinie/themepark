@@ -11,7 +11,11 @@ const Dashboard = () => {
   const [topRides, setTopRides] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [upcomingMaintenance, setUpcomingMaintenance] = useState([]);
-  const [editingMaint, setEditingMaint] = useState([null]);
+  const [editingMaint, setEditingMaint] = useState({
+    maintenanceID: "",
+    maintenanceOpenDate: "",
+    status: "",
+});
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayEvents, setDayEvents] = useState([]);
   const [events, setEvents] = useState([]);
@@ -109,7 +113,7 @@ const Dashboard = () => {
       
       setEditingMaint({
           ...maintenance,
-          maintenanceDate: formattedOpenDate,
+          maintenanceOpenDate: formattedOpenDate,
       });
     setEditModalOpen(true);
   };
@@ -138,6 +142,8 @@ const Dashboard = () => {
 
   const handleUpdateMaint = async () => {
     try {
+      console.log(editingMaint.maintenanceOpenDate);
+      console.log(editingMaint.status);
       await axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
       fetchEvents();
       setEditModalOpen(false);
@@ -146,7 +152,14 @@ const Dashboard = () => {
       console.error("Error updating maintenance:", error);
     }
   };
-  ///
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditingMaint({
+        ...editingMaint,
+        [name]: name === "weatherType" ? parseInt(value, 10) : value,
+    });
+  };
 
   // Add custom styles for dates with events
   const tileContent = ({ date, view }) => {
@@ -315,25 +328,21 @@ const Dashboard = () => {
               <input
                 type="date"
                 name="maintenanceDate"
-                value={editingMaint?.maintenanceDate || ""}
-                onChange={(e) =>
-                  setEditingMaint({
-                    ...editingMaint, maintenanceDate: e.target.value })
-                }
+                value={editingMaint.maintenanceOpenDate}
+                onChange={handleInputChange}
               />
               <select
                 type="text"
                 name="status"
-                value={editingMaint?.status || ""}
-                onChange={(e) =>
-                  setEditingMaint({ ...editingMaint, status: e.target.value })
-                }
+                value={editingMaint.status}
+                onChange={handleInputChange}
+                required
               >
                 <option value="">Select Maintenance Status</option>
-                <option value="0">Incomplete</option>
-                <option value="1">Complete</option>
-                <option value="2">Event Maintenance</option>
-                <option value="4">Cancelled</option>
+                <option value={0}>Incomplete</option>
+                <option value={1}>Complete</option>
+                <option value={2}>Event Maintenance</option>
+                <option value={4}>Cancelled</option>
               </select>
               <button onClick={handleUpdateMaint} className="update-button">
                 Update
