@@ -9,9 +9,9 @@ export default function Home() {
         <div className="banner">
           <div className="scrolling-text">
             Welcome to the Themepark, where every corner is filled with thrills,
-            magic, and excitement! whether you’re seeking adrenaline-pumping
+            magic, and excitement! whether you re seeking adrenaline-pumping
             rides, immersive experiences, or family-friendly fun, ThemePark has
-            something for everyone.
+            something for everyone.
           </div>
         </div>
       </div>
