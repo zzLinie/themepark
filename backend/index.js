@@ -11,11 +11,12 @@ const shops = require("./routes/shops");
 const employeeAuth = require("./routes/employeeAuth");
 const tickets = require("./routes/tickets");
 const adminTickets = require("./routes/adminTickets");
+const reportsRoute = require("./routes/reports");
 
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: "https://gleaming-lokum-158537.netlify.app/",
     methods: ["POST", "GET", "PUT"],
   })
 );
@@ -30,6 +31,7 @@ app.use("/shops", shops);
 app.use("/employees", employeeAuth);
 app.use("/tickets", tickets);
 app.use("/adminTickets", adminTickets);
+app.use("/reports", reportsRoute);
 
 app.get(`/`, (req, res) => {
   res.send(`Cors-enabled for specified domain`);
