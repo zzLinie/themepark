@@ -52,6 +52,10 @@ ridesRoute.post('/create', (req, res) => {
 
 ridesRoute.delete("/:rideID", (req, res) => {
   const { rideID } = req.params;
+  const query1 = "DELETE FROM maintenance WHERE rideID = ?";
+  db.query(query1, [rideID], (err) => {
+  });
+
   const query = "DELETE FROM rides WHERE rideID = ?";
   db.query(query, [rideID], (err) => {
       if (err) {
