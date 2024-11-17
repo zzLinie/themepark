@@ -1,6 +1,7 @@
 import Button from "./button";
 import { Link } from "react-router-dom";
 import "./header.css";
+import { ShoppingCart } from "phosphor-react";
 
 export default function Header() {
   return (
@@ -23,6 +24,9 @@ export default function Header() {
         </Link>
         <Link to="/login">
           <Button buttonClass="loginButton" buttonText="Login" />
+        </Link>
+        <Link to={"/cart"}>
+          <ShoppingCart size={32} />
         </Link>
       </div>
     </div>
