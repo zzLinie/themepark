@@ -30,7 +30,7 @@ export default function AdminLogin() {
               setAuth(res.data.Verify);
               if (res.data.Verify) {
                 setRole(res.data.user.role);
-                setWelcomeMessage(`Welcome ${res.data.user.userName}`);
+                setWelcomeMessage(`${res.data.user.userName}`);
                 alert("Granted Access");
                 navigate("/login/admin/reports");
               }

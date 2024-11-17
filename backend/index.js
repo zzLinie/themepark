@@ -28,7 +28,7 @@ app.use(
   cors({
     credentials: true,
     origin: "https://gleaming-lokum-158537.netlify.app",
-    methods: ["POST", "GET", "PUT"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
   })
 );
 
