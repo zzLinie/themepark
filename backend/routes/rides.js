@@ -11,8 +11,9 @@ ridesRoute.get("/read", (req, res) => {
             r.rideID, r.rideName, r.capacity, r.openingTime, r.closingTime, 
             r.rideType, r.rideDesc, r.imageFileName, r.technician ,
             concat(e.Fname, ' ', e.Lname ) AS technicianName 
-        FROM rides r
+        FROM rides r 
         LEFT JOIN employee e ON r.technician = e.ssn
+        where r.deleteStatus = 0
         `;
   db.query(sql, (err, result) => {
     if (err) {
@@ -34,8 +35,8 @@ ridesRoute.post('/create', (req, res) => {
 
   // Insert query
   const query = `
-    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc, imageFileName)
-    VALUES (?, ?, ?, ?, ?, ?, ?, 'under-construction.webp')
+    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc, deleteStatus, imageFileName)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 0, 'under-construction.webp')
   `;
 
   // Execute query with callback
@@ -52,11 +53,7 @@ ridesRoute.post('/create', (req, res) => {
 
 ridesRoute.delete("/:rideID", (req, res) => {
   const { rideID } = req.params;
-  const query1 = "DELETE FROM maintenance WHERE rideID = ?";
-  db.query(query1, [rideID], (err) => {
-  });
-
-  const query = "DELETE FROM rides WHERE rideID = ?";
+  const query = "update rides set deleteStatus = 1 WHERE rideID = ?";
   db.query(query, [rideID], (err) => {
       if (err) {
           console.error("Error deleting ride:", err);
@@ -74,7 +71,11 @@ ridesRoute.put('/:id', (req, res) => {
       [ rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc, req.params.id],
       (err) => {
           if (err) throw err;
+          else {
+            res.send("Ride updated successfully");
+          }
       }
+      
   );
 });
 
@@ -82,6 +83,7 @@ ridesRoute.get("/top-rides", (req, res) => {
   const query = `
       SELECT rideName, rideType, capacity, SUM(visitCount) as popularityScore 
       FROM rides r join ridevisit rv on r.rideID = rv.rideID 
+      where r.deleteStatus = 0 
 	    GROUP BY rv.rideID
       ORDER BY popularityScore DESC
       LIMIT 5
