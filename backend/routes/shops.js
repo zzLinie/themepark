@@ -62,7 +62,7 @@ shopsRoute.post("/create", (req, res) => {
 
 shopsRoute.post("/shops", (req, res) => {
   const { shopName, location, shopType, shopDesc, imageFileName } = req.body;
-  const query = "INSERT INTO shops (shopName, location, shopType, shopDesc, imageFileName) VALUES (?, ?, ?, ?, ?)";
+  const query = "INSERT INTO shop (shopName, location, shopType, shopDesc, imageFileName) VALUES (?, ?, ?, ?, ?)";
   db.query(query, [shopName, location, shopType, shopDesc, imageFileName], (err, result) => {
       if (err) {
           console.error(err);
@@ -76,7 +76,7 @@ shopsRoute.put("/:shopID", (req, res) => {
   const { shopID } = req.params;
   const { shopName, location, shopType, shopDesc, imageFileName } = req.body;
   const query = `
-      UPDATE shops 
+      UPDATE shop 
       SET shopName = ?, location = ?, shopType = ?, shopDesc = ?, imageFileName = ? 
       WHERE shopID = ?`;
   db.query(query, [shopName, location, shopType, shopDesc, imageFileName, shopID], (err, result) => {
@@ -90,7 +90,7 @@ shopsRoute.put("/:shopID", (req, res) => {
 
 shopsRoute.delete("/:shopID", (req, res) => {
   const { shopID } = req.params;
-  const query = "DELETE FROM shops WHERE shopID = ?";
+  const query = "DELETE FROM shop WHERE shopID = ?";
   db.query(query, [shopID], (err, result) => {
       if (err) {
           console.error(err);
