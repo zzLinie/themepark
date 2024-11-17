@@ -62,8 +62,8 @@ shopsRoute.post("/create", (req, res) => {
 
 shopsRoute.post("/shops", (req, res) => {
   const { shopName, location, shopType, shopDesc, imageFileName } = req.body;
-  const query = "INSERT INTO shop (shopName, location, shopType, shopDesc, imageFileName) VALUES (?, ?, ?, ?, ?)";
-  db.query(query, [shopName, location, shopType, shopDesc, imageFileName], (err, result) => {
+  const query = "INSERT INTO shop (shopName, location, shopType, shopDesc, imageFileName) VALUES (?, ?, ?, ?, 'under-construction.webp')";
+  db.query(query, [shopName, location, shopType, shopDesc], (err, result) => {
       if (err) {
           console.error(err);
           return res.status(500).send("Failed to create shop");
@@ -74,12 +74,12 @@ shopsRoute.post("/shops", (req, res) => {
 
 shopsRoute.put("/:shopID", (req, res) => {
   const { shopID } = req.params;
-  const { shopName, location, shopType, shopDesc, imageFileName } = req.body;
+  const { shopName, location, shopType, shopDesc } = req.body;
   const query = `
       UPDATE shop 
-      SET shopName = ?, location = ?, shopType = ?, shopDesc = ?, imageFileName = ? 
+      SET shopName = ?, location = ?, shopType = ?, shopDesc = ?
       WHERE shopID = ?`;
-  db.query(query, [shopName, location, shopType, shopDesc, imageFileName, shopID], (err, result) => {
+  db.query(query, [shopName, location, shopType, shopDesc, shopID], (err, result) => {
       if (err) {
           console.error(err);
           return res.status(500).send("Failed to update shop");
