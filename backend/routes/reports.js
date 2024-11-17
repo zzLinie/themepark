@@ -101,7 +101,7 @@ ORDER BY
     const query = `
     SELECT 
     t.ticketID,
-    t.ticketType,
+    tt.ticketName,
     t.customerID,
     c.Fname,
     c.Lname,
@@ -115,13 +115,19 @@ JOIN
     customers c
 ON 
     t.customerID = c.customerID
+JOIN 
+    ticketType tt
+ON 
+    t.ticketType = tt.ticketType
 WHERE 
-    t.ticketType = 5
-    AND t.startDate >= '2024-01-01'
-    AND t.expiryDate <= '2024-12-31';
+t.ticketType = 5 and 4
+AND t.startDate >= ?
+AND t.expiryDate <= ?;
      `;
     db.query(query, [req.body.startDate, req.body.expiryDate], (err, result) => {
       if(err) return res.json({Error:err})
+        console.log(result)
+        console.log(req.body)
         return res.json({Result: result})
     })
   });

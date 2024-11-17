@@ -56,6 +56,7 @@ const  refund =  (e) => {
   return(
     <>
     <AdminHeader />
+    <h1>Maintenance Schedule</h1>
     <form action="" onSubmit={postmMintenance} >
       <label htmlFor="startDate">Start Date</label>
       <input type="date" onChange={(e) => setFilterDate({...filterDate, startDate: e.target.value})} />
@@ -95,7 +96,7 @@ const  refund =  (e) => {
         })}
 
         </table>
-
+    <h1>Shops Sales</h1>
     <form action="" onSubmit={transaction} >
     <label htmlFor="shopName">Shop Name</label>
       <select name="" id="" onChange={(e) => setShopData({...shopData, shopName: e.target.value})}>
@@ -142,7 +143,7 @@ const  refund =  (e) => {
         )
       })}
     </table>
-    
+    <h1>Ticket Sale</h1>
     <form action="" onSubmit={ticketSales} >
     <label htmlFor="ticketName">Ticket Type</label>
       <select name="" id="" onChange={(e) => {
@@ -188,7 +189,7 @@ const  refund =  (e) => {
         )
       })}
     </table>
-
+    <h1>Canceled Ticket</h1>
     <form action="" onSubmit={refund} >
       <label htmlFor="startDate">Start Date</label>
       <input type="date" onChange={(e) => setrefundDate({...refundDate, startDate: e.target.value})} />
@@ -215,7 +216,7 @@ const  refund =  (e) => {
             <>
               <tr>
                 <td>{refund.ticketID}</td>
-                <td>{refund.ticketType}</td>
+                <td>{refund.ticketName}</td>
                 <td>{refund.customerID}</td>
                 <td>{refund.Fname}</td>
                 <td>{refund.Lname}</td>
