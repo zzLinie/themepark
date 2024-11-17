@@ -9,7 +9,7 @@ parkStatusRoute.use(express.json());
 
 parkStatusRoute.post("/create", (req, res) => {
   const {
-    date,
+    parkStatusDate,
     weatherType,
   } = req.body;
   const sql =
@@ -17,7 +17,7 @@ parkStatusRoute.post("/create", (req, res) => {
   db.query(
     sql,
     [
-      date,
+      parkStatusDate,
       weatherType,
     ],
     (err, result) => {
