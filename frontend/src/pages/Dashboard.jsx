@@ -72,21 +72,6 @@ const Dashboard = () => {
     fetchUpcomingMaintenance();
   }, []);
 
-  const openModal = (maintenance = null) => {
-    if (maintenance) {
-      setEditingMaint({
-        ...maintenance,
-        maintenanceOpenDate: maintenance.maintenanceOpenDate,
-      });
-    } else {
-      setEditingMaint({
-        maintenanceOpenDate: "",
-        maintenanceStatus: "",
-      });
-    }
-    setEditModalOpen(true);
-  };
-
   // Handle date selection
   const handleDateChange = (date) => {
     if (date === undefined) {
@@ -154,10 +139,7 @@ const Dashboard = () => {
 
   const handleUpdateMaint = async () => {
     try {
-      await axios.put(
-        `https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`,
-        editingMaint
-      );
+      await axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
       fetchEvents();
       setEditModalOpen(false);
       setEditingMaint(null);
@@ -302,9 +284,9 @@ const Dashboard = () => {
                           <td>{maintenance.rideName}</td>
                           <td>{maintenance.technician}</td>
                           <td>
-                            {new Date(
+                            {formatDate(
                               maintenance.maintenanceDate
-                            ).toDateString()}
+                            )}
                           </td>
                           <td style={getMaintStyle(maintenance.status)}>
                             {getMaintStatus(maintenance.status)}
@@ -337,9 +319,7 @@ const Dashboard = () => {
                 value={editingMaint?.maintenanceDate || ""}
                 onChange={(e) =>
                   setEditingMaint({
-                    ...editingMaint,
-                    maintenanceDate: e.target.value,
-                  })
+                    ...editingMaint, maintenanceDate: e.target.value })
                 }
               />
               <select
@@ -347,10 +327,7 @@ const Dashboard = () => {
                 name="status"
                 value={editingMaint?.status || ""}
                 onChange={(e) =>
-                  setEditingMaint({
-                    ...editingMaint,
-                    status: e.target.value,
-                  })
+                  setEditingMaint({ ...editingMaint, status: e.target.value })
                 }
               >
                 <option value="">Select Maintenance Status</option>
