@@ -40,7 +40,6 @@ export default function GiftShops() {
             diningImage={shop.imageFileName}
             diningLocation={shop.location}
             diningName={shop.shopName}
-            diningProducts={"products here"}
             diningOverview={shop.shopDesc}
           />
         ))}

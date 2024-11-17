@@ -21,6 +21,19 @@ const RidesForm = () => {
       }
     };
 
+    const truncateText = (text, wordLimit) => {
+        if (!text) {
+            return ""; // Return an empty string if text is null or undefined
+        }
+    
+        const words = text.split(" ");
+        if (words.length > wordLimit) {
+            return words.slice(0, wordLimit).join(" ") + " ...";
+        }
+        return text;
+    };
+    
+
     // Fetch rides from the API
     const fetchRides = async () => {
         try {
@@ -102,7 +115,6 @@ const RidesForm = () => {
                 <thead>
                     <tr>
                         <th>Ride Name</th>
-                        <th>Capacity</th>
                         <th>Opening Time</th>
                         <th>Closing Time</th>
                         <th>Technician</th>
@@ -117,12 +129,11 @@ const RidesForm = () => {
                         return (
                         <tr key={key}>
                             <td>{ride.rideName}</td>
-                            <td>{ride.capacity}</td>
                             <td>{ride.openingTime}</td>
                             <td>{ride.closingTime}</td>
                             <td>{ride.technician}</td>
                             <td>{ride.rideType}</td>
-                            <td>{ride.rideDesc}</td>
+                            <td>{truncateText(ride.rideDesc, 10)}</td>
                             <td>
                                 {ride.imageFileName ? (
                                     <img
