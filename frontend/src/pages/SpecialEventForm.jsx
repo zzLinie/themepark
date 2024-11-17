@@ -106,132 +106,9 @@ function SpecialEventForm() {
     return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
   };
 
-<<<<<<< HEAD
-            <table className="data-table">
-                <thead>
-                    <tr>
-                        <th>Event Name</th>
-                        <th>Event Type</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {events && events.map((event, key) => {
-                        return(
-                            <tr key={key}> 
-                                <td>{event.eventName}</td>
-                                <td>{event.eventType}</td>
-                                <td>{formatDate(event.startDate)}</td>
-                                <td>{formatDate(event.endDate)}</td>
-                                <td>
-                                    {event.imageFileName ? (
-                                        <img
-                                            src={`/images/${event.imageFileName}`}
-                                            alt={event.eventName}
-                                            width="50"
-                                        />
-                                    ) : (
-                                        "No Image"
-                                    )}
-                                </td>
-                                <td>
-                                    <button onClick={() => handleEditEvent(event)} className="edit-button">
-                                        Edit
-                                    </button>
-                                    <button onClick={() => handleDeleteEvent(event.eventID)} className="delete-button">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                                );
-                            })}
-                </tbody>
-            </table>
-
-            {/* Create Event Modal */}
-            <Modal isOpen={isCreateModalOpen} onClose={() => setCreateModalOpen(false)}>
-                <h2>Create Event</h2>
-                <input
-                    type="text"
-                    name="eventName"
-                    value={newEvent.eventName}
-                    onChange={handleInputChange}
-                    placeholder="Event Name"
-                />
-                <select
-                    type="text"
-                    name="eventType"
-                    value={newEvent.eventType}
-                    onChange={handleInputChange}
-                    placeholder="Event Type"
-                >
-                    <option value="">Select Event Type</option>
-                    <option value="Holiday">Holiday</option>
-                    <option value="Festival">Festival</option>
-                    <option value="Seasonal">Seasonal</option>
-                    <option value="Fireworks">Fireworks</option>
-                </select>
-                <input
-                    type="date"
-                    name="startDate"
-                    value={newEvent.startDate}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="date"
-                    name="endDate"
-                    value={newEvent.endDate}
-                    onChange={handleInputChange}
-                />
-
-                <button onClick={handleCreateEvent} className="create-button">Create</button>
-            </Modal>
-
-            {/* Edit Event Modal */}
-            <Modal isOpen={isEditModalOpen} onClose={() => setEditModalOpen(false)}>
-                <h2>Edit Event</h2>
-                <input
-                    type="text"
-                    name="eventName"
-                    value={editingEvent?.eventName || ""}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, eventName: e.target.value })}
-                />
-                <select
-                    type="text"
-                    name="eventType"
-                    value={editingEvent?.eventType || ""}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, eventType: e.target.value })}
-                >
-                    <option value="">Select Event Type</option>
-                    <option value="Holiday">Holiday</option>
-                    <option value="Festival">Festival</option>
-                    <option value="Seasonal">Seasonal</option>
-                    <option value="Fireworks">Fireworks</option>
-                </select>
-                <input
-                    type="date"
-                    name="startDate"
-                    value={editingEvent ?.startDate || ""}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, startDate: e.target.value })}
-                />
-                <input
-                    type="date"
-                    name="endDate"
-                    value={editingEvent ?.endDate || ""}
-                    onChange={(e) => setEditingEvent({ ...editingEvent, endDate: e.target.value })}
-                />
-                <button onClick={handleUpdateEvent} className="update-button">Update</button>
-            </Modal>
-        </div>
-        </>
-=======
   const handleDeleteEvent = (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this event?"
->>>>>>> customer
     );
     if (confirmDelete) {
       try {
@@ -319,13 +196,19 @@ function SpecialEventForm() {
             onChange={handleInputChange}
             placeholder="Event Name"
           />
-          <input
+          <select
             type="text"
             name="eventType"
             value={newEvent.eventType}
             onChange={handleInputChange}
             placeholder="Event Type"
-          />
+          >
+            <option value="">Select Event Type</option>
+            <option value="Holiday">Holiday</option>
+            <option value="Festival">Festival</option>
+            <option value="Seasonal">Seasonal</option>
+            <option value="Fireworks">Fireworks</option>
+          </select>
           <input
             type="date"
             name="startDate"
@@ -338,14 +221,7 @@ function SpecialEventForm() {
             value={newEvent.endDate}
             onChange={handleInputChange}
           />
-          <div {...getRootProps()} className="dropzone">
-            <input {...getInputProps()} />
-            {imageFile ? (
-              <p>{imageFile.name}</p>
-            ) : (
-              <p>Drag or select an image</p>
-            )}
-          </div>
+
           <button onClick={handleCreateEvent} className="create-button">
             Create
           </button>
@@ -362,14 +238,20 @@ function SpecialEventForm() {
               setEditingEvent({ ...editingEvent, eventName: e.target.value })
             }
           />
-          <input
+          <select
             type="text"
             name="eventType"
             value={editingEvent?.eventType || ""}
             onChange={(e) =>
               setEditingEvent({ ...editingEvent, eventType: e.target.value })
             }
-          />
+          >
+            <option value="">Select Event Type</option>
+            <option value="Holiday">Holiday</option>
+            <option value="Festival">Festival</option>
+            <option value="Seasonal">Seasonal</option>
+            <option value="Fireworks">Fireworks</option>
+          </select>
           <input
             type="date"
             name="startDate"
