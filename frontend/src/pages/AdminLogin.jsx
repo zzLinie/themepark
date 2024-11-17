@@ -4,9 +4,11 @@ import "./adminLogin.css";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../utils/AuthProvider";
 
-export default function AdminLogin({ authProp }) {
+export default function AdminLogin() {
   const navigate = useNavigate();
+  const { setAuth, setRole, setWelcomeMessage } = useAuth();
   const [values, setValues] = useState({
     userName: "",
     password: "",
@@ -20,14 +22,16 @@ export default function AdminLogin({ authProp }) {
       })
       .then((res) => {
         if (res.data.auth) {
-          alert("Granted Access");
           axios
             .get("https://themepark-backend.onrender.com/admin/verify", {
               withCredentials: true,
             })
             .then((res) => {
-              authProp(res.data.Verify);
+              setAuth(res.data.Verify);
               if (res.data.Verify) {
+                setRole(res.data.user.role);
+                setWelcomeMessage(`${res.data.user.userName}`);
+                alert("Granted Access");
                 navigate("/login/admin/reports");
               }
             });
@@ -35,7 +39,7 @@ export default function AdminLogin({ authProp }) {
           alert(res.data.Response);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err));
   };
   return (
     <div className="admin-page-container">

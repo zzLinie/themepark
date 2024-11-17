@@ -79,8 +79,8 @@ employeeRoute.get("/read/:ssn", (req, res) => {
   });
 });
 employeeRoute.put("/update", (req, res) => {
-  // prettier-ignore
-  const {Ssn,
+  const {
+    Ssn,
     Fname,
     Minitial,
     Lname,

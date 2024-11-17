@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  background-image: url("../assets/images/rollercoaster.jpg");
+  background-image: url("/images/themepark.webp");
   background-size: cover;
 }
 .home {
@@ -17,4 +17,30 @@
 .hero-container h1 {
   text-align: center;
   margin-top: 50px;
+}
+.banner {
+  width: 100%;
+  background-color: #0078d7;
+  color: white;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
+.scrolling-text {
+  white-space: nowrap;
+  display: inline-block;
+  position: absolute;
+  animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }

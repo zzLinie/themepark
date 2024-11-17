@@ -3,10 +3,19 @@ button {
   cursor: pointer;
   font-size: 18px;
   padding: 10px 15px;
+  box-shadow: navy 1px 0 10px;
 }
 .loginButton {
-  color: var(--secondaryText);
+  color: gold;
+  background-color: navy;
+}
+.loginButton:hover  {
+  background-color:blue;
 }
 .ticketButton {
-  color: var(--secondaryText);
+  color:gold;
+  background-color: navy;
+}
+.ticketButton:hover {
+  background-color: blue;
 }

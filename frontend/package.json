@@ -18,7 +18,8 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.27.0",
     "react-select": "^5.8.2",
-    "styled-components": "^6.1.13"
+    "styled-components": "^6.1.13",
+    "react-calendar": "^4.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

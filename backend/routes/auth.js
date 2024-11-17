@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const db = require("../connect");
 
 const jwt = require("jsonwebtoken");
@@ -54,17 +53,21 @@ app.post("/", (req, res) => {
         return res.json({ Response: "Password not found" });
       }
 
-      //inputted correct password
       //create token for user
-      const token = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET, {
+      const payload = {
+        userName: req.body.userName,
+        role: "Admin",
+      };
+      const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
       });
       res.cookie("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        maxAge: 86400000,
       });
-      return res.json({ auth: true, token: token, result: req.body.userName });
+      return res.json({ auth: true, token: token });
     });
   });
 });
@@ -76,13 +79,24 @@ const verifyUser = (req, res, next) => {
   } else {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.json({ Verify: false });
+      req.user = decoded;
       next();
     });
   }
 };
 
+// @ts-ignore
 app.get("/verify", verifyUser, (req, res) => {
-  return res.json({ Verify: true });
+  // @ts-ignore
+  return res.json({ Verify: true, user: req.user });
+});
+// @ts-ignore
+app.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+  });
+  return res.json({ Response: "Logged out Successfully" });
 });
 
 module.exports = app;

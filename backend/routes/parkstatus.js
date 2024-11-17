@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const db = require("../connect");
+
 const parkStatusRoute = express.Router();
 
 parkStatusRoute.use(cors());
@@ -33,6 +34,15 @@ parkStatusRoute.get("/read", (req, res) => {
     if (err) {
       console.log(err);
     }
+    res.json({ result });
+  });
+});
+
+parkStatusRoute.get("/read/:parkStatusID", (req, res) => {
+  const { parkStatusID } = req.params;
+  const sql = "SELECT * from parkstatus where parkStatusID = ?;";
+  db.query(sql, [parkStatusID], (err, result) => {
+    if (err) console.log(err);
     res.json({ result });
   });
 });
