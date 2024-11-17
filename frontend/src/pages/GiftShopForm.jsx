@@ -1,147 +1,200 @@
-// ShopForm.js
-import { useState } from "react";
-import Select from "react-select";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Modal from "react-modal";
+import "./GiftShopForm.css";
 import EmployeeHeader from "../components/employeeHeader";
+import "./DataForm.css";
 
-const ShopForm = () => {
-  const [formData, setFormData] = useState({
-    shopType: 0, // Default to 'Gift shop' (0 for Gift shop, 1 for restaurant)
-    shopName: "", // Name of the shop or restaurant
-    location: "", // Location of the shop or restaurant
-    products: [], // Array of products with name and price
-  });
+Modal.setAppElement("#root");
 
-  // Handle form field changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  // Handle dropdown selection for type
-  const handleTypeChange = (selectedOption) => {
-    setFormData({ ...formData, shopType: selectedOption.value });
-  };
-
-  // Add new product input fields
-  const handleAddProduct = () => {
-    setFormData({
-      ...formData,
-      products: [...formData.products, { name: "", price: "" }],
-    });
-  };
-
-  // Handle changes in product fields
-  const handleProductChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedProducts = [...formData.products];
-    updatedProducts[index][name] = value;
-    setFormData({ ...formData, products: updatedProducts });
-  };
-
-  // Handle form submission with axios
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Replace with your backend API endpoint for shop/restaurant creation
-      const response = await axios.post(
-        "https://themepark-backend.onrender.com/shops/create",
-        formData
-      );
-      alert(`Ticket created successfully:`);
-
-      // Clear form data after submission
-      setFormData({
-        shopType: 0,
+const GiftShopForm = () => {
+    const [shops, setShops] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        shopID: "",
         shopName: "",
         location: "",
-        products: [],
+        shopType: "",
+        shopDesc: "",
+        imageFileName: "",
+    });
+    const [isEditMode, setIsEditMode] = useState(false);
+
+    useEffect(() => {
+        fetchShops();
+    }, []);
+
+    const fetchShops = async () => {
+        try {
+            const response = await axios.get("https://themepark-backend.onrender.com/shops/read");
+            setShops(response.data.result);
+        } catch (error) {
+            console.error("Error fetching shops:", error);
+        }
+    };
+
+    const openModal = (shop = null) => {
+        setIsEditMode(!!shop);
+        setFormData(
+            shop || {
+                shopID: "",
+                shopName: "",
+                location: "",
+                shopType: "",
+                shopDesc: "",
+                imageFileName: "",
+            }
+        );
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => setModalIsOpen(false);
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+          ...formData,
+          [name]: name === "shopType" ? parseInt(value, 10) : value, // Convert shopType to number
       });
-    } catch (error) {
-      console.error("Error creating entry:", error);
-      alert("Error creating entry. Please try again.");
-    }
-  };
+    };
 
-  return (
-    <>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (isEditMode) {
+                await axios.put(`https://themepark-backend.onrender.com/shops/${formData.shopID}`, formData);
+            } else {
+                await axios.post("https://themepark-backend.onrender.com/shops", formData);
+            }
+            fetchShops();
+            closeModal();
+        } catch (error) {
+            console.error("Error saving shop:", error);
+        }
+    };
+
+    const handleDelete = async (shopID) => {
+        if (window.confirm("Are you sure you want to delete this shop?")) {
+            try {
+                await axios.delete(`https://themepark-backend.onrender.com/shops/${shopID}`);
+                fetchShops();
+            } catch (error) {
+                console.error("Error deleting shop:", error);
+            }
+        }
+    };
+
+    return (
+      <>
       <EmployeeHeader />
-      <div className="dataentryformcontainer">
-        <h1>Add New Shop or Restaurant Entry</h1>
-        <form onSubmit={handleSubmit}>
-          {/* Type Selection Dropdown */}
-          <label>Type:</label>
-          <Select
-            name="shopType"
-            options={[
-              { value: 0, label: "Gift Shop" }, // "Shop" mapped to 0
-              { value: 1, label: "Restaurant" }, // "Restaurant" mapped to 1
-            ]}
-            value={{
-              value: formData.shopType,
-              label: formData.shopType === 0 ? "Gift Shop" : "Restaurant",
-            }}
-            onChange={handleTypeChange}
-            placeholder="Select Type"
-            required
-          />
+        <div className="container">
+            <h1>Shop Management</h1>
+            <button className="create-button" onClick={() => openModal()}>
+                Add Shop
+            </button>
+            <table className="data-table">
+                <thead>
+                    <tr>
+                        <th>Shop Name</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {shops.map((shop) => (
+                        <tr key={shop.shopID}>
+                            <td>{shop.shopName}</td>
+                            <td>{shop.location}</td>
+                            <td>{shop.shopType === 0 ? "Restaurant" : "Gift Shop"}</td>
+                            <td>{shop.shopDesc}</td>
+                            <td>
+                                <img
+                                    src={`/images/${shop.imageFileName}`}
+                                    alt={shop.shopName}
+                                    className="shop-image"
+                                />
+                            </td>
+                            <td>
+                                <button onClick={() => openModal(shop)} className="edit-button">Edit</button>
+                                <button onClick={() => handleDelete(shop.shopID)} className="delete-button">Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
 
-          {/* Shop Name */}
-          <label>Name:</label>
-          <input
-            type="text"
-            name="shopName"
-            value={formData.shopName}
-            onChange={handleChange}
-            required
-          />
-
-          {/* Location */}
-          <label>Location:</label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            required
-          />
-
-          {/* Products Section */}
-          <label>Products:</label>
-          {formData &&
-            formData.products.map((product, index) => (
-              <div key={index} className="product-entry">
-                <input
-                  type="text"
-                  name="name"
-                  value={product.name}
-                  onChange={(e) => handleProductChange(index, e)}
-                  placeholder="Product Name"
-                  required
-                />
-                <input
-                  type="number"
-                  name="price"
-                  value={product.price}
-                  onChange={(e) => handleProductChange(index, e)}
-                  placeholder="Product Price"
-                  required
-                />
-              </div>
-            ))}
-
-          {/* Add More Product Button */}
-          <button type="button" onClick={handleAddProduct}>
-            Add More Product
-          </button>
-
-          {/* Submit Button */}
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </>
-  );
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Shop Modal"
+                className="modal"
+                overlayClassName="overlay"
+            >
+                <h2>{isEditMode ? "Edit Shop" : "Add Shop"}</h2>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Shop Name:
+                        <input
+                            type="text"
+                            name="shopName"
+                            value={formData.shopName}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <label>
+                        Location:
+                        <input
+                            type="text"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <label>
+                        Shop Type:
+                        <select
+                            name="shopType"
+                            value={formData.shopType}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value={0}>Restaurant</option>
+                            <option value={1}>Gift Shop</option>
+                        </select>
+                    </label>
+                    <label>
+                        Description:
+                        <textarea
+                            name="shopDesc"
+                            value={formData.shopDesc}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <label>
+                        Image File Name:
+                        <input
+                            type="text"
+                            name="imageFileName"
+                            value={formData.imageFileName}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <button type="submit">{isEditMode ? "Update" : "Add"} Shop</button>
+                    <button type="button" onClick={closeModal}>
+                        Cancel
+                    </button>
+                </form>
+            </Modal>
+        </div>
+        </>
+    );
 };
 
-export default ShopForm;
+export default GiftShopForm;

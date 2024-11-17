@@ -29,16 +29,6 @@ export default function Dining() {
           a full meal, we have exactly what you need to keep you fueled up for
           the rest of the day.
         </p>
-        <div>
-          <h2>Filter By</h2>
-          <select name="dining" id="dining">
-            <option value="all">All Resturants</option>
-            <option value="kids">Mexican Food</option>
-            <option value="kids">Italian Food</option>
-            <option value="kids">Snacks & Beverages</option>
-            <option value="family">Desserts</option>
-          </select>
-        </div>
       </div>
       {restaurantList &&
         restaurantList.map((restaurant, index) => (
