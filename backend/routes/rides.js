@@ -7,7 +7,13 @@ ridesRoute.use(cors());
 ridesRoute.use(express.json());
 
 ridesRoute.get("/read", (req, res) => {
-  const sql = "SELECT * FROM rides;";
+  const sql = `SELECT 
+            r.rideID, r.rideName, r.capacity, r.openingTime, r.closingTime, 
+            r.rideType, r.rideDesc, r.imageFileName, 
+            concat(e.Fname, ' ', e.Lname ) AS technician 
+        FROM rides r
+        LEFT JOIN employee e ON r.technician = e.ssn
+        `;
   db.query(sql, (err, result) => {
     if (err) {
       console.log(err);
@@ -55,6 +61,17 @@ ridesRoute.delete("/:rideID", (req, res) => {
           res.send("Ride deleted successfully");
       }
   });
+});
+
+ridesRoute.put('/:id', (req, res) => {
+  const { rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName } = req.body;
+  db.query(
+      'UPDATE Rides SET rideName = ?, rideType = ?, capacity = ?, openingTime = ?, closingTime = ?, technician = ?, imageFileName = ? WHERE rideID = ?',
+      [ rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName, req.params.id],
+      (err) => {
+          if (err) throw err;
+      }
+  );
 });
 
 ridesRoute.get("/top-rides", (req, res) => {
