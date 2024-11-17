@@ -25,7 +25,7 @@ ridesRoute.get("/read", (req, res) => {
 // Insert a new ride
 ridesRoute.post('/create', (req, res) => {
   // Extract ride details from request body
-  const { rideName, rideType, capacity, openingTime, closingTime, technician } = req.body;
+  const { rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc } = req.body;
 
   // Basic validation
   if (!rideName || !capacity || !openingTime || !closingTime) {
@@ -34,12 +34,12 @@ ridesRoute.post('/create', (req, res) => {
 
   // Insert query
   const query = `
-    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName)
-    VALUES (?, ?, ?, ?, ?, 'under-construction.webp')
+    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc, imageFileName)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 'under-construction.webp')
   `;
 
   // Execute query with callback
-  db.execute(query, [rideName, rideType, capacity, openingTime, closingTime, technician], (error, results) => {
+  db.execute(query, [rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc], (error, results) => {
     if (error) {
       console.error("Error inserting ride:", error);
       return res.status(500).json({ error: "Failed to insert ride" });
@@ -52,6 +52,10 @@ ridesRoute.post('/create', (req, res) => {
 
 ridesRoute.delete("/:rideID", (req, res) => {
   const { rideID } = req.params;
+  const query1 = "DELETE FROM maintenance WHERE rideID = ?";
+  db.query(query1, [rideID], (err) => {
+  });
+
   const query = "DELETE FROM rides WHERE rideID = ?";
   db.query(query, [rideID], (err) => {
       if (err) {
@@ -64,10 +68,10 @@ ridesRoute.delete("/:rideID", (req, res) => {
 });
 
 ridesRoute.put('/:id', (req, res) => {
-  const { rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName } = req.body;
+  const { rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc } = req.body;
   db.query(
-      'UPDATE Rides SET rideName = ?, rideType = ?, capacity = ?, openingTime = ?, closingTime = ?, technician = ?, imageFileName = ? WHERE rideID = ?',
-      [ rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName, req.params.id],
+      'UPDATE Rides SET rideName = ?, rideType = ?, capacity = ?, openingTime = ?, closingTime = ?, technician = ?, rideDesc = ? WHERE rideID = ?',
+      [ rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc, req.params.id],
       (err) => {
           if (err) throw err;
       }
