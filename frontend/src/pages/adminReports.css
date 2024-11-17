@@ -1,4 +1,4 @@
-p {
+/* p {
   margin: 0;
 }
 .reports {
@@ -10,4 +10,22 @@ p {
   height: 200px;
   background-color: white;
 }
-/**/
+ */
+/* Adminreports.css */
+
+/* Adminreports.css */
+
+.admin-reports {
+  padding: 20px;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filters input {
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

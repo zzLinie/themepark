@@ -14,6 +14,7 @@ const shops = require("./routes/shops");
 const employeeAuth = require("./routes/employeeAuth");
 const tickets = require("./routes/tickets");
 const adminTickets = require("./routes/adminTickets");
+const reportsRoute = require("./routes/reports");
 const customerRoute = require("./routes/customerLogin");
 
 const storage = multer.diskStorage({
@@ -45,6 +46,7 @@ app.use("/employees", employeeAuth);
 app.use("/maintenance", maintenance);
 app.use("/tickets", tickets);
 app.use("/adminTickets", adminTickets);
+app.use("/reports", reportsRoute);
 app.use("/customer", customerRoute);
 
 app.get(`/`, (req, res) => {
