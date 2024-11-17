@@ -23,7 +23,7 @@ import EmployeeProtectedRoute from "./utils/EmployeeProtectedRoute.jsx";
 import { AuthProvider } from "./utils/AuthProvider.jsx";
 import { CartProvider } from "./utils/CartContext.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import Cart from "./pages/Cart.jsx";
+
 import { TicketProvider } from "./utils/TicketContext.jsx";
 import CustomerDetails from "./pages/CustomerDetails.jsx";
 
@@ -44,7 +44,6 @@ export default function App() {
               <Route element={<TicketForm />} path="/ticket" />
               <Route element={<EmployeeLogin />} path="/login/employee" />
               <Route element={<Login />} path="/login" />
-              <Route element={<Cart />} path="/cart" />
               <Route element={<CustomerDetails />} path="/customer-account" />
               <Route element={<AdminProtectedRoute />}>
                 <Route element={<AdminTickets />} path="/login/admin/tickets" />
