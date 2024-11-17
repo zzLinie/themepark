@@ -6,7 +6,6 @@ import "react-calendar/dist/Calendar.css";
 import "./Dashboard.css";
 import "./DataForm.css";
 import EmployeeHeader from "../components/employeeHeader";
-import { format } from "mysql";
 
 const Dashboard = () => {
   const [topRides, setTopRides] = useState([]);
