@@ -62,9 +62,9 @@ const GiftShopForm = () => {
         e.preventDefault();
         try {
             if (isEditMode) {
-                await axios.put(`http://localhost:3000/shops/${formData.shopID}`, formData);
+                await axios.put(`https://themepark-backend.onrender.com/shops/${formData.shopID}`, formData);
             } else {
-                await axios.post("http://localhost:3000/shops", formData);
+                await axios.post("https://themepark-backend.onrender.com/shops", formData);
             }
             fetchShops();
             closeModal();
@@ -76,7 +76,7 @@ const GiftShopForm = () => {
     const handleDelete = async (shopID) => {
         if (window.confirm("Are you sure you want to delete this shop?")) {
             try {
-                await axios.delete(`http://localhost:3000/shops/${shopID}`);
+                await axios.delete(`https://themepark-backend.onrender.com/shops/${shopID}`);
                 fetchShops();
             } catch (error) {
                 console.error("Error deleting shop:", error);
