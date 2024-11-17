@@ -39,9 +39,6 @@ export default function App() {
               <Route element={<Home />} path="/" />
               <Route element={<Dining />} path="/dining" />
               <Route element={<Shops />} path="/giftshops" />
-
-<Route element={<ParkStatusForm />} path="/parkstatusform" />
-
               <Route element={<Rides />} path="/rides" />
               <Route element={<Events />} path="/events" />
               <Route element={<AdminLogin />} path="/login/admin" />
