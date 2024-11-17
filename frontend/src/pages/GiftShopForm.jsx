@@ -26,7 +26,7 @@ const GiftShopForm = () => {
 
     const fetchShops = async () => {
         try {
-            const response = await axios.get("https://themepark-backend.onrender.com/shops/read");
+            const response = await axios.get("http://localhost:3000/shops/read");
             setShops(response.data.result);
         } catch (error) {
             console.error("Error fetching shops:", error);
@@ -64,7 +64,7 @@ const GiftShopForm = () => {
             if (isEditMode) {
                 await axios.put(`https://themepark-backend.onrender.com/shops/${formData.shopID}`, formData);
             } else {
-                await axios.post("https://themepark-backend.onrender.com/shops", formData);
+                await axios.post("https://themepark-backend.onrender.com/shops/create", formData);
             }
             fetchShops();
             closeModal();
@@ -172,16 +172,6 @@ const GiftShopForm = () => {
                         <textarea
                             name="shopDesc"
                             value={formData.shopDesc}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </label>
-                    <label>
-                        Image File Name:
-                        <input
-                            type="text"
-                            name="imageFileName"
-                            value={formData.imageFileName}
                             onChange={handleInputChange}
                             required
                         />

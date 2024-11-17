@@ -58,8 +58,7 @@ eventsRoute.post('/create', (req, res) => {
     eventType,
     startDate,
     endDate,
-    imageFileName
-  ], (error, results) => {
+   ], (error, results) => {
     if (error) {
       console.error("Error inserting special event:", error);
       return res.status(500).json({ error: "Failed to insert special event" });
@@ -128,4 +127,3 @@ eventsRoute.get("/upcoming-maintenance", (req, res) => {
 
 
 module.exports = eventsRoute;
-
