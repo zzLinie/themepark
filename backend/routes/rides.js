@@ -9,8 +9,8 @@ ridesRoute.use(express.json());
 ridesRoute.get("/read", (req, res) => {
   const sql = `SELECT 
             r.rideID, r.rideName, r.capacity, r.openingTime, r.closingTime, 
-            r.rideType, r.rideDesc, r.imageFileName, 
-            concat(e.Fname, ' ', e.Lname ) AS technician 
+            r.rideType, r.rideDesc, r.imageFileName, r.technician ,
+            concat(e.Fname, ' ', e.Lname ) AS technicianName 
         FROM rides r
         LEFT JOIN employee e ON r.technician = e.ssn
         `;

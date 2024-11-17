@@ -131,7 +131,7 @@ const RidesForm = () => {
                             <td>{ride.rideName}</td>
                             <td>{ride.openingTime}</td>
                             <td>{ride.closingTime}</td>
-                            <td>{ride.technician}</td>
+                            <td>{ride.technicianName}</td>
                             <td>{ride.rideType}</td>
                             <td>{truncateText(ride.rideDesc, 10)}</td>
                             <td>
