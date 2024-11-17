@@ -17,7 +17,7 @@ shopsRoute.get("/read", (req, res) => {
 });
 
 shopsRoute.get("/readRestaurants", (req, res) => {
-  const sql = "SELECT * FROM shop WHERE shopType = 0 and deleteStatus = 0;
+  const sql = "SELECT * FROM shop WHERE shopType = 0 and deleteStatus = 0";
   db.query(sql, (err, result) => {
     if (err) {
       console.log(err);
