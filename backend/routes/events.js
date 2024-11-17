@@ -38,7 +38,6 @@ eventsRoute.post('/create', (req, res) => {
     eventType,
     startDate,
     endDate,
-    imageFileName,
   } = req.body;
   //const imageFileName = req.file ? req.file.filename : under-construction.webp;
 
@@ -49,8 +48,8 @@ eventsRoute.post('/create', (req, res) => {
 
   // Define SQL query for inserting a special event
   const query = `
-    INSERT INTO specialevents (eventName, eventType, startDate, endDate, imageFileName)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO specialevents (eventName, eventType, startDate, endDate)
+    VALUES (?, ?, ?, ?)
   `;
 
   // Execute the query with the provided form data
