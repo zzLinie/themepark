@@ -82,6 +82,7 @@ const ParkStatusForm = () => {
 
   useEffect(() => {
     getParkStatus();
+
   }, []);
 
   const getWeatherDescription = (weatherType) => {

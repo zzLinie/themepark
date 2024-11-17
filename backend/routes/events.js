@@ -39,7 +39,7 @@ eventsRoute.post('/create', upload.single("image"), (req, res) => {
     startDate,
     endDate,
   } = req.body;
-  const imageFileName = req.file ? req.file.filename : null;
+  const imageFileName = req.file ? req.file.filename : under-construction.webp;
 
   // Basic validation
   if (!eventName || eventType === undefined || !startDate || !endDate) {
@@ -87,6 +87,45 @@ eventsRoute.put('/:id', (req, res) => {
       }
   );
 });
+
+eventsRoute.get("/upcoming-events", (req, res) => {
+  const query = `
+      SELECT eventName, eventType, startDate, endDate
+      FROM SpecialEvents
+      WHERE startDate > NOW()
+      ORDER BY startDate ASC
+      LIMIT 5
+  `;
+  db.query(query, (err, result) => {
+      if (err) {
+          console.error("Error fetching upcoming events:", err);
+          res.status(500).send("Error fetching upcoming events");
+      } else {
+          res.json( {result} );
+      }
+  });
+});
+
+eventsRoute.get("/upcoming-maintenance", (req, res) => {
+  const query = `
+      SELECT m.maintenanceID, r.rideName, e.Fname as technician,  m.maintenanceOpenDate as maintenanceDate, m.maintenanceStatus as status
+      FROM maintenance AS m
+      INNER JOIN rides AS r ON m.rideID = r.rideID
+	    INNER JOIN employee AS e ON e.Ssn = r.technician
+      WHERE m.maintenanceOpenDate > NOW()
+      ORDER BY m.maintenanceOpenDate ASC
+  `;
+  db.query(query, (err, result) => {
+      if (err) {
+          console.error("Error fetching upcoming maintenance:", err);
+          res.status(500).send("Error fetching upcoming maintenance");
+      } else {
+          res.json( {result} );
+      }
+  });
+});
+
+
 
 module.exports = eventsRoute;
 

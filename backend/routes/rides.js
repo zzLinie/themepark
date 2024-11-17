@@ -28,8 +28,8 @@ ridesRoute.post('/create', (req, res) => {
 
   // Insert query
   const query = `
-    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName)
+    VALUES (?, ?, ?, ?, ?, 'under-construction.webp')
   `;
 
   // Execute query with callback
@@ -56,6 +56,25 @@ ridesRoute.delete("/:rideID", (req, res) => {
       }
   });
 });
+
+ridesRoute.get("/top-rides", (req, res) => {
+  const query = `
+      SELECT rideName, rideType, capacity, SUM(visitCount) as popularityScore 
+      FROM rides r join ridevisit rv on r.rideID = rv.rideID 
+	    GROUP BY rv.rideID
+      ORDER BY popularityScore DESC
+      LIMIT 5
+  `;
+  db.query(query, (err, result) => {
+      if (err) {
+          console.error("Error fetching top rides:", err);
+          res.status(500).send("Error fetching top rides");
+      } else {
+          res.json( {result} );
+      }
+  });
+});
+
 
 module.exports = ridesRoute;
 
