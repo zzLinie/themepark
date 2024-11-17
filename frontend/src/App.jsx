@@ -26,6 +26,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 
 import { TicketProvider } from "./utils/TicketContext.jsx";
 import CustomerDetails from "./pages/CustomerDetails.jsx";
+import ParkStatusForm from "./pages/AdminParkstatus.jsx";
 
 export default function App() {
   return (
