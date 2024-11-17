@@ -20,7 +20,7 @@ export default function GiftShops() {
   return (
     <div>
       <Header />
-      <div class="parkTitle">
+      <div className="parkTitle">
         <h1>Gift Shops</h1>
         <p>
           Bringing home the perfect souvenir from a day at the park can make

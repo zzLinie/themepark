@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Calendar from "react-calendar";
-<<<<<<< HEAD
 import Modal from "./Modal";
 import 'react-calendar/dist/Calendar.css';
-=======
 import "react-calendar/dist/Calendar.css";
->>>>>>> customer
 import "./Dashboard.css";
 import "./DataForm.css";
 import EmployeeHeader from "../components/employeeHeader";
 
 const Dashboard = () => {
-<<<<<<< HEAD
     const [topRides, setTopRides] = useState([]);
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [upcomingMaintenance, setUpcomingMaintenance] = useState([]);
@@ -21,14 +17,6 @@ const Dashboard = () => {
     const [dayEvents, setDayEvents] = useState([]);
     const [events, setEvents] = useState([]);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
-=======
-  const [topRides, setTopRides] = useState([]);
-  const [upcomingEvents, setUpcomingEvents] = useState([]);
-  const [upcomingMaintenance, setUpcomingMaintenance] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [dayEvents, setDayEvents] = useState([]);
-  const [events, setEvents] = useState([]);
->>>>>>> customer
 
   // Fetch top 5 popular rides
   const fetchTopRides = async () => {
@@ -84,7 +72,6 @@ const Dashboard = () => {
     fetchUpcomingMaintenance();
   }, []);
 
-<<<<<<< HEAD
     const openModal = (maintenance = null) => {
         if (maintenance) {
             setEditingMaint({
@@ -350,17 +337,6 @@ const Dashboard = () => {
             </div>
         </div>
         </>
-=======
-  // Handle date selection
-  const handleDateChange = (date) => {
-    if (date === undefined) {
-      return;
-    }
-    setSelectedDate(date);
-    const formattedDate = date.toISOString().split("T")[0];
-    const filteredEvents = events.filter(
-      (event) => event.startDate.split("T")[0] === formattedDate
->>>>>>> customer
     );
     setDayEvents(filteredEvents);
   };
