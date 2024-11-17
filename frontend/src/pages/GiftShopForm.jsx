@@ -12,7 +12,7 @@ function SpecialEventForm() {
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({
     eventName: "",
-    eventType: "",
+    eventType: "0",
     startDate: "",
     endDate: "",
     imageFileName: "",
