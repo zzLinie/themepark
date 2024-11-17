@@ -25,7 +25,7 @@ ridesRoute.get("/read", (req, res) => {
 // Insert a new ride
 ridesRoute.post('/create', (req, res) => {
   // Extract ride details from request body
-  const { rideName, rideType, capacity, openingTime, closingTime, technician } = req.body;
+  const { rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc } = req.body;
 
   // Basic validation
   if (!rideName || !capacity || !openingTime || !closingTime) {
@@ -34,12 +34,12 @@ ridesRoute.post('/create', (req, res) => {
 
   // Insert query
   const query = `
-    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, imageFileName)
-    VALUES (?, ?, ?, ?, ?, ?, 'under-construction.webp')
+    INSERT INTO Rides (rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc, imageFileName)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 'under-construction.webp')
   `;
 
   // Execute query with callback
-  db.execute(query, [rideName, rideType, capacity, openingTime, closingTime, technician], (error, results) => {
+  db.execute(query, [rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc], (error, results) => {
     if (error) {
       console.error("Error inserting ride:", error);
       return res.status(500).json({ error: "Failed to insert ride" });
@@ -68,10 +68,10 @@ ridesRoute.delete("/:rideID", (req, res) => {
 });
 
 ridesRoute.put('/:id', (req, res) => {
-  const { rideName, rideType, capacity, openingTime, closingTime, technician } = req.body;
+  const { rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc } = req.body;
   db.query(
-      'UPDATE Rides SET rideName = ?, rideType = ?, capacity = ?, openingTime = ?, closingTime = ?, technician = ?, WHERE rideID = ?',
-      [ rideName, rideType, capacity, openingTime, closingTime, technician, req.params.id],
+      'UPDATE Rides SET rideName = ?, rideType = ?, capacity = ?, openingTime = ?, closingTime = ?, technician = ?, rideDesc = ? WHERE rideID = ?',
+      [ rideName, rideType, capacity, openingTime, closingTime, technician, rideDesc, req.params.id],
       (err) => {
           if (err) throw err;
       }
