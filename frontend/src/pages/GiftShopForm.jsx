@@ -1,289 +1,190 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDropzone } from "react-dropzone";
-import Modal from "./Modal";
-import "./DataEntryForm.css";
-import "./DataForm.css";
+import Modal from "react-modal";
+import "./GiftShopForm.css";
 import EmployeeHeader from "../components/employeeHeader";
+import "./DataForm.css";
 
-const API_URL = "https://themepark-backend.onrender.com/events";
+Modal.setAppElement("#root");
 
-function SpecialEventForm() {
-  const [events, setEvents] = useState([]);
-  const [newEvent, setNewEvent] = useState({
-    eventName: "",
-    eventType: "0",
-    startDate: "",
-    endDate: "",
-    imageFileName: "",
-  });
-  const [editingEvent, setEditingEvent] = useState(null);
-  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
-
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-
-  const fetchEvents = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/read`);
-      setEvents(response.data.result);
-    } catch (error) {
-      console.error("Error fetching events:", error);
-    }
-  };
-
-  const [imageFile, setImageFile] = useState(null);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewEvent({ ...newEvent, [name]: value });
-  };
-
-  const onDrop = (acceptedFiles) => {
-    setImageFile(acceptedFiles[0]);
-  };
-
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-  const handleCreateEvent = async () => {
-    try {
-      await axios.post(`${API_URL}/create`, newEvent);
-      fetchEvents();
-      setCreateModalOpen(false);
-      setNewEvent({
-        eventName: "",
-        eventType: "",
-        startDate: "",
-        endDate: "",
+const GiftShopForm = () => {
+    const [shops, setShops] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        shopID: "",
+        shopName: "",
+        location: "",
+        shopType: "",
+        shopDesc: "",
         imageFileName: "",
+    });
+    const [isEditMode, setIsEditMode] = useState(false);
+
+    useEffect(() => {
+        fetchShops();
+    }, []);
+
+    const fetchShops = async () => {
+        try {
+            const response = await axios.get("https://themepark-backend.onrender.com/shops/read");
+            setShops(response.data.result);
+        } catch (error) {
+            console.error("Error fetching shops:", error);
+        }
+    };
+
+    const openModal = (shop = null) => {
+        setIsEditMode(!!shop);
+        setFormData(
+            shop || {
+                shopID: "",
+                shopName: "",
+                location: "",
+                shopType: "0",
+                shopDesc: "",
+                imageFileName: "",
+            }
+        );
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => setModalIsOpen(false);
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+          ...formData,
+          [name]: name === "shopType" ? parseInt(value, 10) : value, // Convert shopType to number
       });
-    } catch (error) {
-      console.error("Error creating event:", error);
-    }
-  };
+    };
 
-  const handleEditEvent = (event) => {
-    if (event === undefined) {
-      return;
-    }
-    // Format the date values properly for datetime-local input
-    const formattedStartDate = formatForDateLocal(event.startDate);
-    const formattedEndDate = formatForDateLocal(event.endDate);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (isEditMode) {
+                await axios.put(`https://themepark-backend.onrender.com/shops/${formData.shopID}`, formData);
+            } else {
+                await axios.post("https://themepark-backend.onrender.com/shops/create", formData);
+            }
+            fetchShops();
+            closeModal();
+        } catch (error) {
+            console.error("Error saving shop:", error);
+        }
+    };
 
-    setEditingEvent({
-      ...event,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    });
-    setEditModalOpen(true);
-  };
+    const handleDelete = async (shopID) => {
+        if (window.confirm("Are you sure you want to delete this shop?")) {
+            try {
+                await axios.delete(`https://themepark-backend.onrender.com/shops/${shopID}`);
+                fetchShops();
+            } catch (error) {
+                console.error("Error deleting shop:", error);
+            }
+        }
+    };
 
-  const handleUpdateEvent = async () => {
-    try {
-      await axios.put(`${API_URL}/${editingEvent.eventID}`, editingEvent);
-      fetchEvents();
-      setEditModalOpen(false);
-      setEditingEvent(null);
-    } catch (error) {
-      console.error("Error updating event:", error);
-    }
-  };
-
-  // Format the DATETIME string to dd-MMM-yyyy format
-  const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  const formatForDateLocal = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
-  };
-
-  const handleDeleteEvent = (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this event?"
-    );
-    if (confirmDelete) {
-      try {
-        axios.delete(`${API_URL}/${id}`);
-        fetchEvents(); // Re-fetch events after deletion
-      } catch (error) {
-        console.error("Error deleting event:", error);
-      }
-    }
-  };
-
-  return (
-    <>
+    return (
+      <>
       <EmployeeHeader />
-      <div className="container">
-        <h1>Event Management</h1>
-        <button
-          onClick={() => setCreateModalOpen(true)}
-          className="create-button"
-        >
-          Create Event
-        </button>
+        <div className="container">
+            <h1>Shop Management</h1>
+            <button className="create-button" onClick={() => openModal()}>
+                Add Shop
+            </button>
+            <table className="data-table">
+                <thead>
+                    <tr>
+                        <th>Shop Name</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {shops.map((shop) => (
+                        <tr key={shop.shopID}>
+                            <td>{shop.shopName}</td>
+                            <td>{shop.location}</td>
+                            <td>{shop.shopType === 0 ? "Restaurant" : "Gift Shop"}</td>
+                            <td>{shop.shopDesc}</td>
+                            <td>
+                                <img
+                                    src={`/images/${shop.imageFileName}`}
+                                    alt={shop.shopName}
+                                    className="shop-image"
+                                />
+                            </td>
+                            <td>
+                                <button onClick={() => openModal(shop)} className="edit-button">Edit</button>
+                                <button onClick={() => handleDelete(shop.shopID)} className="delete-button">Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
 
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Event Name</th>
-              <th>Event Type</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Image</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events &&
-              events.map((event, key) => {
-                return (
-                  <tr key={key}>
-                    <td>{event.eventName}</td>
-                    <td>{event.eventType}</td>
-                    <td>{formatDate(event.startDate)}</td>
-                    <td>{formatDate(event.endDate)}</td>
-                    <td>
-                      {event.imageFileName ? (
-                        <img
-                          src={`/images/${event.imageFileName}`}
-                          alt={event.eventName}
-                          width="50"
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Shop Modal"
+                className="modal"
+                overlayClassName="overlay"
+            >
+                <h2>{isEditMode ? "Edit Shop" : "Add Shop"}</h2>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Shop Name:
+                        <input
+                            type="text"
+                            name="shopName"
+                            value={formData.shopName}
+                            onChange={handleInputChange}
+                            required
                         />
-                      ) : (
-                        "No Image"
-                      )}
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => handleEditEvent(event)}
-                        className="edit-button"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeleteEvent(event.eventID)}
-                        className="delete-button"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+                    </label>
+                    <label>
+                        Location:
+                        <input
+                            type="text"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <label>
+                        Shop Type:
+                        <select
+                            name="shopType"
+                            value={formData.shopType}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value={0}>Restaurant</option>
+                            <option value={1}>Gift Shop</option>
+                        </select>
+                    </label>
+                    <label>
+                        Description:
+                        <textarea
+                            name="shopDesc"
+                            value={formData.shopDesc}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <button type="submit">{isEditMode ? "Update" : "Add"} Shop</button>
+                    <button type="button" onClick={closeModal}>
+                        Cancel
+                    </button>
+                </form>
+            </Modal>
+        </div>
+        </>
+    );
+};
 
-        {/* Create Event Modal */}
-        <Modal
-          isOpen={isCreateModalOpen}
-          onClose={() => setCreateModalOpen(false)}
-        >
-          <h2>Create Event</h2>
-          <input
-            type="text"
-            name="eventName"
-            value={newEvent.eventName}
-            onChange={handleInputChange}
-            placeholder="Event Name"
-          />
-          <select
-            type="text"
-            name="eventType"
-            value={newEvent.eventType}
-            onChange={handleInputChange}
-            placeholder="Event Type"
-          >
-            <option value="">Select Event Type</option>
-            <option value="Holiday">Holiday</option>
-            <option value="Festival">Festival</option>
-            <option value="Seasonal">Seasonal</option>
-            <option value="Fireworks">Fireworks</option>
-          </select>
-          <input
-            type="date"
-            name="startDate"
-            value={newEvent.startDate}
-            onChange={handleInputChange}
-          />
-          <input
-            type="date"
-            name="endDate"
-            value={newEvent.endDate}
-            onChange={handleInputChange}
-          />
-
-          <button onClick={handleCreateEvent} className="create-button">
-            Create
-          </button>
-        </Modal>
-
-        {/* Edit Event Modal */}
-        <Modal isOpen={isEditModalOpen} onClose={() => setEditModalOpen(false)}>
-          <h2>Edit Event</h2>
-          <input
-            type="text"
-            name="eventName"
-            value={editingEvent?.eventName || ""}
-            onChange={(e) =>
-              setEditingEvent({ ...editingEvent, eventName: e.target.value })
-            }
-          />
-          <select
-            type="text"
-            name="eventType"
-            value={editingEvent?.eventType || ""}
-            onChange={(e) =>
-              setEditingEvent({ ...editingEvent, eventType: e.target.value })
-            }
-          >
-            <option value="">Select Event Type</option>
-            <option value="Holiday">Holiday</option>
-            <option value="Festival">Festival</option>
-            <option value="Seasonal">Seasonal</option>
-            <option value="Fireworks">Fireworks</option>
-          </select>
-          <input
-            type="date"
-            name="startDate"
-            value={editingEvent?.startDate || ""}
-            onChange={(e) =>
-              setEditingEvent({ ...editingEvent, startDate: e.target.value })
-            }
-          />
-          <input
-            type="date"
-            name="endDate"
-            value={editingEvent?.endDate || ""}
-            onChange={(e) =>
-              setEditingEvent({ ...editingEvent, endDate: e.target.value })
-            }
-          />
-          <button onClick={handleUpdateEvent} className="update-button">
-            Update
-          </button>
-        </Modal>
-      </div>
-    </>
-  );
-}
-
-export default SpecialEventForm;
-
-/*<div {...getRootProps()} className="dropzone">
-<input {...getInputProps()} />
-{imageFile ? (
-<p>{imageFile.name}</p>
-) : (
-<p>Drag or select an image</p>
-)}
-</div> */
+export default GiftShopForm;
