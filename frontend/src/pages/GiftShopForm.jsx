@@ -64,7 +64,7 @@ const GiftShopForm = () => {
             if (isEditMode) {
                 await axios.put(`https://themepark-backend.onrender.com/shops/${formData.shopID}`, formData);
             } else {
-                await axios.post("https://themepark-backend.onrender.com/shops", formData);
+                await axios.post("https://themepark-backend.onrender.com/shops/create", formData);
             }
             fetchShops();
             closeModal();
