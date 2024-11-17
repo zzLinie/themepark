@@ -9,7 +9,7 @@ parkStatusRoute.use(express.json());
 
 parkStatusRoute.post("/create", (req, res) => {
   const {
-    parkStatusDate,
+    date,
     weatherType,
   } = req.body;
   const sql =
@@ -17,7 +17,7 @@ parkStatusRoute.post("/create", (req, res) => {
   db.query(
     sql,
     [
-      parkStatusDate,
+      date,
       weatherType,
     ],
     (err, result) => {
@@ -50,14 +50,14 @@ parkStatusRoute.get("/read/:parkStatusID", (req, res) => {
 parkStatusRoute.put("/update", (req, res) => {
   const {
     parkStatusID,
-    parkStatusDate,
+    date,
     weatherType,
   } = req.body;
-  const sql = `UPDATE parkstatus SET parkStatusDate=?, weatherType=? WHERE parkStatusID = ?;`;
+  const sql = `UPDATE parkstatus SET date=?, weatherType=? WHERE parkStatusID = ?;`;
   db.query(
     sql,
     [
-      parkStatusDate,
+      date,
       weatherType,
       parkStatusID
     ],
