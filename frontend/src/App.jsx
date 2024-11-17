@@ -26,6 +26,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 
 import { TicketProvider } from "./utils/TicketContext.jsx";
 import CustomerDetails from "./pages/CustomerDetails.jsx";
+import ParkStatusForm from "./pages/AdminParkstatus.jsx";
 
 export default function App() {
   return (
@@ -39,6 +40,11 @@ export default function App() {
               <Route element={<Dining />} path="/dining" />
               <Route element={<Shops />} path="/giftshops" />
               <Route element={<Rides />} path="/rides" />
+
+              <Route element={<SpecialEventForm />} path="/specialeventform" />
+              <Route element={<Dashboard />} path="/dashboard" />
+              <Route element={<ParkStatusForm />} path="/parkstatus" />
+
               <Route element={<Events />} path="/events" />
               <Route element={<AdminLogin />} path="/login/admin" />
               <Route element={<TicketForm />} path="/ticket" />

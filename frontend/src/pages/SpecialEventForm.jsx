@@ -94,7 +94,8 @@ function SpecialEventForm() {
   // Format the DATETIME string to dd-MMM-yyyy format
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB", {
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString("en-TX", {
       day: "2-digit",
       month: "short",
       year: "numeric",

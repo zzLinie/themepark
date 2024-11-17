@@ -6,6 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import "./Dashboard.css";
 import "./DataForm.css";
 import EmployeeHeader from "../components/employeeHeader";
+import { format } from "mysql";
 
 const Dashboard = () => {
   const [topRides, setTopRides] = useState([]);
@@ -102,7 +103,8 @@ const Dashboard = () => {
   // Format the DATETIME string to dd-MMM-yyyy format
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB", {
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString("en-TX", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -119,13 +121,12 @@ const Dashboard = () => {
     if (maintenance === undefined) {
       return;
     }
-    // Format the date values properly for datetime-local input
-    /*const formattedOpenDate = formatForDateLocal(maintenance.maintenanceOpenDate);
+    const formattedOpenDate = formatForDateLocal(maintenance.maintenanceDate);
       
       setEditingMaint({
           ...maintenance,
-          maintenanceOpenDate: formattedOpenDate,
-      });*/
+          maintenanceDate: formattedOpenDate,
+      });
     setEditModalOpen(true);
   };
 
@@ -237,8 +238,8 @@ const Dashboard = () => {
                         <tr key={key}>
                           <td>{event.eventName}</td>
                           <td>{event.eventType}</td>
-                          <td>{new Date(event.startDate).toDateString()}</td>
-                          <td>{new Date(event.endDate).toDateString()}</td>
+                          <td>{formatDate(event.startDate)}</td>
+                          <td>{formatDate(event.endDate)}</td>
                         </tr>
                       );
                     })}
@@ -268,9 +269,9 @@ const Dashboard = () => {
                         <li key={key}>
                           <strong>{event.eventName}</strong> - {event.eventType}{" "}
                           <br />
-                          From: {new Date(event.startDate).toDateString()}{" "}
+                          From: {formatDate(event.startDate)}{" "}
                           <br />
-                          To: {new Date(event.endDate).toDateString()}
+                          To: {formatDate(event.endDate)}
                         </li>
                       );
                     })}
@@ -332,23 +333,23 @@ const Dashboard = () => {
               <h2>Edit Maintenance </h2>
               <input
                 type="date"
-                name="maintenance Date"
-                value={editingMaint?.maintenanceOpenDate || ""}
+                name="maintenanceDate"
+                value={editingMaint?.maintenanceDate || ""}
                 onChange={(e) =>
                   setEditingMaint({
                     ...editingMaint,
-                    maintenanceOpenDate: e.target.value,
+                    maintenanceDate: e.target.value,
                   })
                 }
               />
               <select
                 type="text"
-                name="Maintenance Status"
-                value={editingMaint?.maintenanceStatus || ""}
+                name="status"
+                value={editingMaint?.status || ""}
                 onChange={(e) =>
                   setEditingMaint({
                     ...editingMaint,
-                    maintenanceStatus: e.target.value,
+                    status: e.target.value,
                   })
                 }
               >
