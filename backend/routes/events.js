@@ -32,18 +32,19 @@ eventsRoute.get("/read", (req, res) => {
 });
 
 // Route to add a new special event
-eventsRoute.post('/create', upload.single("image"), (req, res) => {
+eventsRoute.post('/create', (req, res) => {
   const {
     eventName,
     eventType,
     startDate,
     endDate,
+    imageFileName,
   } = req.body;
-  const imageFileName = req.file ? req.file.filename : under-construction.webp;
+  //const imageFileName = req.file ? req.file.filename : under-construction.webp;
 
   // Basic validation
-  if (!eventName || eventType === undefined || !startDate || !endDate) {
-    return res.status(400).json({ error: "Event name, type, date, and start time are required." });
+  if (!eventName || eventType === undefined) {
+    return res.status(400).json({ error: "Event name and type cannot be null" });
   }
 
   // Define SQL query for inserting a special event
@@ -108,7 +109,7 @@ eventsRoute.get("/upcoming-events", (req, res) => {
 
 eventsRoute.get("/upcoming-maintenance", (req, res) => {
   const query = `
-      SELECT m.maintenanceID, r.rideName, e.Fname as technician,  m.maintenanceOpenDate as maintenanceDate, m.maintenanceStatus as status
+      SELECT m.maintenanceID, r.rideName, e.Lname as technician,  m.maintenanceOpenDate as maintenanceDate, m.maintenanceStatus as status
       FROM maintenance AS m
       INNER JOIN rides AS r ON m.rideID = r.rideID
 	    INNER JOIN employee AS e ON e.Ssn = r.technician

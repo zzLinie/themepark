@@ -50,12 +50,9 @@ export default function App() {
           </Route>
           <Route element={<EmployeeProtectedRoute />}>
             <Route element={<Dashboard />} path="/login/employees/dashboard" />
-	    <Route element={<EmployeeHome />} path="/login/employees/home" />
+	          <Route element={<EmployeeHome />} path="/login/employees/home" />
             <Route element={<GiftShopForm />} path="/login/employees/shop" />
-            <Route
-              element={<SpecialEventForm />}
-              path="/login/employees/events"
-            />
+            <Route element={<SpecialEventForm />} path="/login/employees/events" />
             <Route element={<RideForm />} path="/login/employees/ride" />
           </Route>
         </Routes>

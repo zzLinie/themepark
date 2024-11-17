@@ -169,13 +169,19 @@ function SpecialEventForm() {
                     onChange={handleInputChange}
                     placeholder="Event Name"
                 />
-                <input
+                <select
                     type="text"
                     name="eventType"
                     value={newEvent.eventType}
                     onChange={handleInputChange}
                     placeholder="Event Type"
-                />
+                >
+                    <option value="">Select Event Type</option>
+                    <option value="Holiday">Holiday</option>
+                    <option value="Festival">Festival</option>
+                    <option value="Seasonal">Seasonal</option>
+                    <option value="Fireworks">Fireworks</option>
+                </select>
                 <input
                     type="date"
                     name="startDate"
@@ -188,14 +194,7 @@ function SpecialEventForm() {
                     value={newEvent.endDate}
                     onChange={handleInputChange}
                 />
-                <div {...getRootProps()} className="dropzone">
-                    <input {...getInputProps()} />
-                    {imageFile ? (
-                    <p>{imageFile.name}</p>
-                    ) : (
-                    <p>Drag or select an image</p>
-                    )}
-                </div>
+
                 <button onClick={handleCreateEvent} className="create-button">Create</button>
             </Modal>
 
@@ -208,12 +207,18 @@ function SpecialEventForm() {
                     value={editingEvent?.eventName || ""}
                     onChange={(e) => setEditingEvent({ ...editingEvent, eventName: e.target.value })}
                 />
-                <input
+                <select
                     type="text"
                     name="eventType"
                     value={editingEvent?.eventType || ""}
                     onChange={(e) => setEditingEvent({ ...editingEvent, eventType: e.target.value })}
-                />
+                >
+                    <option value="">Select Event Type</option>
+                    <option value="Holiday">Holiday</option>
+                    <option value="Festival">Festival</option>
+                    <option value="Seasonal">Seasonal</option>
+                    <option value="Fireworks">Fireworks</option>
+                </select>
                 <input
                     type="date"
                     name="startDate"
@@ -234,3 +239,12 @@ function SpecialEventForm() {
 }
 
 export default SpecialEventForm;
+
+/*<div {...getRootProps()} className="dropzone">
+<input {...getInputProps()} />
+{imageFile ? (
+<p>{imageFile.name}</p>
+) : (
+<p>Drag or select an image</p>
+)}
+</div> */
