@@ -94,7 +94,8 @@ function SpecialEventForm() {
   // Format the DATETIME string to dd-MMM-yyyy format
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB", {
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString("en-TX", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -113,6 +114,9 @@ function SpecialEventForm() {
     if (confirmDelete) {
       try {
         axios.delete(`${API_URL}/${id}`);
+        setTimeout(() => {
+                console.log("after 2 seconds"); 
+              }, 2000);
         fetchEvents(); // Re-fetch events after deletion
       } catch (error) {
         console.error("Error deleting event:", error);

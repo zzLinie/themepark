@@ -66,7 +66,7 @@ shopsRoute.put("/:shopID", (req, res) => {
 
 shopsRoute.delete("/:shopID", (req, res) => {
   const { shopID } = req.params;
-  const query = "update shop set deleteStatus = 1WHERE shopID = ?";
+  const query = "update shop set deleteStatus = 1 WHERE shopID = ?";
   db.query(query, [shopID], (err, result) => {
       if (err) {
           console.error(err);

@@ -28,6 +28,7 @@ import { TicketProvider } from "./utils/TicketContext.jsx";
 import CustomerDetails from "./pages/CustomerDetails.jsx";
 import CustomerLogin from "./pages/CustomerLogin.jsx";
 import CustomerRegister from "./pages/CustomerRegister.jsx";
+import ParkStatusForm from "./pages/AdminParkstatus.jsx";
 
 export default function App() {
   return (
@@ -41,6 +42,10 @@ export default function App() {
               <Route element={<Dining />} path="/dining" />
               <Route element={<Shops />} path="/giftshops" />
               <Route element={<Rides />} path="/rides" />
+
+              <Route element={<Dashboard />} path="/dashboard" />
+              <Route element={<ParkStatusForm />} path="/parkstatusform" />
+
               <Route element={<Events />} path="/events" />
               <Route element={<AdminLogin />} path="/login/admin" />
               <Route element={<TicketForm />} path="/ticket" />

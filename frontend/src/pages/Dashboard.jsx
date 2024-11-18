@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Calendar from "react-calendar";
-import Modal from "./Modal";
+import Modal from "react-modal";
 import "react-calendar/dist/Calendar.css";
 import "./Dashboard.css";
 import "./DataForm.css";
@@ -11,7 +11,11 @@ const Dashboard = () => {
   const [topRides, setTopRides] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [upcomingMaintenance, setUpcomingMaintenance] = useState([]);
-  const [editingMaint, setEditingMaint] = useState([null]);
+  const [editingMaint, setEditingMaint] = useState({
+    maintenanceID: "",
+    maintenanceOpenDate: "",
+    maintenanceStatus: "",
+});
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayEvents, setDayEvents] = useState([]);
   const [events, setEvents] = useState([]);
@@ -71,21 +75,6 @@ const Dashboard = () => {
     fetchUpcomingMaintenance();
   }, []);
 
-  const openModal = (maintenance = null) => {
-    if (maintenance) {
-      setEditingMaint({
-        ...maintenance,
-        maintenanceOpenDate: maintenance.maintenanceOpenDate,
-      });
-    } else {
-      setEditingMaint({
-        maintenanceOpenDate: "",
-        maintenanceStatus: "",
-      });
-    }
-    setEditModalOpen(true);
-  };
-
   // Handle date selection
   const handleDateChange = (date) => {
     if (date === undefined) {
@@ -102,7 +91,8 @@ const Dashboard = () => {
   // Format the DATETIME string to dd-MMM-yyyy format
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB", {
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString("en-TX", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -114,20 +104,20 @@ const Dashboard = () => {
     return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
   };
 
-  ///
-  const handleEditMaint = (maintenance) => {
-    if (maintenance === undefined) {
-      return;
-    }
-    // Format the date values properly for datetime-local input
-    /*const formattedOpenDate = formatForDateLocal(maintenance.maintenanceOpenDate);
-      
-      setEditingMaint({
-          ...maintenance,
-          maintenanceOpenDate: formattedOpenDate,
-      });*/
+  const openModal = (maintenance) => {
+    const formattedDate = formatForDateLocal(maintenance.maintenanceDate);
+    setEditingMaint(
+      {
+          maintenanceID: maintenance.maintenanceID,
+          maintenanceOpenDate: formattedDate,
+          maintenanceStatus: maintenance.status,
+      }
+    );
+    
     setEditModalOpen(true);
-  };
+};
+
+  const closeModal = () => setEditModalOpen(false);
 
   const getMaintStatus = (maintenanceStatus) => {
     switch (maintenanceStatus) {
@@ -139,6 +129,7 @@ const Dashboard = () => {
         return "Event Maintenance";
       case 3:
         return "Requires Rescheduling";
+      case 4: "Cancelled";
       default:
         return "Status not found";
     }
@@ -151,20 +142,26 @@ const Dashboard = () => {
     return {};
   };
 
-  const handleUpdateMaint = async () => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditingMaint({
+        ...editingMaint,
+        [name]: name === "maintenanceStatus" ? parseInt(value, 10) : value,
+    });
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
     try {
-      await axios.put(
-        `https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`,
-        editingMaint
-      );
-      fetchEvents();
+      console.log(editingMaint.maintenanceOpenDate);
+      console.log(editingMaint.maintenanceStatus);
+      axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
+      fetchUpcomingMaintenance();
       setEditModalOpen(false);
-      setEditingMaint(null);
     } catch (error) {
       console.error("Error updating maintenance:", error);
     }
   };
-  ///
 
   // Add custom styles for dates with events
   const tileContent = ({ date, view }) => {
@@ -237,8 +234,8 @@ const Dashboard = () => {
                         <tr key={key}>
                           <td>{event.eventName}</td>
                           <td>{event.eventType}</td>
-                          <td>{new Date(event.startDate).toDateString()}</td>
-                          <td>{new Date(event.endDate).toDateString()}</td>
+                          <td>{formatDate(event.startDate)}</td>
+                          <td>{formatDate(event.endDate)}</td>
                         </tr>
                       );
                     })}
@@ -268,9 +265,9 @@ const Dashboard = () => {
                         <li key={key}>
                           <strong>{event.eventName}</strong> - {event.eventType}{" "}
                           <br />
-                          From: {new Date(event.startDate).toDateString()}{" "}
+                          From: {formatDate(event.startDate)}{" "}
                           <br />
-                          To: {new Date(event.endDate).toDateString()}
+                          To: {formatDate(event.endDate)}
                         </li>
                       );
                     })}
@@ -295,22 +292,22 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   {upcomingMaintenance &&
-                    upcomingMaintenance.map((maintenance, key) => {
+                    upcomingMaintenance.map((maintenance) => {
                       return (
-                        <tr key={key}>
+                        <tr key={maintenance.maintenanceID}>
                           <td>{maintenance.rideName}</td>
                           <td>{maintenance.technician}</td>
                           <td>
-                            {new Date(
+                            {formatDate(
                               maintenance.maintenanceDate
-                            ).toDateString()}
+                            )}
                           </td>
                           <td style={getMaintStyle(maintenance.status)}>
                             {getMaintStatus(maintenance.status)}
                           </td>
                           <td>
                             <button
-                              onClick={() => handleEditMaint(maintenance)}
+                              onClick={() => openModal(maintenance)}
                               className="edit-button"
                             >
                               Edit
@@ -327,30 +324,28 @@ const Dashboard = () => {
             {/* Edit Maint Modal */}
             <Modal
               isOpen={isEditModalOpen}
-              onClose={() => setEditModalOpen(false)}
+              onRequestClose={closeModal}
+              className="modal"
+              overlayClassName="overlay"
             >
               <h2>Edit Maintenance </h2>
+              {editingMaint && (<form onSubmit={handleUpdate}>
+              <label>Date:
               <input
                 type="date"
-                name="maintenance Date"
-                value={editingMaint?.maintenanceOpenDate || ""}
-                onChange={(e) =>
-                  setEditingMaint({
-                    ...editingMaint,
-                    maintenanceOpenDate: e.target.value,
-                  })
-                }
+                name="maintenanceOpenDate"
+                value={editingMaint.maintenanceOpenDate}
+                onChange={handleInputChange}
+                required
               />
+              </label>
+              <label>Maintenance Status:
               <select
                 type="text"
-                name="Maintenance Status"
-                value={editingMaint?.maintenanceStatus || ""}
-                onChange={(e) =>
-                  setEditingMaint({
-                    ...editingMaint,
-                    maintenanceStatus: e.target.value,
-                  })
-                }
+                name="maintenanceStatus"
+                value={editingMaint.maintenanceStatus}
+                onChange={handleInputChange}
+                required
               >
                 <option value="">Select Maintenance Status</option>
                 <option value="0">Incomplete</option>
@@ -358,9 +353,13 @@ const Dashboard = () => {
                 <option value="2">Event Maintenance</option>
                 <option value="4">Cancelled</option>
               </select>
-              <button onClick={handleUpdateMaint} className="update-button">
-                Update
-              </button>
+              </label>
+              <button type="submit">Update Maintenance</button>
+              <button type="button" onClick={closeModal}>
+                        Cancel
+                    </button>
+              </form>
+            )}
             </Modal>
           </div>
         </div>

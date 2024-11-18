@@ -39,7 +39,6 @@ eventsRoute.post('/create', (req, res) => {
     startDate,
     endDate,
   } = req.body;
-  //const imageFileName = req.file ? req.file.filename : under-construction.webp;
 
   // Basic validation
   if (!eventName || eventType === undefined) {
@@ -71,8 +70,12 @@ eventsRoute.post('/create', (req, res) => {
 
 eventsRoute.delete('/:id', (req, res) => {
   db.query('update SpecialEvents set deleteStatus = 1 WHERE eventID = ?', [req.params.id], (err) => {
-      if (err) throw err;
+      if (err) { 
+        throw err;
+      }
+      else {
       res.send("Event deleted successfully");
+      }
   });
 });
 
