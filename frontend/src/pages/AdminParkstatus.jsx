@@ -75,18 +75,6 @@ const [isEditMode, setIsEditMode] = useState(false);
       .catch((err) => console.error(err));
   };
 
-  const getParkStatusData = (parkStatusID) => {
-    axios
-      .get(
-        `https://themepark-backend.onrender.com/parkstatus/read/${parkStatusID}`
-      )
-      .then((res) => {
-        setEditRow(res.data.result);
-        setIsModalOpen(true);
-      })
-      .catch((err) => console.error(err));
-  };
-
   useEffect(() => {
     getParkStatus();
     fetchParkStatus();

@@ -48,9 +48,7 @@ const Dashboard = () => {
   // Fetch top 5 upcoming maintenance
   const fetchUpcomingMaintenance = async () => {
     try {
-      const response = await axios.get(
-        "https://themepark-backend.onrender.com/events/upcoming-maintenance"
-      );
+      const response = await axios.get("https://themepark-backend.onrender.com/events/upcoming-maintenance");
       setUpcomingMaintenance(response.data.result);
     } catch (error) {
       console.error("Error fetching upcoming maintenance:", error);
@@ -68,11 +66,19 @@ const Dashboard = () => {
     }
   };
 
+  const fetchMaintenance = () => {
+    axios
+      .get("https://themepark-backend.onrender.com/events/upcoming-maintenance")
+      .then((res) => setUpcomingMaintenance(res.data.result))
+      .catch((err) => console.error(err));
+  };
+
   useEffect(() => {
     fetchEvents();
     fetchTopRides();
     fetchUpcomingEvents();
     fetchUpcomingMaintenance();
+    fetchMaintenance();
   }, []);
 
   // Handle date selection
@@ -153,8 +159,6 @@ const Dashboard = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     try {
-      console.log(editingMaint.maintenanceOpenDate);
-      console.log(editingMaint.maintenanceStatus);
       axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
       fetchUpcomingMaintenance();
       setEditModalOpen(false);
