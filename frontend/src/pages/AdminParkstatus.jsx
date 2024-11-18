@@ -5,12 +5,17 @@ import "./GiftShopForm.css";
 import Modal from "react-modal";
 import "./adminEmployees.css";
 import "./DataForm.css";
+import { NewspaperClipping } from "phosphor-react";
 
 const ParkStatusForm = () => {
   const [ParkStatusData, setParkStatusData] = useState({
     date: "",
     weatherType: "",
-  });
+});
+const [newParkStatus, setNewParkStatus] = useState({
+    date: "",
+    weatherType: "",
+});
   const modalRef = useRef(null);
   const [parkStatusList, setParkStatusList] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -25,11 +30,10 @@ const [isEditMode, setIsEditMode] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setParkStatusData({ ...ParkStatusData, [name]: value });
+    setNewParkStatus({ ...newParkStatus, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (ParkStatusData.weatherType === "2") {
       const confirm = window.confirm(
         "You are about to input this date as a RAINOUT. Double check the date before proceeding"
@@ -38,19 +42,31 @@ const [isEditMode, setIsEditMode] = useState(false);
         return;
       }
     }
+    console.log(ParkStatusData.date);
+    console.log(ParkStatusData.weatherType);
     try {
       const response = await axios.post(
         "https://themepark-backend.onrender.com/parkstatus/create",
-        ParkStatusData
+        newParkStatus
       );
-      if (response.data.message) {
-        alert(response.data.message);
-      }
-      await getParkStatus();
+      fetchParkStatus();
+      setNewParkStatus({
+        date: "",
+        weatherType: "",
+      });
     } catch (err) {
       alert("Error: " + err.message);
     }
   };
+
+  const fetchParkStatus = async () => {
+    try {
+        const response = await axios.get("https://themepark-backend.onrender.com/parkstatus/read");
+        setParkStatusList(response.data.result);
+    } catch (error) {
+        console.error("Error fetching shops:", error);
+    }
+};
 
   const getParkStatus = () => {
     axios
@@ -67,15 +83,13 @@ const [isEditMode, setIsEditMode] = useState(false);
       .then((res) => {
         setEditRow(res.data.result);
         setIsModalOpen(true);
-        /*setParkStatusData({ ...ParkStatusData, ...res.data.result });
-        const modal = modalRef.current;
-        modal.showModal();*/
       })
       .catch((err) => console.error(err));
   };
 
   useEffect(() => {
     getParkStatus();
+    fetchParkStatus();
   }, []);
 
   const getWeatherDescription = (weatherType) => {
@@ -134,14 +148,14 @@ const [isEditMode, setIsEditMode] = useState(false);
     return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
   };
 
-  const openModal = (parkstatus = null) => {
-    setIsEditMode(!!parkstatus);
+
+  const openModal = (parkstatus) => {
     const formattedDate = formatForDateLocal(parkstatus.date);
     setFormData(
-        parkstatus || {
-            parkStatusID: "",
+        {
+            parkStatusID: parkstatus.parkStatusID,
             date: formattedDate,
-            weatherType: "",
+            weatherType: parkstatus.weatherType,
         }
     );
     
@@ -183,7 +197,7 @@ const [isEditMode, setIsEditMode] = useState(false);
           <input
             type="date"
             name="date"
-            value={ParkStatusData.date}
+            value={newParkStatus.date}
             onChange={handleChange}
             required
           />
@@ -191,7 +205,7 @@ const [isEditMode, setIsEditMode] = useState(false);
           <label>Weather Type</label>
           <select
             name="weatherType"
-            value={ParkStatusData.weatherType}
+            value={newParkStatus.weatherType}
             onChange={handleChange}
             required
           >

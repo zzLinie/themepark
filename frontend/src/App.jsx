@@ -42,6 +42,7 @@ export default function App() {
               <Route element={<Rides />} path="/rides" />
 
               <Route element={<Dashboard />} path="/dashboard" />
+              <Route element={<ParkStatusForm />} path="/parkstatusform" />
 
               <Route element={<Events />} path="/events" />
               <Route element={<AdminLogin />} path="/login/admin" />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Calendar from "react-calendar";
-import Modal from "./Modal";
+import Modal from "react-modal";
 import "react-calendar/dist/Calendar.css";
 import "./Dashboard.css";
 import "./DataForm.css";
@@ -104,19 +104,20 @@ const Dashboard = () => {
     return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
   };
 
-  ///
-  const handleEditMaint = (maintenance) => {
-    if (maintenance === undefined) {
-      return;
-    }
-    const formattedOpenDate = formatForDateLocal(maintenance.maintenanceDate);
-      
-      setEditingMaint({
-          ...maintenance,
-          maintenanceOpenDate: formattedOpenDate,
-      });
+  const openModal = (maintenance) => {
+    const formattedDate = formatForDateLocal(maintenance.maintenanceDate);
+    setEditingMaint(
+      {
+          maintenanceID: maintenance.maintenanceID,
+          maintenanceOpenDate: formattedDate,
+          maintenanceStatus: maintenance.status,
+      }
+    );
+    
     setEditModalOpen(true);
-  };
+};
+
+  const closeModal = () => setEditModalOpen(false);
 
   const getMaintStatus = (maintenanceStatus) => {
     switch (maintenanceStatus) {
@@ -128,6 +129,7 @@ const Dashboard = () => {
         return "Event Maintenance";
       case 3:
         return "Requires Rescheduling";
+      case 4: "Cancelled";
       default:
         return "Status not found";
     }
@@ -140,11 +142,12 @@ const Dashboard = () => {
     return {};
   };
 
-  const handleUpdateMaint = async () => {
+  const handleUpdate = (e) => {
+    e.preventDefault();
     try {
       console.log(editingMaint.maintenanceOpenDate);
       console.log(editingMaint.maintenanceStatus);
-      await axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
+      axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
       fetchEvents();
       setEditModalOpen(false);
       setEditingMaint(null);
@@ -290,9 +293,9 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   {upcomingMaintenance &&
-                    upcomingMaintenance.map((maintenance, key) => {
+                    upcomingMaintenance.map((maintenance) => {
                       return (
-                        <tr key={key}>
+                        <tr key={maintenance.maintenanceID}>
                           <td>{maintenance.rideName}</td>
                           <td>{maintenance.technician}</td>
                           <td>
@@ -305,7 +308,7 @@ const Dashboard = () => {
                           </td>
                           <td>
                             <button
-                              onClick={() => handleEditMaint(maintenance)}
+                              onClick={() => openModal(maintenance)}
                               className="edit-button"
                             >
                               Edit
@@ -322,30 +325,41 @@ const Dashboard = () => {
             {/* Edit Maint Modal */}
             <Modal
               isOpen={isEditModalOpen}
-              onClose={() => setEditModalOpen(false)}
+              onRequestClose={closeModal}
+              className="modal"
+              overlayClassName="overlay"
             >
               <h2>Edit Maintenance </h2>
+              <form onSubmit={handleUpdate}>
+              <label>Date:
               <input
                 type="date"
-                name="maintenanceDate"
+                name="maintenanceOpenDate"
                 value={editingMaint.maintenanceOpenDate}
                 onChange={handleInputChange}
+                required
               />
+              </label>
+              <label>Maintenance Status:
               <select
                 type="text"
-                name="status"
+                name="maintenanceStatus"
                 value={editingMaint.maintenanceStatus}
                 onChange={handleInputChange}
                 required
               >
-                <option value={0}>Incomplete</option>
-                <option value={1}>Complete</option>
-                <option value={2}>Event Maintenance</option>
-                <option value={4}>Cancelled</option>
+                <option value="">Select Maintenance Status</option>
+                <option value="0">Incomplete</option>
+                <option value="1">Complete</option>
+                <option value="2">Event Maintenance</option>
+                <option value="4">Cancelled</option>
               </select>
-              <button onClick={handleUpdateMaint} className="update-button">
-                Update
-              </button>
+              </label>
+              <button type="submit">Update Maintenance</button>
+              <button type="button" onClick={closeModal}>
+                        Cancel
+                    </button>
+              </form>
             </Modal>
           </div>
         </div>
