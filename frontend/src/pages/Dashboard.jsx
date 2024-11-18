@@ -114,6 +114,7 @@ const Dashboard = () => {
       setEditingMaint({
           ...maintenance,
           maintenanceOpenDate: formattedOpenDate,
+          maintenanceStatus: maintenance.status,
       });
     setEditModalOpen(true);
   };
@@ -128,6 +129,7 @@ const Dashboard = () => {
         return "Event Maintenance";
       case 3:
         return "Requires Rescheduling";
+      case 4: "Cancelled";
       default:
         return "Status not found";
     }

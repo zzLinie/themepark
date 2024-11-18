@@ -39,7 +39,6 @@ eventsRoute.post('/create', (req, res) => {
     startDate,
     endDate,
   } = req.body;
-  //const imageFileName = req.file ? req.file.filename : under-construction.webp;
 
   // Basic validation
   if (!eventName || eventType === undefined) {
