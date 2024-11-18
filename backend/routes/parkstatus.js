@@ -47,19 +47,19 @@ parkStatusRoute.get("/read/:parkStatusID", (req, res) => {
   });
 });
 
-parkStatusRoute.put("/update", (req, res) => {
+parkStatusRoute.put("/:id", (req, res) => {
   const {
-    parkStatusID,
-    parkStatusDate,
+    date,
     weatherType,
   } = req.body;
-  const sql = `UPDATE parkstatus SET parkStatusDate=?, weatherType=? WHERE parkStatusID = ?;`;
+  const { id } = req.params;
+  const sql = `UPDATE parkstatus SET date=?, weatherType=? WHERE parkStatusID = ?;`;
   db.query(
     sql,
     [
-      parkStatusDate,
+      date,
       weatherType,
-      parkStatusID
+      id
     ],
     (err, result) => {
       if (err) console.log(err);
