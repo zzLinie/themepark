@@ -30,19 +30,6 @@ const [isEditMode, setIsEditMode] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      parkStatusList.some(
-        (status) => status.date === ParkStatusData.date
-      )
-    ) {
-      const confirm = window.confirm(
-        "The date you are trying to submit for already exists"
-      );
-      if (!confirm) {
-        return;
-      }
-      return;
-    }
     if (ParkStatusData.weatherType === "2") {
       const confirm = window.confirm(
         "You are about to input this date as a RAINOUT. Double check the date before proceeding"
