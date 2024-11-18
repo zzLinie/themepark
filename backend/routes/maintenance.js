@@ -10,12 +10,12 @@ maintRoute.use(express.json());
 maintRoute.put('/:id', (req, res) => {
     const{
         maintenanceOpenDate,
-        status,
+        maintenanceStatus,
     } = req.body
     //const { maintenanceDate, status } = req.body;
     db.query(
         'UPDATE maintenance SET maintenanceOpenDate = ?, maintenanceStatus = ? WHERE maintenanceID = ?',
-        [maintenanceOpenDate, status, req.params.id],
+        [maintenanceOpenDate, maintenanceStatus, req.params.id],
         (err) => {
             if (err) throw err;
             res.send("Maintenance updated successfully")

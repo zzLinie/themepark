@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [editingMaint, setEditingMaint] = useState({
     maintenanceID: "",
     maintenanceOpenDate: "",
-    status: "",
+    maintenanceStatus: "",
 });
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayEvents, setDayEvents] = useState([]);
@@ -143,7 +143,7 @@ const Dashboard = () => {
   const handleUpdateMaint = async () => {
     try {
       console.log(editingMaint.maintenanceOpenDate);
-      console.log(editingMaint.status);
+      console.log(editingMaint.maintenanceStatus);
       await axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
       fetchEvents();
       setEditModalOpen(false);
@@ -157,7 +157,7 @@ const Dashboard = () => {
     const { name, value } = e.target;
     setEditingMaint({
         ...editingMaint,
-        [name]: name === "weatherType" ? parseInt(value, 10) : value,
+        [name]: name === "maintenanceStatus" ? parseInt(value, 10) : value,
     });
   };
 
@@ -334,11 +334,10 @@ const Dashboard = () => {
               <select
                 type="text"
                 name="status"
-                value={editingMaint.status}
+                value={editingMaint.maintenanceStatus}
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Select Maintenance Status</option>
                 <option value={0}>Incomplete</option>
                 <option value={1}>Complete</option>
                 <option value={2}>Event Maintenance</option>
