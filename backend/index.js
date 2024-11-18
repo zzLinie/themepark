@@ -18,6 +18,7 @@ const tickets = require("./routes/tickets");
 const adminTickets = require("./routes/adminTickets");
 const reportsRoute = require("./routes/reports");
 const customerRoute = require("./routes/customerLogin");
+const customerInfoRoute = require("./routes/customer");
 
 // Configure multer storage
 const storage = multer.diskStorage({
@@ -55,6 +56,7 @@ app.use("/tickets", tickets);
 app.use("/adminTickets", adminTickets);
 app.use("/reports", reportsRoute);
 app.use("/customer", customerRoute);
+app.use("/customers", customerInfoRoute);
 
 app.get(`/`, (req, res) => {
   res.send(`Cors-enabled for specified domain`);

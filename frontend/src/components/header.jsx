@@ -51,7 +51,10 @@ export default function Header() {
         <Link to="/ticket">Buy a Ticket</Link>
       </div>
       <div className="header-button-container">
+        <Link to="/customer-login">
         <Button buttonClass="loginButton" buttonText="Customer Login" />
+        </Link>
+        
         <Link to="/login">
           <Button buttonClass="loginButton" buttonText="Staff Login" />
         </Link>

@@ -26,6 +26,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 
 import { TicketProvider } from "./utils/TicketContext.jsx";
 import CustomerDetails from "./pages/CustomerDetails.jsx";
+import CustomerLogin from "./pages/CustomerLogin.jsx";
+import CustomerRegister from "./pages/CustomerRegister.jsx";
 
 export default function App() {
   return (
@@ -45,6 +47,8 @@ export default function App() {
               <Route element={<EmployeeLogin />} path="/login/employee" />
               <Route element={<Login />} path="/login" />
               <Route element={<CustomerDetails />} path="/customer-account" />
+              <Route element={<CustomerLogin />} path="/customer-login" />
+              <Route element={<CustomerRegister />} path="/customer-register" />
               <Route element={<AdminProtectedRoute />}>
                 <Route element={<AdminTickets />} path="/login/admin/tickets" />
                 <Route element={<AdminReports />} path="/login/admin/reports" />
