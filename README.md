@@ -5,7 +5,7 @@
 Our themepark management web app has 3 different roles for users to manage and be apart of our themepark 
 
 ## Customers
-Customers can view details about the park, buy tickets for their next visit, and register/login an account with us to keep track of your tickets intially When a customer is lookkng to visit and find details about our park.
+Customers can view details about the park, buy tickets for their next visit, and register/login an account with us to keep track of your tickets. customer login is required to buy tickets. if you are logged in as an admin or employee you are unable to buy tickets, you must register and login 
 
 ## Employee
 our Employee dashboard requires employees login using their employee email and password. 
