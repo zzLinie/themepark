@@ -50,11 +50,11 @@ parkStatusRoute.put("/:id", (req, res) => {
   const {
     date,
     weatherType,
+    parkStatusID
   } = req.body;
-  const { id } = req.params;
   const query = `UPDATE parkstatus SET date=?, weatherType=? WHERE parkStatusID = ?;`;
   db.execute(query,
-    [date, weatherType,id,],
+    [date, weatherType, parkStatusID,],
     (err, results) => {
       if (err) console.log(err);
       res.send("row updated");

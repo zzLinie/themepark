@@ -22,7 +22,7 @@ const [newParkStatus, setNewParkStatus] = useState({
   const [deleteState, setDeleteState] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    parkstatusID: "",
+    parkStatusID: "",
     date: "",
     weatherType: "",
 });
@@ -34,7 +34,7 @@ const [isEditMode, setIsEditMode] = useState(false);
   };
 
   const handleSubmit = async () => {
-    if (ParkStatusData.weatherType === "2") {
+    if (newParkStatus.weatherType === "2") {
       const confirm = window.confirm(
         "You are about to input this date as a RAINOUT. Double check the date before proceeding"
       );
@@ -42,8 +42,8 @@ const [isEditMode, setIsEditMode] = useState(false);
         return;
       }
     }
-    console.log(ParkStatusData.date);
-    console.log(ParkStatusData.weatherType);
+    console.log(newParkStatus.date);
+    console.log(newParkStatus.weatherType);
     try {
       const response = await axios.post(
         "https://themepark-backend.onrender.com/parkstatus/create",
@@ -180,7 +180,7 @@ const [isEditMode, setIsEditMode] = useState(false);
         `https://themepark-backend.onrender.com/parkstatus/${formData.parkStatusID}`,
         formData
       )
-      getParkStatus();
+      fetchParkStatus();
       closeModal();
     } catch (error) {
       console.error("error saving parkstatus");

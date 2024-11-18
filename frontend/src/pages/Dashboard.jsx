@@ -142,26 +142,25 @@ const Dashboard = () => {
     return {};
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    try {
-      console.log(editingMaint.maintenanceOpenDate);
-      console.log(editingMaint.maintenanceStatus);
-      axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
-      fetchEvents();
-      setEditModalOpen(false);
-      setEditingMaint(null);
-    } catch (error) {
-      console.error("Error updating maintenance:", error);
-    }
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditingMaint({
         ...editingMaint,
         [name]: name === "maintenanceStatus" ? parseInt(value, 10) : value,
     });
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    try {
+      console.log(editingMaint.maintenanceOpenDate);
+      console.log(editingMaint.maintenanceStatus);
+      axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
+      fetchUpcomingMaintenance();
+      setEditModalOpen(false);
+    } catch (error) {
+      console.error("Error updating maintenance:", error);
+    }
   };
 
   // Add custom styles for dates with events
@@ -330,7 +329,7 @@ const Dashboard = () => {
               overlayClassName="overlay"
             >
               <h2>Edit Maintenance </h2>
-              <form onSubmit={handleUpdate}>
+              {editingMaint && (<form onSubmit={handleUpdate}>
               <label>Date:
               <input
                 type="date"
@@ -360,6 +359,7 @@ const Dashboard = () => {
                         Cancel
                     </button>
               </form>
+            )}
             </Modal>
           </div>
         </div>
