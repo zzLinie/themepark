@@ -7,6 +7,23 @@ const maintRoute = express.Router();
 maintRoute.use(cors());
 maintRoute.use(express.json());
 
+maintRoute.post('/create', (req, res) =>  {
+    const{
+        rideID,
+        maintenanceOpenDate,
+        maintenanceStatus,
+    } = req.body
+
+    db.query(
+        'INSERT INTO maintenance(maintenanceOpenDate, maintenanceStatus, rideID) VALUES(?, ?, ?',
+        [maintenanceOpenDate, maintenanceStatus, rideID],
+        (err) => {
+            if (err) throw err;
+            res.send("Successfully inserted maintenance")
+        }
+    );
+});
+
 maintRoute.put('/:id', (req, res) => {
     const{
         maintenanceOpenDate,
