@@ -22,7 +22,7 @@ const [newParkStatus, setNewParkStatus] = useState({
   const [deleteState, setDeleteState] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    parkstatusID: "",
+    parkStatusID: "",
     date: "",
     weatherType: "",
 });
@@ -180,7 +180,7 @@ const [isEditMode, setIsEditMode] = useState(false);
         `https://themepark-backend.onrender.com/parkstatus/${formData.parkStatusID}`,
         formData
       )
-      getParkStatus();
+      fetchParkStatus();
       closeModal();
     } catch (error) {
       console.error("error saving parkstatus");
