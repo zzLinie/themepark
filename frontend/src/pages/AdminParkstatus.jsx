@@ -5,7 +5,6 @@ import "./GiftShopForm.css";
 import Modal from "react-modal";
 import "./adminEmployees.css";
 import "./DataForm.css";
-import { NewspaperClipping } from "phosphor-react";
 
 const ParkStatusForm = () => {
   const [ParkStatusData, setParkStatusData] = useState({
