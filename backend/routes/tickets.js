@@ -3,13 +3,14 @@ const express = require("express");
 const cors = require("cors");
 const db = require("../connect");
 const ticketRoute = express.Router();
+const { verifyUser } = require("../routes/customerLogin");
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 
-ticketRoute.use(cors());
 ticketRoute.use(express.json());
+ticketRoute.use(cookieParser());
 
 // Route to create a new customer and ticket
 ticketRoute.post("/create", (req, res) => {
@@ -133,8 +134,16 @@ ticketRoute.post("/create", (req, res) => {
   });
 });
 
-ticketRoute.post("/purchase-tickets", (req, res) => {
-  const { customerID, date, tickets } = req.body;
+ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
+  //user doesnt have token so hes not logged in
+
+  if (req.manualVerify == false) {
+    return res.json({
+      Response: "Login into customer account to purchase ticket",
+    });
+  }
+
+  const { date, tickets } = req.body;
 
   db.beginTransaction((transactionErr) => {
     if (transactionErr) {
@@ -154,7 +163,7 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
         db.query(
           `INSERT INTO ticket (customerID, ticketType, startDate, expiryDate) 
            VALUES (?, ?, ?, DATE_ADD(?, INTERVAL 1 DAY))`,
-          [customerID, ticket.type, date, date],
+          [req.user.customerID, ticket.type, date, date],
           (ticketErr, ticketResult) => {
             if (ticketErr) {
               return rollbackTransaction(
@@ -191,7 +200,7 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
                 db.query(
                   `INSERT INTO visit (CustomerID, ticketID, Date, parkStatusID)
                    VALUES (?, ?, ?, ?)`,
-                  [customerID, ticketID, date, parkStatusID],
+                  [req.user.customerID, ticketID, date, parkStatusID],
                   (visitErr, visitResult) => {
                     if (visitErr) {
                       return rollbackTransaction(
@@ -218,7 +227,9 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
                           );
                         }
 
-                        res.status(200).send("Tickets purchased successfully!");
+                        res.json({
+                          Response: `Tickets purchased successfully! ${req.user.email}`,
+                        });
                       });
                     }
                   }
@@ -239,17 +250,5 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
     });
   }
 });
-const verifyUser = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.json({ Verify: false });
-  } else {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) return res.json({ Verify: false });
-      req.user = decoded;
-      next();
-    });
-  }
-};
 
 module.exports = ticketRoute;

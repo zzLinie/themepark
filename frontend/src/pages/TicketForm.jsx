@@ -45,8 +45,7 @@ const TicketForm = () => {
     ];
     const { date } = visitDate;
 
-    const payload = {
-      customerID,
+    const data = {
       tickets,
       date,
     };
@@ -55,14 +54,17 @@ const TicketForm = () => {
     axios
       .post(
         "https://themepark-backend.onrender.com/tickets/purchase-tickets",
-        payload
+        data,
+        {
+          withCredentials: true,
+        }
       )
-      .then((response) => {
-        console.log("Purchase successful", response.data);
+      .then((res) => {
+        alert(res.data.Response);
         // Optionally, handle response (redirect, alert, etc.)
       })
       .catch((error) => {
-        console.error("Error purchasing tickets:", error);
+        alert(error);
       });
   };
 

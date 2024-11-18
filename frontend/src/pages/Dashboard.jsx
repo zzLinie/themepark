@@ -15,7 +15,7 @@ const Dashboard = () => {
     maintenanceID: "",
     maintenanceOpenDate: "",
     maintenanceStatus: "",
-});
+  });
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayEvents, setDayEvents] = useState([]);
   const [events, setEvents] = useState([]);
@@ -106,16 +106,14 @@ const Dashboard = () => {
 
   const openModal = (maintenance) => {
     const formattedDate = formatForDateLocal(maintenance.maintenanceDate);
-    setEditingMaint(
-      {
-          maintenanceID: maintenance.maintenanceID,
-          maintenanceOpenDate: formattedDate,
-          maintenanceStatus: maintenance.status,
-      }
-    );
-    
+    setEditingMaint({
+      maintenanceID: maintenance.maintenanceID,
+      maintenanceOpenDate: formattedDate,
+      maintenanceStatus: maintenance.status,
+    });
+
     setEditModalOpen(true);
-};
+  };
 
   const closeModal = () => setEditModalOpen(false);
 
@@ -129,7 +127,8 @@ const Dashboard = () => {
         return "Event Maintenance";
       case 3:
         return "Requires Rescheduling";
-      case 4: "Cancelled";
+      case 4:
+        "Cancelled";
       default:
         return "Status not found";
     }
@@ -145,8 +144,8 @@ const Dashboard = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditingMaint({
-        ...editingMaint,
-        [name]: name === "maintenanceStatus" ? parseInt(value, 10) : value,
+      ...editingMaint,
+      [name]: name === "maintenanceStatus" ? parseInt(value, 10) : value,
     });
   };
 
@@ -155,7 +154,10 @@ const Dashboard = () => {
     try {
       console.log(editingMaint.maintenanceOpenDate);
       console.log(editingMaint.maintenanceStatus);
-      axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
+      axios.put(
+        `https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`,
+        editingMaint
+      );
       fetchUpcomingMaintenance();
       setEditModalOpen(false);
     } catch (error) {
@@ -265,8 +267,7 @@ const Dashboard = () => {
                         <li key={key}>
                           <strong>{event.eventName}</strong> - {event.eventType}{" "}
                           <br />
-                          From: {formatDate(event.startDate)}{" "}
-                          <br />
+                          From: {formatDate(event.startDate)} <br />
                           To: {formatDate(event.endDate)}
                         </li>
                       );
@@ -297,11 +298,7 @@ const Dashboard = () => {
                         <tr key={maintenance.maintenanceID}>
                           <td>{maintenance.rideName}</td>
                           <td>{maintenance.technician}</td>
-                          <td>
-                            {formatDate(
-                              maintenance.maintenanceDate
-                            )}
-                          </td>
+                          <td>{formatDate(maintenance.maintenanceDate)}</td>
                           <td style={getMaintStyle(maintenance.status)}>
                             {getMaintStatus(maintenance.status)}
                           </td>
@@ -329,37 +326,40 @@ const Dashboard = () => {
               overlayClassName="overlay"
             >
               <h2>Edit Maintenance </h2>
-              {editingMaint && (<form onSubmit={handleUpdate}>
-              <label>Date:
-              <input
-                type="date"
-                name="maintenanceOpenDate"
-                value={editingMaint.maintenanceOpenDate}
-                onChange={handleInputChange}
-                required
-              />
-              </label>
-              <label>Maintenance Status:
-              <select
-                type="text"
-                name="maintenanceStatus"
-                value={editingMaint.maintenanceStatus}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Maintenance Status</option>
-                <option value="0">Incomplete</option>
-                <option value="1">Complete</option>
-                <option value="2">Event Maintenance</option>
-                <option value="4">Cancelled</option>
-              </select>
-              </label>
-              <button type="submit">Update Maintenance</button>
-              <button type="button" onClick={closeModal}>
-                        Cancel
-                    </button>
-              </form>
-            )}
+              {editingMaint && (
+                <form onSubmit={handleUpdate}>
+                  <label>
+                    Date:
+                    <input
+                      type="date"
+                      name="maintenanceOpenDate"
+                      value={editingMaint.maintenanceOpenDate}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Maintenance Status:
+                    <select
+                      type="text"
+                      name="maintenanceStatus"
+                      value={editingMaint.maintenanceStatus}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">Select Maintenance Status</option>
+                      <option value="0">Incomplete</option>
+                      <option value="1">Complete</option>
+                      <option value="2">Event Maintenance</option>
+                      <option value="4">Cancelled</option>
+                    </select>
+                  </label>
+                  <button type="submit">Update Maintenance</button>
+                  <button type="button" onClick={closeModal}>
+                    Cancel
+                  </button>
+                </form>
+              )}
             </Modal>
           </div>
         </div>

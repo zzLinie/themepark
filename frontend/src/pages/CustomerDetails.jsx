@@ -14,7 +14,9 @@ const CustomerDetails = () => {
   useEffect(() => {
     // Fetch customer details on component mount
     axios
-      .get(`https://themepark-backend.onrender.com/customers/read/${customerID}`)
+      .get(
+        `https://themepark-backend.onrender.com/customers/read/${customerID}`
+      )
       .then((response) => {
         setCustomerData(response.data);
         setFormValues(response.data); // Initialize form values
@@ -25,7 +27,9 @@ const CustomerDetails = () => {
 
     // Fetch customer tickets
     axios
-      .get(`https://themepark-backend.onrender.com/customers/tickets/${customerID}`)
+      .get(
+        `https://themepark-backend.onrender.com/customers/tickets/${customerID}`
+      )
       .then((response) => {
         setTickets(response.data);
       })
@@ -47,7 +51,10 @@ const CustomerDetails = () => {
     };
 
     axios
-      .put("https://themepark-backend.onrender.com/customers/update", dataToUpdate)
+      .put(
+        "https://themepark-backend.onrender.com/customers/update",
+        dataToUpdate
+      )
       .then((response) => {
         setCustomerData(formValues);
         setIsEditing(false);
@@ -216,7 +223,7 @@ const CustomerDetails = () => {
               </div>
             </div>
 
-            { /*Tickets Section */ }
+            {/*Tickets Section */}
             <div className="customer-tickets">
               <h2>Your Tickets</h2>
               {tickets.length > 0 ? (
@@ -268,6 +275,3 @@ const formatDate = (dateString) => {
 };
 
 export default CustomerDetails;
-
-
-

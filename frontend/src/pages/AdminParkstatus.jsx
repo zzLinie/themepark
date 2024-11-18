@@ -11,11 +11,11 @@ const ParkStatusForm = () => {
   const [ParkStatusData, setParkStatusData] = useState({
     date: "",
     weatherType: "",
-});
-const [newParkStatus, setNewParkStatus] = useState({
+  });
+  const [newParkStatus, setNewParkStatus] = useState({
     date: "",
     weatherType: "",
-});
+  });
   const modalRef = useRef(null);
   const [parkStatusList, setParkStatusList] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -25,8 +25,8 @@ const [newParkStatus, setNewParkStatus] = useState({
     parkStatusID: "",
     date: "",
     weatherType: "",
-});
-const [isEditMode, setIsEditMode] = useState(false);
+  });
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,12 +61,14 @@ const [isEditMode, setIsEditMode] = useState(false);
 
   const fetchParkStatus = async () => {
     try {
-        const response = await axios.get("https://themepark-backend.onrender.com/parkstatus/read");
-        setParkStatusList(response.data.result);
+      const response = await axios.get(
+        "https://themepark-backend.onrender.com/parkstatus/read"
+      );
+      setParkStatusList(response.data.result);
     } catch (error) {
-        console.error("Error fetching shops:", error);
+      console.error("Error fetching shops:", error);
     }
-};
+  };
 
   const getParkStatus = () => {
     axios
@@ -148,38 +150,34 @@ const [isEditMode, setIsEditMode] = useState(false);
     return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
   };
 
-
   const openModal = (parkstatus) => {
     const formattedDate = formatForDateLocal(parkstatus.date);
-    setFormData(
-        {
-            parkStatusID: parkstatus.parkStatusID,
-            date: formattedDate,
-            weatherType: parkstatus.weatherType,
-        }
-    );
-    
+    setFormData({
+      parkStatusID: parkstatus.parkStatusID,
+      date: formattedDate,
+      weatherType: parkstatus.weatherType,
+    });
+
     setIsModalOpen(true);
-};
+  };
 
   const closeModal = () => setIsModalOpen(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
-        ...formData,
-        [name]: name === "weatherType" ? parseInt(value, 10) : value,
+      ...formData,
+      [name]: name === "weatherType" ? parseInt(value, 10) : value,
     });
   };
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    try{
-    axios
-      .put(
+    try {
+      axios.put(
         `https://themepark-backend.onrender.com/parkstatus/${formData.parkStatusID}`,
         formData
-      )
+      );
       fetchParkStatus();
       closeModal();
     } catch (error) {
@@ -230,67 +228,72 @@ const [isEditMode, setIsEditMode] = useState(false);
           </tr>
         </thead>
         <tbody>
-        {parkStatusList &&
-          parkStatusList.map((parkstatus) => (
-                <tr key={parkstatus.parkStatusID}>
-                  <td>{formatDate(parkstatus.date)}</td>
-                  <td style={getWeatherStyle(parkstatus.weatherType)}>
-                    {getWeatherDescription(parkstatus.weatherType)}
-                  </td>
-                  <td>{parkstatus.capacity}</td>
-                  <td style={getTimeStyle(parkstatus.openingTime)}>
-                    {getOpenTime(parkstatus.openingTime)}
-                  </td>
-                  <td style={getTimeStyle(parkstatus.closingTime)}>
-                    {getCloseTime(parkstatus.closingTime)}
-                  </td>
-                  <td>
-                  <button onClick={() => openModal(parkstatus)} className="edit-button">Edit</button>
-                  </td>
-                </tr>
-          ))}
-          </tbody>
+          {parkStatusList &&
+            parkStatusList.map((parkstatus) => (
+              <tr key={parkstatus.parkStatusID}>
+                <td>{formatDate(parkstatus.date)}</td>
+                <td style={getWeatherStyle(parkstatus.weatherType)}>
+                  {getWeatherDescription(parkstatus.weatherType)}
+                </td>
+                <td>{parkstatus.capacity}</td>
+                <td style={getTimeStyle(parkstatus.openingTime)}>
+                  {getOpenTime(parkstatus.openingTime)}
+                </td>
+                <td style={getTimeStyle(parkstatus.closingTime)}>
+                  {getCloseTime(parkstatus.closingTime)}
+                </td>
+                <td>
+                  <button
+                    onClick={() => openModal(parkstatus)}
+                    className="edit-button"
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
       </table>
 
       <Modal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                contentLabel="Park Status Modal"
-                className="modal"
-                overlayClassName="overlay"
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Park Status Modal"
+        className="modal"
+        overlayClassName="overlay"
+      >
+        <h2>Edit Park Status</h2>
+        <form onSubmit={handleUpdate}>
+          <label>
+            Date:
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label>
+            Weather:
+            <select
+              name="weatherType"
+              value={formData.weatherType}
+              onChange={handleInputChange}
+              required
             >
-                <h2>Edit Park Status</h2>
-                <form onSubmit={handleUpdate}>
-                    <label>
-                        Date:
-                        <input
-                            type="date"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </label>
-                    <label>
-                        Weather:
-                        <select
-                            name="weatherType"
-                            value={formData.weatherType}
-                            onChange={handleInputChange}
-                            required
-                        >
-                            <option value="">Select Weather Type</option>
-                            <option value="0">Fair</option>
-                            <option value="1">Cloudy</option>
-                            <option value="2">Rainout</option>
-                        </select>
-                    </label>
-                    <button type="submit">Update Park Day</button>
-                    <button type="button" onClick={closeModal}>
-                        Cancel
-                    </button>
-                </form>
-            </Modal>
+              <option value="">Select Weather Type</option>
+              <option value="0">Fair</option>
+              <option value="1">Cloudy</option>
+              <option value="2">Rainout</option>
+            </select>
+          </label>
+          <button type="submit">Update Park Day</button>
+          <button type="button" onClick={closeModal}>
+            Cancel
+          </button>
+        </form>
+      </Modal>
     </>
   );
 };

@@ -26,18 +26,73 @@ customerRoute.put("/", (req, res) => {
     });
   });
 });
+customerRoute.post("/login", (req, res) => {
+  const sql =
+    "SELECT customerID, Email, password FROM customers where Email=?;";
+  //data is sql results
+  db.query(sql, [req.body.email], async (err, result) => {
+    //sql query error
+    if (err) return res.send("sql query error");
+
+    //email doesnt exist
+    if (!result[0]) {
+      return res.json({ Response: "Email doesnt exist" });
+    }
+    //database stored password
+    const { password, customerID, Email } = result[0];
+    const inputedPassword = req.body.password;
+
+    //compare user inputted password to resulted query hash
+    bcrypt.compare(inputedPassword, password, (err, result) => {
+      if (err) return res.json({ Response: "Password compare error" });
+
+      //user inputted wrong password
+      if (!result) {
+        return res.json({ Response: "Password not found" });
+      }
+
+      //create token for user
+      const payload = {
+        customerID: customerID,
+        role: "Customer",
+        email: req.body.email,
+      };
+      const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1d",
+      });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 86400000,
+      });
+      return res.json({ auth: true, token: token });
+    });
+  });
+});
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
+
   if (!token) {
-    return res.json({ Verify: false });
+    req.manualVerify = false; // Set this flag to false if no token is provided
+    // res.json({ Verify: false }); // Return response immediately if no token
+    return next();
   } else {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) return res.json({ Verify: false });
-      req.user = decoded;
-      next();
+      if (err) {
+        req.manualVerify = false; // Set this flag to false if there's an error verifying the token
+        return res.json({ Verify: false }); // Return response immediately if token verification fails
+      }
+      req.manualVerify = true; // Set this flag to true if the user is verified
+      req.user = decoded; // Attach the decoded user data to the request object
+      next(); // Proceed to the next middleware/route handler
     });
   }
 };
-
-module.exports = customerRoute;
+// @ts-ignore
+customerRoute.get("/verify", verifyUser, (req, res) => {
+  // @ts-ignore
+  return res.json({ Verify: true, customer: req.user });
+});
+module.exports = { customerRoute, verifyUser };
