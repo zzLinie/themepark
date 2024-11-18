@@ -42,10 +42,6 @@ export default function App() {
               <Route element={<Dining />} path="/dining" />
               <Route element={<Shops />} path="/giftshops" />
               <Route element={<Rides />} path="/rides" />
-
-              <Route element={<Dashboard />} path="/dashboard" />
-              <Route element={<ParkStatusForm />} path="/parkstatusform" />
-
               <Route element={<Events />} path="/events" />
               <Route element={<AdminLogin />} path="/login/admin" />
               <Route element={<TicketForm />} path="/ticket" />

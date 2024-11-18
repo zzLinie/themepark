@@ -68,11 +68,19 @@ const Dashboard = () => {
     }
   };
 
+  const fetchMaintenance = () => {
+    axios
+      .get("https://themepark-backend.onrender.com/events/upcoming-maintenance")
+      .then((res) => setUpcomingMaintenance(res.data.result))
+      .catch((err) => console.error(err));
+  };
+
   useEffect(() => {
     fetchEvents();
     fetchTopRides();
     fetchUpcomingEvents();
     fetchUpcomingMaintenance();
+    fetchMaintenance();
   }, []);
 
   // Handle date selection
