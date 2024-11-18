@@ -1,9 +1,39 @@
-# Keep local github changes up to date with changes made to source repository
-you first may need to go to your forked repository and you should see a `sync` repository changes button    
-`git fetch upstream` getting all the changes from the source repository  
-`git pull upstream main` grabbing the fetched changes and pulling them into your local repo
+# Themepark Management 
 
-## NOTES:
-upstream is an alias that with a link to my github repo (the source repo)  
-you can check what the name and the url of your remote repos by typing the following command `git remote -v`  
-`git pull upstream main` the `main` part corresponds to the branch you are pulling in from  
+## Project description 
+
+Our themepark management web app has 3 different roles for users to manage and be apart of our themepark 
+
+## Customers
+Customers can view details about the park, buy tickets for their next visit, and register/login an account with us to keep track of your tickets intially When a customer is lookkng to visit and find details about our park.
+
+## Employee
+our Employee dashboard requires employees login using their employee email and password. 
+
+## Admin
+
+# installation 
+
+
+# Technology used 
+Frontend: React.js 
+backend: node.js
+Database: mysql
+
+# env variables 
+ 
+## backend variables
+
+## frontend variables 
+
+# database design 
+
+# scripts 
+
+## start backend server
+npm run dev
+
+## start frontend server
+npm run dev
+
+
