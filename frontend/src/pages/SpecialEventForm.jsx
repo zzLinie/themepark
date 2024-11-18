@@ -114,6 +114,9 @@ function SpecialEventForm() {
     if (confirmDelete) {
       try {
         axios.delete(`${API_URL}/${id}`);
+        setTimeout(() => {
+                console.log("after 2 seconds"); 
+              }, 2000);
         fetchEvents(); // Re-fetch events after deletion
       } catch (error) {
         console.error("Error deleting event:", error);
