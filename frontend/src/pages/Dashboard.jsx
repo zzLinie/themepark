@@ -150,7 +150,13 @@ const Dashboard = () => {
       axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
       fetchEvents();
       setEditModalOpen(false);
-      setEditingMaint(null);
+      setEditingMaint(
+        {
+            maintenanceID: "",
+            maintenanceOpenDate: "",
+            maintenanceStatus: "",
+        }
+      );
     } catch (error) {
       console.error("Error updating maintenance:", error);
     }
@@ -330,7 +336,7 @@ const Dashboard = () => {
               overlayClassName="overlay"
             >
               <h2>Edit Maintenance </h2>
-              <form onSubmit={handleUpdate}>
+              {editingMaint && (<form onSubmit={handleUpdate}>
               <label>Date:
               <input
                 type="date"
@@ -360,6 +366,7 @@ const Dashboard = () => {
                         Cancel
                     </button>
               </form>
+            )}
             </Modal>
           </div>
         </div>
