@@ -49,7 +49,7 @@ const [isEditMode, setIsEditMode] = useState(false);
         "https://themepark-backend.onrender.com/parkstatus/create",
         newParkStatus
       );
-      getParkStatus();
+      fetchParkStatus();
       setNewParkStatus({
         date: "",
         weatherType: "",
@@ -58,6 +58,15 @@ const [isEditMode, setIsEditMode] = useState(false);
       alert("Error: " + err.message);
     }
   };
+
+  const fetchParkStatus = async () => {
+    try {
+        const response = await axios.get("https://themepark-backend.onrender.com/parkstatus/read");
+        setParkStatusList(response.data.result);
+    } catch (error) {
+        console.error("Error fetching shops:", error);
+    }
+};
 
   const getParkStatus = () => {
     axios
@@ -80,6 +89,7 @@ const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     getParkStatus();
+    fetchParkStatus();
   }, []);
 
   const getWeatherDescription = (weatherType) => {
@@ -138,14 +148,14 @@ const [isEditMode, setIsEditMode] = useState(false);
     return date.toISOString().slice(0, 10); // Get the first 16 characters to match datetime-local format
   };
 
-  const openModal = (parkstatus = null) => {
-    setIsEditMode(!!parkstatus);
+
+  const openModal = (parkstatus) => {
     const formattedDate = formatForDateLocal(parkstatus.date);
     setFormData(
-        parkstatus || {
-            parkStatusID: "",
+        {
+            parkStatusID: parkstatus.parkStatusID,
             date: formattedDate,
-            weatherType: "",
+            weatherType: parkstatus.weatherType,
         }
     );
     
