@@ -20,14 +20,14 @@ A package manager like npm or yarn.<br>
 ## setup steps 
 1: fork the respository <br>
 2: clone the forked repository <br>
-git clone https://github.com/your-repo<br>
+```git clone https://github.com/your-repo```<br>
 3: go into the root project folder in working directory of a code editor <br>
 4: install frontend dependencies<br>
-cd frontend <br>
-npm install<br>
+```cd frontend``` <br>
+```npm install```<br>
 5: install backend dependencies <br>
-cd backend <br>
-npm install  <br>
+```cd backend``` <br>
+```npm install```  <br>
 
 
 # Technology used 
@@ -49,9 +49,9 @@ hosting:<br>
 # scripts 
 
 ## start backend server
-npm run dev
+```npm run dev```
 
 ## start frontend server
-npm run dev
+```npm run dev```
 
 
