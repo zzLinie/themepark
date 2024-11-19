@@ -5,7 +5,6 @@ import Modal from "react-modal";
 import "react-calendar/dist/Calendar.css";
 import "./Dashboard.css";
 import "./DataForm.css";
-import EmployeeHeader from "../components/adminHeader";
 import AdminHeader from "../components/adminHeader";
 
 const Dashboard = () => {
