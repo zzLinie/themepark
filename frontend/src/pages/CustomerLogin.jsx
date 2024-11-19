@@ -3,11 +3,11 @@ import Header from "../components/header";
 import "./adminLogin.css";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../utils/AuthProvider";
 
 export default function AdminLogin() {
-  const { setAuth, setRole, setWelcomeMessage } = useAuth();
+  const { setAuth, setRole } = useAuth();
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -59,6 +59,9 @@ export default function AdminLogin() {
               type="password"
             />
             <input type="submit" value="Submit" />
+            <Link className="register-btn" to={"/customer-register"}>
+              Register
+            </Link>{" "}
           </form>
         </div>
       </div>

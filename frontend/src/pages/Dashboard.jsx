@@ -136,7 +136,7 @@ const Dashboard = () => {
       case 3:
         return "Requires Rescheduling";
       case 4:
-        "Cancelled";
+        return "Cancelled";
       default:
         return "Status not found";
     }
@@ -296,7 +296,6 @@ const Dashboard = () => {
                     <th>Technician</th>
                     <th>Maintenance Date</th>
                     <th>Status</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -309,14 +308,6 @@ const Dashboard = () => {
                           <td>{formatDate(maintenance.maintenanceDate)}</td>
                           <td style={getMaintStyle(maintenance.status)}>
                             {getMaintStatus(maintenance.status)}
-                          </td>
-                          <td>
-                            <button
-                              onClick={() => openModal(maintenance)}
-                              className="edit-button"
-                            >
-                              Edit
-                            </button>
                           </td>
                         </tr>
                       );

@@ -32,7 +32,7 @@ export default function AdminLogin() {
                 setRole(res.data.user.role);
                 setWelcomeMessage(`${res.data.user.userName}`);
                 alert("Granted Access");
-                navigate("/login/admin/reports");
+                navigate("/login/admin/home");
               }
             });
         } else {
