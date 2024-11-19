@@ -78,7 +78,7 @@ ACCESS_TOKEN_SECRET # Secret key for generating access tokens
 ```
 
 # Database design 
-Themepark Schema.pdf
+[Database Schema](https://drive.google.com/file/d/1kFCGiRiFf-O_fZnsMHOMbAG5TTLdTte1/view?usp=sharing)
 
 ## Scripts 
 ### start backend server
