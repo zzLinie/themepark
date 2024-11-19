@@ -1,11 +1,9 @@
 // tickets.js
 const express = require("express");
-const cors = require("cors");
 const db = require("../connect");
 const ticketRoute = express.Router();
 const { verifyUser } = require("../routes/customerLogin");
 
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 
@@ -137,7 +135,7 @@ ticketRoute.post("/create", (req, res) => {
 ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
   //user doesnt have token so hes not logged in
 
-  if (req.manualVerify == false) {
+  if (req.manualVerify == false && !req.user.role) {
     return res.json({
       Response: "Login into customer account to purchase ticket",
     });
