@@ -291,7 +291,6 @@ const Dashboard = () => {
                     <th>Technician</th>
                     <th>Maintenance Date</th>
                     <th>Status</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -308,14 +307,6 @@ const Dashboard = () => {
                           </td>
                           <td style={getMaintStyle(maintenance.status)}>
                             {getMaintStatus(maintenance.status)}
-                          </td>
-                          <td>
-                            <button
-                              onClick={() => openModal(maintenance)}
-                              className="edit-button"
-                            >
-                              Edit
-                            </button>
                           </td>
                         </tr>
                       );

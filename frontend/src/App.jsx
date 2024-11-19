@@ -16,6 +16,7 @@ import GiftShopForm from "./pages/GiftShopForm.jsx";
 import TicketForm from "./pages/TicketForm.jsx";
 import RideForm from "./pages/RidesForm.jsx";
 import SpecialEventForm from "./pages/SpecialEventForm.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 import EmployeeLogin from "./pages/EmployeeLogin.jsx";
 import Login from "./pages/Login.jsx";
 import AdminTickets from "./pages/AdminTickets.jsx";
@@ -51,6 +52,7 @@ export default function App() {
               <Route element={<CustomerLogin />} path="/customer-login" />
               <Route element={<CustomerRegister />} path="/customer-register" />
               <Route element={<AdminProtectedRoute />}>
+                <Route element={<AdminDashboard />} path="/login/admin/home" />
                 <Route element={<AdminTickets />} path="/login/admin/tickets" />
                 <Route element={<AdminReports />} path="/login/admin/reports" />
                 <Route

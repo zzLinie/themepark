@@ -26,6 +26,7 @@ export default function AdminHeader() {
           <h1>Themepark</h1>
         </Link>
         <div className="admin-tabs">
+          <Link to={"login/admin/home"}>Home</Link>
           <Link to={"/login/admin/reports"}>Reports</Link>
           <Link to={"/login/admin/employees"}>Employees</Link>
           <Link to={"/login/admin/parkstatus"}>Park Status</Link>
