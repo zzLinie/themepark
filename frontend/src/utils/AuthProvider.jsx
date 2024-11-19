@@ -31,6 +31,9 @@ export const AuthProvider = ({ children }) => {
           setWelcomeMessage(
             res.data.user.email.substring(0, res.data.user.email.indexOf("@"))
           );
+        } else if (res.data.Verify && res.data.user.role == "Customer") {
+          setAuth(true);
+          setRole(res.data.user.role);
         } else {
           setAuth(false); // User is not authenticated
           setRole("");
