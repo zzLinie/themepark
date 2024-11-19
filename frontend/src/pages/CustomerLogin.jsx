@@ -4,9 +4,11 @@ import "./adminLogin.css";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/AuthProvider";
 
 export default function AdminLogin() {
+  const navigate = useNavigate();
   const { setAuth, setRole } = useAuth();
   const [values, setValues] = useState({
     email: "",
@@ -31,6 +33,7 @@ export default function AdminLogin() {
                 setRole(res.data.customer.role);
                 setAuth(res.data.Verify);
                 alert("Login Successful");
+                navigate("/customer-account");
               }
             });
         } else {

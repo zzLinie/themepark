@@ -97,6 +97,9 @@ div {
   transition: transform 0.3s ease;
   z-index: 100;
 }
+.cart-sidebar h2 {
+  color: white;
+}
 
 /* When sidebar is visible */
 .cart-sidebar.show {

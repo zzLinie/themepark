@@ -14,13 +14,46 @@ const TicketForm = () => {
 } = useTicket();
   // Initialize state for form data
   const [visitDate, setVisitDate] = useState({});
+  const [ticketAvailibility, setTicketAvailibility] = useState(0);
+  const [recievedTicketAvailibility, setRecievedTicketAvailibility] =
+    useState(0);
 
+  //get ticket availibility according to toggled date
+  useEffect(() => {
+    //reset ticket cart after date filter change
+    setAdultQuantity(0);
+    setChildQuantity(0);
+    setSeniorQuantity(0);
+    setTotalPrice(0);
+    setTotalTickets(0);
+
+    axios
+      .post(
+        "https://themepark-backend.onrender.com/adminTickets/availibility",
+        visitDate
+      )
+      .then((res) => {
+        setTicketAvailibility(res.data.Response);
+        setRecievedTicketAvailibility(res.data.Response);
+      })
+      .catch((err) => alert(err));
+  }, [visitDate]);
   // Prices for each ticket type
   const ticketPrices = {
     child: 30, // Example price for child tickets
     adult: 40, // Example price for adult tickets
     senior: 25, // Example price for senior tickets
   };
+  const [parkDays, setParkDays] = useState([]);
+  const getVisitDays = () => {
+    axios
+      .get("https://themepark-backend.onrender.com/adminTickets/days")
+      .then((res) => setParkDays(res.data.Response))
+      .catch((err) => alert(err));
+  };
+  useEffect(() => {
+    getVisitDays();
+  }, []);
 
   // Recalculate total tickets and price whenever quantities change
   useEffect(() => {
@@ -37,7 +70,6 @@ const TicketForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const customerID = 78998509;
     const tickets = [
       { type: 0, quantity: childQuantity }, // child
       { type: 1, quantity: adultQuantity }, // adult
@@ -64,7 +96,7 @@ const TicketForm = () => {
         // Optionally, handle response (redirect, alert, etc.)
       })
       .catch((error) => {
-        alert(error);
+        alert(error.response.data.details);
       });
   };
 
@@ -86,13 +118,19 @@ const TicketForm = () => {
             />
             <button
               type="button"
-              onClick={() => setChildQuantity((prev) => prev + 1)}
+              onClick={() => {
+                setChildQuantity((prev) => prev + 1);
+                setTicketAvailibility((prev) => Math.max(prev - 1, 0));
+              }}
             >
               +
             </button>
             <button
               type="button"
-              onClick={() => setChildQuantity((prev) => Math.max(prev - 1, 0))}
+              onClick={() => {
+                setChildQuantity((prev) => Math.max(prev - 1, 0));
+                setTicketAvailibility((prev) => prev + 1);
+              }}
             >
               -
             </button>
@@ -109,13 +147,19 @@ const TicketForm = () => {
             />
             <button
               type="button"
-              onClick={() => setAdultQuantity((prev) => prev + 1)}
+              onClick={() => {
+                setAdultQuantity((prev) => prev + 1);
+                setTicketAvailibility((prev) => Math.max(prev - 1, 0));
+              }}
             >
               +
             </button>
             <button
               type="button"
-              onClick={() => setAdultQuantity((prev) => Math.max(prev - 1, 0))}
+              onClick={() => {
+                setAdultQuantity((prev) => Math.max(prev - 1, 0));
+                setTicketAvailibility((prev) => prev + 1);
+              }}
             >
               -
             </button>
@@ -132,34 +176,60 @@ const TicketForm = () => {
             />
             <button
               type="button"
-              onClick={() => setSeniorQuantity((prev) => prev + 1)}
+              onClick={() => {
+                setSeniorQuantity((prev) => prev + 1);
+                setTicketAvailibility((prev) => Math.max(prev - 1, 0));
+              }}
             >
               +
             </button>
             <button
               type="button"
-              onClick={() => setSeniorQuantity((prev) => Math.max(prev - 1, 0))}
+              onClick={() => {
+                setSeniorQuantity((prev) => Math.max(prev - 1, 0));
+                setTicketAvailibility((prev) => prev + 1);
+              }}
             >
               -
             </button>
           </div>
           <div className="ticket-date-container">
-            <label htmlFor="date">Plan Your Vist</label>
-            <input
-              type="date"
+            <label htmlFor="">Plan your Visit</label>
+            <select
+              required
+              name=""
+              id=""
               onChange={(e) =>
                 setVisitDate({ ...visitDate, date: e.target.value })
               }
-            />
+            >
+              <option disabled selected value="">
+                Plan your visit
+              </option>
+              {parkDays &&
+                parkDays.map((day) => {
+                  return (
+                    <>
+                      <option value={day.Date}>{day.Date}</option>
+                    </>
+                  );
+                })}
+            </select>
           </div>
 
           {/* Display Total Tickets and Total Price */}
           <div className="cart-summary">
+            <p>
+              <strong>Ticket Availibility: </strong>
+              {ticketAvailibility > 0 ? ticketAvailibility : 0}
+            </p>
             <p>Total Tickets: {totalTickets}</p>
             <p>Total Price: ${totalPrice}</p>
           </div>
 
-          <button type="submit">Purchase</button>
+          <button disabled={ticketAvailibility == 0} type="submit">
+            Purchase
+          </button>
         </form>
       </div>
     </>

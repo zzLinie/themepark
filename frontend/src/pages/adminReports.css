@@ -42,3 +42,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+.tabs-container {
+  display: flex;
+  justify-content: center;
+}

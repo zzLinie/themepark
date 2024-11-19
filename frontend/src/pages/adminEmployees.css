@@ -11,7 +11,6 @@
 }
 .employee-card {
   padding: 20px 10%;
-
 }
 .employee-form input {
   background-color: var(--backgroundColor);
@@ -24,46 +23,46 @@ td,
 th {
   border-bottom: 1px solid black;
   margin-left: 60px;
-  margin:0 auto;
+  margin: 0 auto;
   text-align: center;
   justify-content: center;
   min-width: 80px;
   padding: 5px;
   margin-bottom: 30px;
 }
-th{
-  background-color:lightgray;
+th {
+  background-color: lightgray;
 }
-tr{
-  transition-duration: .2s;
+tr {
+  transition-duration: 0.2s;
 }
 tr:hover {
-  background-color:lightblue;
+  background-color: lightblue;
 }
 
 td {
   font-size: 14px;
 }
-h1{
+h1 {
   text-align: center;
-  grid-column: span 1
+  grid-column: span 1;
 }
-button{
-  background-color:lightgrey;
-  border:1px solid dimgray;
-  color:black;
+button {
+  background-color: lightgrey;
+  border: 1px solid dimgray;
+  color: black;
   box-shadow: none;
-  display:inline-block;
+  display: inline-block;
   font-size: 12;
   border-radius: 5px;
-  transition-duration: .4s;
+  transition-duration: 0.4s;
   margin-top: 5px;
   margin-bottom: 3px;
   margin-right: 3px;
   grid-column: span 2;
 }
-button:hover{
-  background-color:cadetblue;
+button:hover {
+  background-color: cadetblue;
 }
 
 .dialog-container {
@@ -82,10 +81,23 @@ button:hover{
 form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap:20px;
+  gap: 20px;
 }
 
 form .form-group {
   display: flex;
   flex-direction: column;
+}
+.employee-create-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.dialog-container form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.dialog-container button {
+  grid-column: 1/4;
 }

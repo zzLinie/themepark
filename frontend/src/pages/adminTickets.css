@@ -8,3 +8,13 @@ section {
   align-items: center;
   gap: 10px;
 }
+.ticket-card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+.ticket-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+}

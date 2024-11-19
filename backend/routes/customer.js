@@ -11,7 +11,6 @@ customerRoute.use(cookieParser());
 
 // Route to get customer details by customerID
 customerRoute.get("/read", verifyUser, (req, res) => {
-  console.log(req.user);
   const customerID = req.user.customerID;
   const sql = "SELECT * FROM customers WHERE customerID = ?";
   db.query(sql, [customerID], (err, result) => {

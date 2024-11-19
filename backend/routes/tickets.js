@@ -133,20 +133,22 @@ ticketRoute.post("/create", (req, res) => {
 });
 
 ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
-  //user doesnt have token so hes not logged in
-
+  // Check if user is logged in
   if (req.manualVerify == false && !req.user.role) {
-    return res.json({
-      Response: "Login into customer account to purchase ticket",
+    return res.status(400).json({
+      Response: "Please log in to your customer account to purchase tickets.",
     });
   }
 
   const { date, tickets } = req.body;
 
+  // Start transaction
   db.beginTransaction((transactionErr) => {
     if (transactionErr) {
       console.error("Error starting transaction:", transactionErr);
-      return res.status(500).send("Transaction error");
+      return res
+        .status(500)
+        .json({ error: "Transaction error", details: transactionErr });
     }
 
     let queriesCompleted = 0; // To track completed queries
@@ -155,6 +157,7 @@ ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
       0
     );
 
+    // Process each ticket
     for (const ticket of tickets) {
       for (let i = 0; i < ticket.quantity; i++) {
         // Insert ticket
@@ -173,7 +176,7 @@ ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
 
             const ticketID = ticketResult.insertId;
 
-            // Get parkStatusID
+            // Get park status for the given date
             db.query(
               `SELECT parkStatusID FROM parkstatus WHERE date = ? LIMIT 1`,
               [date],
@@ -191,6 +194,14 @@ ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
                   return rollbackTransaction(
                     res,
                     "Park status not found for the visit date"
+                  );
+                }
+
+                // Check if park is closed due to weather
+                if (statusResult[0]?.parkStatusID === "closed") {
+                  return rollbackTransaction(
+                    res,
+                    "Park is closed due to weather conflicts on this date."
                   );
                 }
 
@@ -240,13 +251,14 @@ ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
     }
   });
 
-  // Helper function for rolling back transactions
-  function rollbackTransaction(res, message, error = null) {
+  // Helper function to handle rollbacks and responses
+  const rollbackTransaction = (res, message, err) => {
     db.rollback(() => {
-      console.error(message, error);
-      res.status(500).send(message);
+      console.error(message, err);
+      return res
+        .status(400)
+        .json({ error: message, details: err.sqlMessage || err });
     });
-  }
+  };
 });
-
 module.exports = ticketRoute;
