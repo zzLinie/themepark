@@ -23,7 +23,7 @@ export default function AdminHeader() {
     <>
       <div className="admin-header">
         <Link to="/">
-          <h1>Themepark</h1>
+          <img src={Image} alt="" />
         </Link>
         <div className="admin-tabs">
           <Link to={"/login/admin/home"}>Home</Link>

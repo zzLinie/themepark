@@ -2,6 +2,7 @@ import "./employeeHeader.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../utils/AuthProvider";
+import Image from "../assets/images/ticket.png";
 
 export default function EmployeeHeader() {
   const { setAuth, setRole, welcomeMessage, setWelcomeMessage } = useAuth();
@@ -23,7 +24,7 @@ export default function EmployeeHeader() {
     <>
       <div className="employee-header">
         <Link to="/">
-          <h1>Themepark</h1>
+          <img src={Image} alt="" />
         </Link>
         <div className="employee-tabs">
           <Link to={"/login/employees/home"}>Home</Link>

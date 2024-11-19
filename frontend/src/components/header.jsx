@@ -6,6 +6,7 @@ import { useCart } from "../utils/CartContext";
 import { useTicket } from "../utils/TicketContext";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../utils/AuthProvider";
+import Image from "../assets/images/ticket.png";
 
 export default function Header() {
   const { totalTickets } = useCart();
@@ -49,7 +50,7 @@ export default function Header() {
   return (
     <div className="header-container">
       <Link to="/">
-        <h1>Themepark</h1>
+        <img src={Image} alt="" />
       </Link>
       <div className="links">
         <Link to="/">Home</Link>
