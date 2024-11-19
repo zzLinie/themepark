@@ -2,6 +2,7 @@ import "./adminHeader.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../utils/AuthProvider";
+import "../assets/images/ticket.png";
 
 export default function AdminHeader() {
   const { setAuth, setRole, welcomeMessage, setWelcomeMessage } = useAuth();
