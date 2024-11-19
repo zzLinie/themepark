@@ -135,7 +135,8 @@ const Dashboard = () => {
         return "Event Maintenance";
       case 3:
         return "Requires Rescheduling";
-      case 4: "Cancelled";
+      case 4: 
+        return "Cancelled";
       default:
         return "Status not found";
     }
