@@ -29,6 +29,7 @@ export default function AdminLogin() {
               setAuth(res.data.Verify);
               if (res.data.Verify) {
                 setRole(res.data.customer.role);
+                setAuth(res.data.Verify);
                 alert("Login Successful");
               }
             });
@@ -58,10 +59,17 @@ export default function AdminLogin() {
               }
               type="password"
             />
-            <input type="submit" value="Submit" />
-            <Link className="register-btn" to={"/customer-register"}>
-              Register
-            </Link>{" "}
+            <input
+              className="customer-submit-btn"
+              type="submit"
+              value="Log In"
+            />
+            <span>
+              Dont have an account?
+              <Link className="register-btn" to={"/customer-register"}>
+                Register
+              </Link>{" "}
+            </span>
           </form>
         </div>
       </div>

@@ -30,6 +30,7 @@ import CustomerLogin from "./pages/CustomerLogin.jsx";
 import CustomerRegister from "./pages/CustomerRegister.jsx";
 import ParkStatusForm from "./pages/AdminParkstatus.jsx";
 import AdminDashBoard from "./pages/AdminDashboard.jsx";
+import CustomerProtectedRoute from "./utils/CustomerProtectedRoute.jsx";
 
 export default function App() {
   return (
@@ -45,10 +46,8 @@ export default function App() {
               <Route element={<Rides />} path="/rides" />
               <Route element={<Events />} path="/events" />
               <Route element={<AdminLogin />} path="/login/admin" />
-              <Route element={<TicketForm />} path="/ticket" />
               <Route element={<EmployeeLogin />} path="/login/employee" />
               <Route element={<Login />} path="/login" />
-              <Route element={<CustomerDetails />} path="/customer-account" />
               <Route element={<CustomerLogin />} path="/customer-login" />
               <Route element={<CustomerRegister />} path="/customer-register" />
               <Route element={<AdminProtectedRoute />}>
@@ -82,6 +81,10 @@ export default function App() {
                   path="/login/employees/events"
                 />
                 <Route element={<RideForm />} path="/login/employees/ride" />
+              </Route>
+              <Route element={<CustomerProtectedRoute />}>
+                <Route element={<CustomerDetails />} path="/customer-account" />
+                <Route element={<TicketForm />} path="/ticket" />
               </Route>
             </Routes>
           </BrowserRouter>

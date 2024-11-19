@@ -3,20 +3,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../components/header";
 import "./CustomerDetails.css"; // Import the CSS file
+import { useAuth } from "../utils/AuthProvider";
 
 const CustomerDetails = () => {
+  const { setAuth, setRole, auth } = useAuth();
   const [customerData, setCustomerData] = useState(null);
   const [tickets, setTickets] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [formValues, setFormValues] = useState({});
-  const customerID = 78998509; // Hardcoded customer ID for testing
 
   useEffect(() => {
     // Fetch customer details on component mount
     axios
-      .get(
-        `https://themepark-backend.onrender.com/customers/read/${customerID}`
-      )
+      .get(`https://themepark-backend.onrender.com/customers/read`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setCustomerData(response.data);
         setFormValues(response.data); // Initialize form values
@@ -27,17 +28,16 @@ const CustomerDetails = () => {
 
     // Fetch customer tickets
     axios
-      .get(
-        `https://themepark-backend.onrender.com/customers/tickets/${customerID}`
-      )
+      .get(`https://themepark-backend.onrender.com/customers/tickets`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setTickets(response.data);
       })
       .catch((error) => {
         console.error("Error fetching customer tickets:", error);
       });
-  }, [customerID]);
-
+  }, [auth]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
@@ -46,14 +46,16 @@ const CustomerDetails = () => {
   const handleSaveChanges = () => {
     // Prepare data to send to the backend
     const dataToUpdate = {
-      customerID,
       ...formValues,
     };
 
     axios
       .put(
         "https://themepark-backend.onrender.com/customers/update",
-        dataToUpdate
+        dataToUpdate,
+        {
+          withCredentials: true,
+        }
       )
       .then((response) => {
         setCustomerData(formValues);
@@ -66,6 +68,18 @@ const CustomerDetails = () => {
       });
   };
 
+  const handleLogout = () => {
+    axios
+      .post("https://themepark-backend.onrender.com/customers/logout", [], {
+        withCredentials: true,
+      })
+      .then((res) => {
+        alert(res.data.Response);
+        setAuth(false);
+        setRole("");
+      })
+      .catch((err) => alert(err));
+  };
   if (!customerData) {
     return (
       <>
@@ -253,6 +267,9 @@ const CustomerDetails = () => {
             </div>
           </>
         )}
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </>
   );
