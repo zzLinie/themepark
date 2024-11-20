@@ -1,16 +1,17 @@
 // customer.js
 const express = require("express");
-const cors = require("cors");
 const db = require("../connect");
+const { verifyUser } = require("../routes/customerLogin");
+const cookieParser = require("cookie-parser");
 
 const customerRoute = express.Router();
 
-customerRoute.use(cors());
 customerRoute.use(express.json());
+customerRoute.use(cookieParser());
 
 // Route to get customer details by customerID
-customerRoute.get("/read/:customerID", (req, res) => {
-  const { customerID } = req.params;
+customerRoute.get("/read", verifyUser, (req, res) => {
+  const customerID = req.user.customerID;
   const sql = "SELECT * FROM customers WHERE customerID = ?";
   db.query(sql, [customerID], (err, result) => {
     if (err) {
@@ -69,8 +70,8 @@ customerRoute.put("/update", (req, res) => {
 });
 
 // Route to delete a customer by customerID
-customerRoute.delete("/delete/:customerID", (req, res) => {
-  const { customerID } = req.params;
+customerRoute.delete("/delete", verifyUser, (req, res) => {
+  const { customerID } = req.user;
   const sql = "DELETE FROM customers WHERE customerID = ?";
   db.query(sql, [customerID], (err, result) => {
     if (err) {
@@ -82,26 +83,32 @@ customerRoute.delete("/delete/:customerID", (req, res) => {
   });
 });
 
-customerRoute.get("/tickets/:customerID", (req, res) => {
-    let { customerID } = req.params;
-    customerID = parseInt(customerID, 10); // Convert to integer
-  
-    const sql = `
+customerRoute.get("/tickets", verifyUser, (req, res) => {
+  let { customerID } = req.user;
+  customerID = parseInt(customerID, 10); // Convert to integer
+
+  const sql = `
       SELECT ticket.ticketID, ticket.ticketType, ticket.startDate, ticket.expiryDate
       FROM ticket
       WHERE ticket.customerID = ?
       ORDER BY ticket.startDate DESC
     `;
-    db.query(sql, [customerID], (err, results) => {
-      if (err) {
-        console.error("Error fetching customer tickets:", err);
-        res.status(500).json({ error: "Failed to fetch customer tickets" });
-      } else {
-        res.json(results);
-      }
-    });
+  db.query(sql, [customerID], (err, results) => {
+    if (err) {
+      console.error("Error fetching customer tickets:", err);
+      res.status(500).json({ error: "Failed to fetch customer tickets" });
+    } else {
+      res.json(results);
+    }
   });
-  
+});
+customerRoute.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+  });
+  return res.json({ Response: "Logged out Successfully" });
+});
 
 // Export the router
 module.exports = customerRoute;

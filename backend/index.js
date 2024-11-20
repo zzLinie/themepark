@@ -17,7 +17,7 @@ const employeeAuth = require("./routes/employeeAuth");
 const tickets = require("./routes/tickets");
 const adminTickets = require("./routes/adminTickets");
 const reportsRoute = require("./routes/reports");
-const customerRoute = require("./routes/customerLogin");
+const { customerRoute } = require("./routes/customerLogin");
 const customerInfoRoute = require("./routes/customer");
 
 // Configure multer storage

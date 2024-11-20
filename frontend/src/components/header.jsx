@@ -5,11 +5,14 @@ import { ShoppingCart } from "phosphor-react";
 import { useCart } from "../utils/CartContext";
 import { useTicket } from "../utils/TicketContext";
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../utils/AuthProvider";
+import Image from "../assets/images/ticket.png";
 
 export default function Header() {
   const { totalTickets } = useCart();
   const { childQuantity, adultQuantity, seniorQuantity, totalPrice } =
     useTicket();
+  const { auth, role } = useAuth();
   const sidebarRef = useRef(null);
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -37,10 +40,17 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [sidebarVisible]);
+  const handleAuthMessage = (e) => {
+    if (!auth || role != "Customer") {
+      e.preventDefault();
+      alert("You must login as a customer");
+    }
+  };
+
   return (
     <div className="header-container">
       <Link to="/">
-        <h1>Themepark</h1>
+        <img src={Image} alt="" />
       </Link>
       <div className="links">
         <Link to="/">Home</Link>
@@ -48,17 +58,21 @@ export default function Header() {
         <Link to="/dining">Dining</Link>
         <Link to="/events">Events</Link>
         <Link to="/giftshops">Shops</Link>
-        <Link to="/ticket">Buy a Ticket</Link>
+        <Link onClick={handleAuthMessage} to="/ticket">
+          Buy a Ticket
+        </Link>
       </div>
       <div className="header-button-container">
         <Link to="/customer-login">
-        <Button buttonClass="loginButton" buttonText="Customer Login" />
+          <Button buttonClass="loginButton" buttonText="Customer Login" />
         </Link>
-        
+
         <Link to="/login">
           <Button buttonClass="loginButton" buttonText="Staff Login" />
         </Link>
-        <Link to={"/customer-account"}>Account Details</Link>
+        <Link onClick={handleAuthMessage} to={"/customer-account"}>
+          Account Details
+        </Link>
         <div className="cart-sidebar-toggle" onClick={toggleSidebar}>
           <div className="cart-icon-wrapper">
             <ShoppingCart className="cart-icon" size={32} />

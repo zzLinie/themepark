@@ -20,7 +20,7 @@ const Dashboard = () => {
     maintenanceID: "",
     maintenanceOpenDate: "",
     maintenanceStatus: "",
-});
+  });
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayEvents, setDayEvents] = useState([]);
   const [events, setEvents] = useState([]);
@@ -53,7 +53,13 @@ const Dashboard = () => {
 
   const fetchUpcomingMaintenance = async () => {
     try {
+<<<<<<< HEAD
       const response = await axios.get("https://themepark-backend.onrender.com/events/upcoming-maintenance");
+=======
+      const response = await axios.get(
+        "https://themepark-backend.onrender.com/events/upcoming-maintenance"
+      );
+>>>>>>> upstream/main
       setUpcomingMaintenance(response.data.result);
     } catch (error) {
       console.error("Error fetching upcoming maintenance:", error);
@@ -117,6 +123,7 @@ const Dashboard = () => {
 
   const openModal = (maintenance) => {
     const formattedDate = formatForDateLocal(maintenance.maintenanceDate);
+<<<<<<< HEAD
     setEditingMaint(
       {
           maintenanceID: maintenance.maintenanceID,
@@ -128,6 +135,16 @@ const Dashboard = () => {
     setEditModalOpen(true);
 };
 
+=======
+    setEditingMaint({
+      maintenanceID: maintenance.maintenanceID,
+      maintenanceOpenDate: formattedDate,
+      maintenanceStatus: maintenance.status,
+    });
+
+    setEditModalOpen(true);
+  };
+>>>>>>> upstream/main
 
   const closeModal = () => setEditModalOpen(false);
 
@@ -141,7 +158,11 @@ const Dashboard = () => {
         return "Event Maintenance";
       case 3:
         return "Requires Rescheduling";
+<<<<<<< HEAD
       case 4: 
+=======
+      case 4:
+>>>>>>> upstream/main
         return "Cancelled";
       default:
         return "Status not found";
@@ -158,15 +179,27 @@ const Dashboard = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditingMaint({
+<<<<<<< HEAD
         ...editingMaint,
         [name]: name === "maintenanceStatus" ? parseInt(value, 10) : value,
+=======
+      ...editingMaint,
+      [name]: name === "maintenanceStatus" ? parseInt(value, 10) : value,
+>>>>>>> upstream/main
     });
   };
 
   const handleUpdate = (e) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
       axios.put(`https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`, editingMaint);
+=======
+      axios.put(
+        `https://themepark-backend.onrender.com/maintenance/${editingMaint.maintenanceID}`,
+        editingMaint
+      );
+>>>>>>> upstream/main
       fetchUpcomingMaintenance();
       fetchMaintenance();
       setEditModalOpen(false);
@@ -178,7 +211,14 @@ const Dashboard = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
       axios.get(`https://themepark-backend.onrender.com/maintenance/${creatingMaint.maintenanceID}`, creatingMaint);
+=======
+      axios.get(
+        `https://themepark-backend.onrender.com/maintenance/${creatingMaint.maintenanceID}`,
+        creatingMaint
+      );
+>>>>>>> upstream/main
       fetchUpcomingMaintenance();
       fetchMaintenance();
       setCreateModalOpen(false);
@@ -289,8 +329,12 @@ const Dashboard = () => {
                         <li key={key}>
                           <strong>{event.eventName}</strong> - {event.eventType}{" "}
                           <br />
+<<<<<<< HEAD
                           From: {formatDate(event.startDate)}{" "}
                           <br />
+=======
+                          From: {formatDate(event.startDate)} <br />
+>>>>>>> upstream/main
                           To: {formatDate(event.endDate)}
                         </li>
                       );
@@ -321,11 +365,15 @@ const Dashboard = () => {
                         <tr key={maintenance.maintenanceID}>
                           <td>{maintenance.rideName}</td>
                           <td>{maintenance.technician}</td>
+<<<<<<< HEAD
                           <td>
                             {formatDate(
                               maintenance.maintenanceDate
                             )}
                           </td>
+=======
+                          <td>{formatDate(maintenance.maintenanceDate)}</td>
+>>>>>>> upstream/main
                           <td style={getMaintStyle(maintenance.status)}>
                             {getMaintStatus(maintenance.status)}
                           </td>
@@ -353,6 +401,7 @@ const Dashboard = () => {
               overlayClassName="overlay"
             >
               <h2>Edit Maintenance </h2>
+<<<<<<< HEAD
               {editingMaint && (<form onSubmit={handleUpdate}>
               <label>Date:
               <input
@@ -384,6 +433,42 @@ const Dashboard = () => {
                     </button>
               </form>
             )}
+=======
+              {editingMaint && (
+                <form onSubmit={handleUpdate}>
+                  <label>
+                    Date:
+                    <input
+                      type="date"
+                      name="maintenanceOpenDate"
+                      value={editingMaint.maintenanceOpenDate}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Maintenance Status:
+                    <select
+                      type="text"
+                      name="maintenanceStatus"
+                      value={editingMaint.maintenanceStatus}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">Select Maintenance Status</option>
+                      <option value="0">Incomplete</option>
+                      <option value="1">Complete</option>
+                      <option value="2">Event Maintenance</option>
+                      <option value="4">Cancelled</option>
+                    </select>
+                  </label>
+                  <button type="submit">Update Maintenance</button>
+                  <button type="button" onClick={closeModal}>
+                    Cancel
+                  </button>
+                </form>
+              )}
+>>>>>>> upstream/main
             </Modal>
           </div>
         </div>
@@ -392,4 +477,8 @@ const Dashboard = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Dashboard;
+=======
+export default Dashboard;
+>>>>>>> upstream/main

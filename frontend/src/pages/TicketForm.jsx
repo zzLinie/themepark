@@ -7,22 +7,62 @@ import { useCart } from "../utils/CartContext";
 
 const TicketForm = () => {
   const { totalTickets, setTotalTickets } = useCart();
-  // prettier-ignore
-  const { childQuantity, adultQuantity, seniorQuantity, setChildQuantity, 
-    setAdultQuantity, setSeniorQuantity, totalPrice,
+  const {
+    childQuantity,
+    adultQuantity,
+    seniorQuantity,
+    setChildQuantity,
+    setAdultQuantity,
+    setSeniorQuantity,
+    totalPrice,
     setTotalPrice,
-} = useTicket();
-  // Initialize state for form data
-  const [visitDate, setVisitDate] = useState({});
+  } = useTicket();
 
-  // Prices for each ticket type
+  const [visitDate, setVisitDate] = useState({});
+  const [ticketAvailibility, setTicketAvailibility] = useState(0);
+  const [recievedTicketAvailibility, setRecievedTicketAvailibility] =
+    useState(0);
+  const [warning, setWarning] = useState("");
+
   const ticketPrices = {
-    child: 30, // Example price for child tickets
-    adult: 40, // Example price for adult tickets
-    senior: 25, // Example price for senior tickets
+    child: 30,
+    adult: 40,
+    senior: 25,
   };
 
-  // Recalculate total tickets and price whenever quantities change
+  const [parkDays, setParkDays] = useState([]);
+  const getVisitDays = () => {
+    axios
+      .get("https://themepark-backend.onrender.com/adminTickets/days")
+      .then((res) => setParkDays(res.data.Response))
+      .catch((err) => alert(err));
+  };
+  useEffect(() => {
+    getVisitDays();
+  }, []);
+
+  // Fetch availability when date changes
+  useEffect(() => {
+    setAdultQuantity(0);
+    setChildQuantity(0);
+    setSeniorQuantity(0);
+    setTotalPrice(0);
+    setTotalTickets(0);
+    setWarning("");
+
+    axios
+      .post(
+        "https://themepark-backend.onrender.com/adminTickets/availibility",
+        visitDate
+      )
+      .then((res) => {
+        setTicketAvailibility(res.data.Response);
+        setRecievedTicketAvailibility(res.data.Response);
+      })
+      .catch((err) => alert(err));
+  }, [visitDate]);
+
+  // Recalculate totals when quantities change
   useEffect(() => {
     const total = childQuantity + adultQuantity + seniorQuantity;
     setTotalTickets(total);
@@ -32,38 +72,83 @@ const TicketForm = () => {
       adultQuantity * ticketPrices.adult +
       seniorQuantity * ticketPrices.senior;
     setTotalPrice(price);
+
+    // Ensure availability doesn't go negative
+    if (total > recievedTicketAvailibility) {
+      setWarning("You cannot select more tickets than are available!");
+    } else {
+      setWarning("");
+    }
   }, [childQuantity, adultQuantity, seniorQuantity]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const customerID = 78998509;
+    if (ticketAvailibility <= 0) {
+      alert("Tickets are sold out for the selected date!");
+      return;
+    }
+
     const tickets = [
       { type: 0, quantity: childQuantity }, // child
       { type: 1, quantity: adultQuantity }, // adult
-      { type: 2, quantity: seniorQuantity }, //senior
+      { type: 2, quantity: seniorQuantity }, // senior
     ];
     const { date } = visitDate;
 
-    const payload = {
-      customerID,
+    const data = {
       tickets,
       date,
     };
 
-    // Example of sending data to the server (you can replace the URL)
     axios
       .post(
         "https://themepark-backend.onrender.com/tickets/purchase-tickets",
-        payload
+        data,
+        {
+          withCredentials: true,
+        }
       )
-      .then((response) => {
-        console.log("Purchase successful", response.data);
-        // Optionally, handle response (redirect, alert, etc.)
+      .then((res) => {
+        setAdultQuantity(0);
+        setChildQuantity(0);
+        setSeniorQuantity(0);
+        setTotalPrice(0);
+        setTotalTickets(0);
+        setWarning("");
+        alert(res.data.Response);
       })
       .catch((error) => {
-        console.error("Error purchasing tickets:", error);
+        alert(error.response.data.details);
       });
+  };
+
+  const handleQuantityChange = (type, delta) => {
+    if (ticketAvailibility === 0 && delta > 0) {
+      alert("No tickets available for the selected date.");
+      return;
+    }
+
+    if (delta > 0 && totalTickets >= recievedTicketAvailibility) {
+      alert("You cannot add more tickets than are available.");
+      return;
+    }
+
+    switch (type) {
+      case "child":
+        setChildQuantity((prev) => Math.max(prev + delta, 0));
+        break;
+      case "adult":
+        setAdultQuantity((prev) => Math.max(prev + delta, 0));
+        break;
+      case "senior":
+        setSeniorQuantity((prev) => Math.max(prev + delta, 0));
+        break;
+      default:
+        break;
+    }
+
+    setTicketAvailibility((prev) => Math.max(prev - delta, 0));
   };
 
   return (
@@ -71,7 +156,6 @@ const TicketForm = () => {
       <Header />
       <div className="dataentryformcontainer">
         <h1>Purchase Ticket</h1>
-
         <form onSubmit={handleSubmit}>
           <label htmlFor="child">Child Ticket ${ticketPrices.child}</label>
           <div className="quantity-selector">
@@ -84,13 +168,14 @@ const TicketForm = () => {
             />
             <button
               type="button"
-              onClick={() => setChildQuantity((prev) => prev + 1)}
+              onClick={() => handleQuantityChange("child", 1)}
             >
               +
             </button>
             <button
               type="button"
-              onClick={() => setChildQuantity((prev) => Math.max(prev - 1, 0))}
+              disabled={childQuantity == 0}
+              onClick={() => handleQuantityChange("child", -1)}
             >
               -
             </button>
@@ -107,13 +192,14 @@ const TicketForm = () => {
             />
             <button
               type="button"
-              onClick={() => setAdultQuantity((prev) => prev + 1)}
+              onClick={() => handleQuantityChange("adult", 1)}
             >
               +
             </button>
             <button
               type="button"
-              onClick={() => setAdultQuantity((prev) => Math.max(prev - 1, 0))}
+              disabled={adultQuantity == 0}
+              onClick={() => handleQuantityChange("adult", -1)}
             >
               -
             </button>
@@ -130,34 +216,52 @@ const TicketForm = () => {
             />
             <button
               type="button"
-              onClick={() => setSeniorQuantity((prev) => prev + 1)}
+              onClick={() => handleQuantityChange("senior", 1)}
             >
               +
             </button>
             <button
               type="button"
-              onClick={() => setSeniorQuantity((prev) => Math.max(prev - 1, 0))}
+              disabled={seniorQuantity == 0}
+              onClick={() => handleQuantityChange("senior", -1)}
             >
               -
             </button>
           </div>
+
           <div className="ticket-date-container">
-            <label htmlFor="date">Plan Your Vist</label>
-            <input
-              type="date"
+            <label htmlFor="">Plan your Visit</label>
+            <select
+              required
               onChange={(e) =>
                 setVisitDate({ ...visitDate, date: e.target.value })
               }
-            />
+            >
+              <option disabled selected value="">
+                Plan your visit
+              </option>
+              {parkDays.map((day) => (
+                <option value={day.Date} key={day.Date}>
+                  {day.Date}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Display Total Tickets and Total Price */}
           <div className="cart-summary">
+            <p>
+              <strong>Ticket Availability: </strong>
+              {ticketAvailibility > 0 ? ticketAvailibility : "Sold Out"}
+            </p>
             <p>Total Tickets: {totalTickets}</p>
             <p>Total Price: ${totalPrice}</p>
           </div>
 
-          <button type="submit">Purchase</button>
+          {warning && <p className="warning">{warning}</p>}
+
+          <button disabled={ticketAvailibility === 0} type="submit">
+            Purchase
+          </button>
         </form>
       </div>
     </>

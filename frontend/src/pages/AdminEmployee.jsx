@@ -23,6 +23,7 @@ export default function AdminEmployee() {
   const [deleteState, setDeleteState] = useState(false);
   const [employeeData, setEmployeeData] = useState([]);
   const modalRef = useRef(null);
+  const modalRefCreate = useRef(null);
 
   const handleChildData = (dataObj) => {
     setValues({ ...values, ...dataObj });
@@ -37,6 +38,7 @@ export default function AdminEmployee() {
       );
       alert(request.data);
       await getEmployees();
+      handleModalClose(modalRefCreate);
     } catch (err) {
       if (err) alert(err);
     }
@@ -44,7 +46,7 @@ export default function AdminEmployee() {
 
   const deleteRow = (idVal) => {
     axios
-      .delete(`https://themepark-backend.onrender.com/employee/delete/${idVal}`)
+      .put(`https://themepark-backend.onrender.com/employee/delete/${idVal}`)
       .then((res) => {
         alert(res.data);
         setEmployeeList(
@@ -64,6 +66,12 @@ export default function AdminEmployee() {
       .then((res) => setEmployeeList(res.data.result))
       .catch((err) => alert(err + " when retrieving employees"));
   };
+  const handleModalOpen = (modal) => {
+    modal.current.showModal();
+  };
+  const handleModalClose = (modal) => {
+    modal.current.close();
+  };
 
   //renders employee list after delete button click
   useEffect(() => {
@@ -76,8 +84,7 @@ export default function AdminEmployee() {
       .then((res) => {
         setEmployeeData({ ...employeeData, ...res.data.result });
         setValues({ ...values, ...res.data.result[0] });
-        const modal = modalRef.current;
-        modal.showModal();
+        handleModalOpen(modalRef);
       })
       .catch((err) => alert(err));
   };
@@ -90,7 +97,6 @@ export default function AdminEmployee() {
       .catch((err) => alert(err));
     setDeleteState(deleteState == true ? false : true);
   };
-
   return (
     <>
       <AdminHeader />
@@ -204,89 +210,104 @@ export default function AdminEmployee() {
       </dialog>
 
       <div className="employee-card">
-        <h1>Add Employee</h1>
-        <form action="" className="employee-form" onSubmit={postData}>
-          <Input
-            inputNaming={"empFname"}
-            inputText={"First Name"}
-            inputType={"text"}
-            handleInputChange={handleChildData}
-          />
-          <Input
-            inputNaming={"empMinitial"}
-            inputText={"Middle Initial"}
-            inputType={"text"}
-            maxLength={1}
-            handleInputChange={handleChildData}
-          />
-          <Input
-            inputNaming={"empLname"}
-            inputText={"Last Name"}
-            inputType={"text"}
-            maxLength={30}
-            handleInputChange={handleChildData}
-          />
-          <Input
-            inputNaming={"empAge"}
-            inputType={"number"}
-            inputText={"Age"}
-            handleInputChange={handleChildData}
-          />
+        <div className="employee-create-container">
+          <h1>Add Employee</h1>
+          <button onClick={() => handleModalOpen(modalRefCreate)}>+</button>
+        </div>
+        <dialog className="dialog-container" ref={modalRefCreate}>
+          <form action="" className="employee-form" onSubmit={postData}>
+            <Input
+              inputNaming={"empSSN"}
+              inputText={"SSN"}
+              inputType={"number"}
+              handleInputChange={handleChildData}
+            />
+            <Input
+              inputNaming={"empFname"}
+              inputText={"First Name"}
+              inputType={"text"}
+              handleInputChange={handleChildData}
+            />
+            <Input
+              inputNaming={"empMinitial"}
+              inputText={"Middle Initial"}
+              inputType={"text"}
+              maxLength={1}
+              handleInputChange={handleChildData}
+            />
+            <Input
+              inputNaming={"empLname"}
+              inputText={"Last Name"}
+              inputType={"text"}
+              maxLength={30}
+              handleInputChange={handleChildData}
+            />
+            <Input
+              inputNaming={"empAge"}
+              inputType={"number"}
+              inputText={"Age"}
+              handleInputChange={handleChildData}
+            />
 
-          <Input
-            inputNaming={"empDOB"}
-            inputText={"Date of Birth"}
-            inputType={"date"}
-            handleInputChange={handleChildData}
-          />
+            <Input
+              inputNaming={"empDOB"}
+              inputText={"Date of Birth"}
+              inputType={"date"}
+              handleInputChange={handleChildData}
+            />
 
-          <Input
-            inputText={"Phone Number"}
-            inputNaming={"phoneNumber"}
-            inputType={"text"}
-            maxLength={20}
-            handleInputChange={handleChildData}
-          />
-          <Input
-            inputNaming={"address"}
-            inputText={"Address"}
-            inputType={"text"}
-            maxLength={50}
-            handleInputChange={handleChildData}
-          />
-          <Input
-            inputNaming={"city"}
-            inputText={"City"}
-            inputType={"text"}
-            maxLength={30}
-            handleInputChange={handleChildData}
-          />
+            <Input
+              inputText={"Phone Number"}
+              inputNaming={"phoneNumber"}
+              inputType={"text"}
+              maxLength={20}
+              handleInputChange={handleChildData}
+            />
+            <Input
+              inputNaming={"address"}
+              inputText={"Address"}
+              inputType={"text"}
+              maxLength={50}
+              handleInputChange={handleChildData}
+            />
+            <Input
+              inputNaming={"city"}
+              inputText={"City"}
+              inputType={"text"}
+              maxLength={30}
+              handleInputChange={handleChildData}
+            />
 
-          <Input
-            inputNaming={"state"}
-            inputText={"State"}
-            inputType={"text"}
-            maxLength={2}
-            handleInputChange={handleChildData}
-          />
+            <Input
+              inputNaming={"state"}
+              inputText={"State"}
+              inputType={"text"}
+              maxLength={2}
+              handleInputChange={handleChildData}
+            />
 
-          <Input
-            inputNaming={"zipCode"}
-            inputText={"Zip Code"}
-            inputType={"number"}
-            handleInputChange={handleChildData}
-          />
+            <Input
+              inputNaming={"zipCode"}
+              inputText={"Zip Code"}
+              inputType={"number"}
+              handleInputChange={handleChildData}
+            />
 
-          <Input
-            inputNaming={"hourly"}
-            inputText={"Hourly Pay"}
-            inputType={"number"}
-            handleInputChange={handleChildData}
-          />
+            <Input
+              inputNaming={"hourly"}
+              inputText={"Hourly Pay"}
+              inputType={"number"}
+              handleInputChange={handleChildData}
+            />
 
-          <button type="submit">Submit</button>
-        </form>
+            <button type="submit">Submit</button>
+            <button onClick={() => handleModalClose(modalRefCreate)}>
+              Close
+            </button>
+          </form>
+        </dialog>
       </div>
+
       <table>
         <thead>
           <tr>

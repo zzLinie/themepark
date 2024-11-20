@@ -40,4 +40,27 @@ maintRoute.put('/:id', (req, res) => {
     );
   });
 
+  db.query(
+    "INSERT INTO maintenance(maintenanceOpenDate, maintenanceStatus, rideID) VALUES(?, ?, ?",
+    [maintenanceOpenDate, maintenanceStatus, rideID],
+    (err) => {
+      if (err) throw err;
+      res.send("Successfully inserted maintenance");
+    }
+  );
+});
+
+maintRoute.put("/:id", (req, res) => {
+  const { maintenanceOpenDate, maintenanceStatus } = req.body;
+  //const { maintenanceDate, status } = req.body;
+  db.query(
+    "UPDATE maintenance SET maintenanceOpenDate = ?, maintenanceStatus = ? WHERE maintenanceID = ?",
+    [maintenanceOpenDate, maintenanceStatus, req.params.id],
+    (err) => {
+      if (err) throw err;
+      res.send("Maintenance updated successfully");
+    }
+  );
+});
+
 module.exports = maintRoute;

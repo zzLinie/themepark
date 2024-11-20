@@ -43,3 +43,12 @@ input[type="submit"] {
 .table-btn-container {
   display: flex;
 }
+.customer-submit-btn {
+  grid-column: 1/3;
+}
+.register-btn {
+  color: blue;
+}
+span {
+  grid-column: 1/3;
+}

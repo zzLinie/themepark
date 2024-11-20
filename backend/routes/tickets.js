@@ -1,15 +1,14 @@
 // tickets.js
 const express = require("express");
-const cors = require("cors");
 const db = require("../connect");
 const ticketRoute = express.Router();
+const { verifyUser } = require("../routes/customerLogin");
 
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 
-ticketRoute.use(cors());
 ticketRoute.use(express.json());
+ticketRoute.use(cookieParser());
 
 // Route to create a new customer and ticket
 ticketRoute.post("/create", (req, res) => {
@@ -133,13 +132,23 @@ ticketRoute.post("/create", (req, res) => {
   });
 });
 
-ticketRoute.post("/purchase-tickets", (req, res) => {
-  const { customerID, date, tickets } = req.body;
+ticketRoute.post("/purchase-tickets", verifyUser, (req, res) => {
+  // Check if user is logged in
+  if (req.manualVerify == false && !req.user.role) {
+    return res.status(400).json({
+      Response: "Please log in to your customer account to purchase tickets.",
+    });
+  }
 
+  const { date, tickets } = req.body;
+
+  // Start transaction
   db.beginTransaction((transactionErr) => {
     if (transactionErr) {
       console.error("Error starting transaction:", transactionErr);
-      return res.status(500).send("Transaction error");
+      return res
+        .status(500)
+        .json({ error: "Transaction error", details: transactionErr });
     }
 
     let queriesCompleted = 0; // To track completed queries
@@ -148,13 +157,14 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
       0
     );
 
+    // Process each ticket
     for (const ticket of tickets) {
       for (let i = 0; i < ticket.quantity; i++) {
         // Insert ticket
         db.query(
           `INSERT INTO ticket (customerID, ticketType, startDate, expiryDate) 
            VALUES (?, ?, ?, DATE_ADD(?, INTERVAL 1 DAY))`,
-          [customerID, ticket.type, date, date],
+          [req.user.customerID, ticket.type, date, date],
           (ticketErr, ticketResult) => {
             if (ticketErr) {
               return rollbackTransaction(
@@ -166,7 +176,7 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
 
             const ticketID = ticketResult.insertId;
 
-            // Get parkStatusID
+            // Get park status for the given date
             db.query(
               `SELECT parkStatusID FROM parkstatus WHERE date = ? LIMIT 1`,
               [date],
@@ -187,11 +197,19 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
                   );
                 }
 
+                // Check if park is closed due to weather
+                if (statusResult[0]?.parkStatusID === "closed") {
+                  return rollbackTransaction(
+                    res,
+                    "Park is closed due to weather conflicts on this date."
+                  );
+                }
+
                 // Insert into visit table and get VisitID
                 db.query(
                   `INSERT INTO visit (CustomerID, ticketID, Date, parkStatusID)
                    VALUES (?, ?, ?, ?)`,
-                  [customerID, ticketID, date, parkStatusID],
+                  [req.user.customerID, ticketID, date, parkStatusID],
                   (visitErr, visitResult) => {
                     if (visitErr) {
                       return rollbackTransaction(
@@ -218,7 +236,9 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
                           );
                         }
 
-                        res.status(200).send("Tickets purchased successfully!");
+                        res.json({
+                          Response: `Tickets purchased successfully! ${req.user.email}`,
+                        });
                       });
                     }
                   }
@@ -231,25 +251,14 @@ ticketRoute.post("/purchase-tickets", (req, res) => {
     }
   });
 
-  // Helper function for rolling back transactions
-  function rollbackTransaction(res, message, error = null) {
+  // Helper function to handle rollbacks and responses
+  const rollbackTransaction = (res, message, err) => {
     db.rollback(() => {
-      console.error(message, error);
-      res.status(500).send(message);
+      console.error(message, err);
+      return res
+        .status(400)
+        .json({ error: message, details: err.sqlMessage || err });
     });
-  }
+  };
 });
-const verifyUser = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.json({ Verify: false });
-  } else {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) return res.json({ Verify: false });
-      req.user = decoded;
-      next();
-    });
-  }
-};
-
 module.exports = ticketRoute;

@@ -2,6 +2,7 @@ import "./adminHeader.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../utils/AuthProvider";
+import Image from "../assets/images/ticket.png";
 
 export default function AdminHeader() {
   const { setAuth, setRole, welcomeMessage, setWelcomeMessage } = useAuth();
@@ -23,10 +24,10 @@ export default function AdminHeader() {
     <>
       <div className="admin-header">
         <Link to="/">
-          <h1>Themepark</h1>
+          <img src={Image} alt="" />
         </Link>
         <div className="admin-tabs">
-          <Link to={"login/admin/home"}>Home</Link>
+          <Link to={"/login/admin/home"}>Home</Link>
           <Link to={"/login/admin/reports"}>Reports</Link>
           <Link to={"/login/admin/employees"}>Employees</Link>
           <Link to={"/login/admin/parkstatus"}>Park Status</Link>
