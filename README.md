@@ -86,5 +86,21 @@ ACCESS_TOKEN_SECRET # Secret key for generating access tokens
 
 ### start frontend server
 ```npm run dev```
+# Admin Dashboard
+![image](https://github.com/user-attachments/assets/7bdd5290-9f79-4c3a-86ce-49522fa8339f)
+![image](https://github.com/user-attachments/assets/95a5ca13-a02f-497c-99ae-7ff93fb462fd)
+![image](https://github.com/user-attachments/assets/d3ce42c7-6103-414c-86bc-74adbc58da00)
+![image](https://github.com/user-attachments/assets/8006bb5f-f3fa-4169-9aa9-d6bc2156069b)
+![image](https://github.com/user-attachments/assets/e84ff8e6-5489-488c-b636-a5f2db6b0f13)
+![image](https://github.com/user-attachments/assets/dbfb35b3-9074-4e20-b025-f609eb1d971c)
+![image](https://github.com/user-attachments/assets/2d5bd372-d183-46a0-a819-a92d7add2d01)
+![image](https://github.com/user-attachments/assets/0b427d40-41b1-41f3-8bbc-0453de79b626)
+![image](https://github.com/user-attachments/assets/acb23085-7b4a-4c73-a4ad-808f18341c69)
+
+
+
+
+
+
 
 
