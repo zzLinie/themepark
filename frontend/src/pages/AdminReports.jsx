@@ -299,7 +299,7 @@ export default function AdminReports() {
                 </tr>
               </thead>
               <tbody>
-                {filterrefund.map((refund, key) => (
+                {filterrefund && filterrefund.map((refund, key) => (
                   <tr key={key}>
                     <td>{refund.ticketID}</td>
                     <td>{refund.ticketName}</td>
